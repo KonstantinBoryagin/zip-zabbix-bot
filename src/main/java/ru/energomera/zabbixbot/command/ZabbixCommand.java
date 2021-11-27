@@ -6,6 +6,8 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import ru.energomera.zabbixbot.service.ZabbixRestService;
 import ru.energomera.zabbixbot.zabbixapi.UserResponse;
 
+import java.util.Random;
+
 public class ZabbixCommand implements Command{
     private final SendMessageService sendMessageService;
 
@@ -19,9 +21,12 @@ public class ZabbixCommand implements Command{
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
 
+
         ZabbixRestService zabbixRestService = new ZabbixRestService(new RestTemplateBuilder());
 
-        UserResponse postWithObject = zabbixRestService.createPostWithObject();
-        sendMessageService.sendMessage(chatId, postWithObject.toString());
+        int id = (int) (Math.random() * 10);
+        UserResponse response = zabbixRestService.createPostWithObject(id);
+        String message = String.format("Ваш id - %d. \nВаш токен - %s", response.getId(), response.getResult());
+        sendMessageService.sendMessage(chatId, message);
     }
 }

@@ -27,13 +27,13 @@ public class User {
     private String auth = null;
 
 
-    public void init(){
+    public void init(int id){
         Map<String, Object> UserParams = new LinkedHashMap<>();
         UserParams.put("user", "BoryaginKR");
         UserParams.put("password", "20r!@g1n2");
 
         this.setParams(UserParams);
-        this.setId(1);
+        this.setId(id);
     }
 
 }

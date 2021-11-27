@@ -20,8 +20,8 @@ public class ZabbixRestService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public UserResponse createPostWithObject() {
-        String url = "https://jsonplaceholder.typicode.com/posts";
+    public UserResponse createPostWithObject(int id) {
+        String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
 
         // create headers
         HttpHeaders headers = new HttpHeaders();
@@ -32,6 +32,7 @@ public class ZabbixRestService {
 
         // create a post object
         User user = new User();
+        user.init(id);
 
         // build the request
         HttpEntity<User> entity = new HttpEntity<>(user, headers);
