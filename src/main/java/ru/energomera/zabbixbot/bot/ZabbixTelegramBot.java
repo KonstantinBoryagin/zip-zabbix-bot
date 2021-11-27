@@ -3,20 +3,28 @@ package ru.energomera.zabbixbot.bot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.energomera.zabbixbot.command.CommandContainer;
+import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
 
-import java.util.Locale;
+import static ru.energomera.zabbixbot.command.CommandName.NO;
 
 @Component
 public class ZabbixTelegramBot extends TelegramLongPollingBot {
+
+    public static final String COMMAND_PREFIX = "/";
 
     @Value("${bot.username}")
     private String username;
 
     @Value("${bot.token}")
     private String token;
+
+    private final CommandContainer commandContainer;
+
+    public ZabbixTelegramBot() {
+        this.commandContainer = new CommandContainer(new SendMessageServiceImpl(this));
+    }
 
     @Override
     public String getBotUsername() {
@@ -30,17 +38,14 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if(update.hasMessage()){
+        if(update.hasMessage() && update.getMessage().hasText()) {
+            String message = update.getMessage().getText().trim();
+            if(message.startsWith(COMMAND_PREFIX)) {
+                String commandIdentifier = message.split(" ")[0].toLowerCase();
 
-            if(update.getMessage().hasText()){
-                SendMessage send = new SendMessage();
-                send.setText("ты прислал - " + update.getMessage().getText().toUpperCase(Locale.ROOT));
-                send.setChatId(update.getMessage().getChatId().toString());
-                try {
-                    execute(send);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
+                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            } else {
+                commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         }
     }
