@@ -43,7 +43,7 @@ public class ZabbixRestService {
         return restTemplate.postForObject(url, entity, UserResponse.class);
     }
 
-    public PingResponse[] createPostWithObjects() {
+    public PingResponse createPostWithObjects() {
         String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
 
         // create headers
@@ -60,6 +60,6 @@ public class ZabbixRestService {
         HttpEntity<PingRequest> entity = new HttpEntity<>(pingRequest, headers);
 
         // send POST request
-        return restTemplate.postForObject(url, entity, PingResponse[].class);
+        return restTemplate.postForObject(url, entity, PingResponse.class);
     }
 }
