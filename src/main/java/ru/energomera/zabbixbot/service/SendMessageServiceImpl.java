@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
+import ru.energomera.zabbixbot.zabbixapi.dto.Result;
 
 import java.io.*;
 
@@ -55,7 +56,7 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
-    public void sendPicture(String chatId) {
+    public void sendPicture(String chatId, Result[] results) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         InputFile inputPicture = new InputFile();
@@ -63,7 +64,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         File picture = null;
         try {
-            picture = chartService.createPicture();
+            picture = chartService.createPicture(results);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,41 +3,62 @@ package ru.energomera.zabbixbot.service;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
+import ru.energomera.zabbixbot.zabbixapi.dto.Result;
 
+import javax.swing.text.DateFormatter;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ChartService {
-    public File createPicture() throws IOException {
-        DefaultCategoryDataset dataset = createDataset();
+    public File createPicture(Result[] results) throws IOException {
+        DefaultCategoryDataset dataset = createDataset(results);
         JFreeChart chart = ChartFactory.createLineChart("Test",
-                "ответ",
                 "время",
+                "ответ",
                 dataset);
+
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+
 
         String pathToImage = "src/main/resources/picture.png";
         File file = new File(pathToImage);
-        ChartUtils.saveChartAsPNG(file, chart, 500, 200);
+        ChartUtils.saveChartAsPNG(file, chart, 1000, 800);
         return file;
     }
 
 
-    private DefaultCategoryDataset createDataset() {
+    private DefaultCategoryDataset createDataset(Result[] results) {
 
         String series1 = "Internet Proxy ЗИП: ICMP response time";
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        dataset.addValue(200, series1, "2016-12-19");
-        dataset.addValue(150, series1, "2016-12-20");
-        dataset.addValue(100, series1, "2016-12-21");
-        dataset.addValue(210, series1, "2016-12-22");
-        dataset.addValue(240, series1, "2016-12-23");
-        dataset.addValue(195, series1, "2016-12-24");
-        dataset.addValue(245, series1, "2016-12-25");
+
+        for (int i = 0; i < results.length; i++) {
+            long clock = results[i].getClock();
+            double value_max = results[i].getValue_max();
+
+//            Date date = new Date(clock * 1000);
+            Date date = Date.from(Instant.ofEpochMilli(clock));
+            DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss");
+            String hour = dateFormatter.format(date);
+            System.out.println(hour);
+            dataset.addValue(value_max, series1, hour);
+        }
 
 
         return dataset;
     }
+
 }

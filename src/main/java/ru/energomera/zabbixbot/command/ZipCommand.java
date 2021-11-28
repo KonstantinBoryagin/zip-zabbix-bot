@@ -20,7 +20,7 @@ public class ZipCommand implements Command{
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
 
-//        sendMessageService.sendSticker(chatId, Stickers.PIG);
-        sendMessageService.sendPicture(chatId);
+        sendMessageService.sendSticker(chatId, Stickers.PIG);
+//        sendMessageService.sendPicture(chatId);
     }
 }

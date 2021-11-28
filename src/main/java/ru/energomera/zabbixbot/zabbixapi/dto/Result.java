@@ -5,8 +5,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class PingResponse {
-    private String jsonrpc;
-    private Result[] result;
-    private int id;
+public class Result {
+    private long clock;
+    private double value_max;
 }

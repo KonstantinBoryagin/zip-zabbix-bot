@@ -14,15 +14,15 @@ public class PingRequest {
 //        "jsonrpc": "2.0",
 //            "method": "trend.get",
 //            "params": {
-        //        "output": [
-        //                "clock",
-        //                "value_max"
-        //                  ],
-        //        "itemids": [
-        //               "33484"
-        //               ],
-        //           "limit": "20"
-        //    },
+//                "output": [
+//                        "clock",
+//                        "value_max"
+//                          ],
+//                "itemids": [
+//                       "33484"
+//                       ],
+//                   "limit": "20"
+//            },
 //        "auth": "4d8c3ea6b03d1e0dd65217c3dd995001",
 //            "id": 1
 //    }
@@ -42,6 +42,6 @@ public class PingRequest {
 
         params.put("output", output);
         params.put("itemids", 33484);
-        params.put("limit", 20);
+        params.put("limit", 100);
     }
 }
