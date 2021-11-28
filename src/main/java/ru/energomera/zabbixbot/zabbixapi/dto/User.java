@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.zabbixapi;
+package ru.energomera.zabbixbot.zabbixapi.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;

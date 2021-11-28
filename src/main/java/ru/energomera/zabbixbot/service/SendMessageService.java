@@ -8,4 +8,6 @@ public interface SendMessageService {
     void sendMessage(String chatId, String Message);
 
     void sendSticker(String chatId, Stickers sticker);
+
+    void sendPicture(String chatId);
 }

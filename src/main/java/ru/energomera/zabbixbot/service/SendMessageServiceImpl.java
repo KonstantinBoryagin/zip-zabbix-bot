@@ -1,14 +1,21 @@
 package ru.energomera.zabbixbot.service;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
+
+import java.io.*;
 
 @Service
 public class SendMessageServiceImpl implements SendMessageService {
@@ -43,6 +50,28 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         try {
             telegramBot.execute(sendSticker);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPicture(String chatId) {
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chatId);
+        InputFile inputPicture = new InputFile();
+        ChartService chartService = new ChartService();
+
+        File picture = null;
+        try {
+            picture = chartService.createPicture();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        inputPicture.setMedia(picture);
+        sendPhoto.setPhoto(inputPicture);
+
+        try {
+            telegramBot.execute(sendPhoto);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

@@ -8,6 +8,7 @@ public enum CommandName {
     STOP("/stop"),
     HELP("/help"),
     ZABBIX("/zabbix"),
+    PING("/ping"),
     NO("");
 
     private final String commandName;
