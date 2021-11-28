@@ -16,6 +16,7 @@ public class CommandContainer {
 //                .put(STOP.getCommandName(), new StopCommand(sendMessageService))
                 .put(HELP.getCommandName(), new HelpCommand(sendMessageService))
                 .put(ZABBIX.getCommandName(), new ZabbixCommand(sendMessageService))
+                .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();
 
