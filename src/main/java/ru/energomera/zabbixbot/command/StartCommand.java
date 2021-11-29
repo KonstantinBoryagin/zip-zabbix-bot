@@ -8,7 +8,7 @@ public class StartCommand implements Command{
 
     private final SendMessageService sendMessageService;
 
-    public static final String START_MESSAGE = "Привет, это бот для мониторинга Zabbix системы. " +
+    public static final String START_MESSAGE = "Привет, это %s для мониторинга Zabbix системы. " +
             "Для того что бы получать уведомления, оформите заявку в ОИТ " +
             "<b>обязательно</b> приложив Ваш User Id - <b>%s</b>!";
 
@@ -19,7 +19,7 @@ public class StartCommand implements Command{
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
-        String message = String.format(Icon.ROBOT_FACE.get() + START_MESSAGE, chatId);
+        String message = String.format(START_MESSAGE, Icon.ROBOT_FACE.get(), chatId);
         sendMessageService.sendMessage(chatId, message);
     }
 }

@@ -42,6 +42,6 @@ public class PingRequest {
 
         params.put("output", output);
         params.put("itemids", 33484);
-        params.put("limit", 100);
+        params.put("limit", 30);
     }
 }

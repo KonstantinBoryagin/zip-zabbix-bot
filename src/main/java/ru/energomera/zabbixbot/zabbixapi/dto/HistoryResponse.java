@@ -5,8 +5,8 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class PingResponse {
+public class HistoryResponse {
     private String jsonrpc;
-    private PingResult[] pingResult;
+    private HistoryResult[] HistoryResult;
     private int id;
 }
