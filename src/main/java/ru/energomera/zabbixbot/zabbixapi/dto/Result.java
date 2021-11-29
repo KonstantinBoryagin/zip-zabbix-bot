@@ -1,4 +1,13 @@
 package ru.energomera.zabbixbot.zabbixapi.dto;
 
-public interface Result {
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString
+public class Result {
+    private long itemid;
+    private long clock;
+    private double value;
+    private long ns;
 }

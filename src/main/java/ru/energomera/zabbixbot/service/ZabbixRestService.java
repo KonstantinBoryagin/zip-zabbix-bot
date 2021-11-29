@@ -1,12 +1,14 @@
 package ru.energomera.zabbixbot.service;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import ru.energomera.zabbixbot.zabbixapi.dto.*;
+import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryRequest;
+import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResponse;
+import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingRequest;
+import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingResponse;
 
 import java.util.Collections;
 
@@ -57,10 +59,18 @@ public class ZabbixRestService {
         HttpEntity<PingRequest> entity = new HttpEntity<>(pingRequest, headers);
 
         // send POST request
-        return restTemplate.postForObject(url, entity, PingResponse.class);
+        ResponseEntity<PingResponse> response = this.restTemplate.postForEntity(url, entity, PingResponse.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println(HttpStatus.OK);
+            return response.getBody();
+        } else {
+            System.out.println("null from createPostWithObjects");
+            return null;
+        }
     }
 
-    public HistoryResponse createPostWithHistoryObject() {
+    public HistoryResponse createPostWithHistoryObject(Request request) {
         String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
 
         // create headers
@@ -71,12 +81,20 @@ public class ZabbixRestService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         // create a post object
-        HistoryRequest historyRequest = new HistoryRequest();
+//        HistoryRequest historyRequest = new HistoryRequest();
 
         // build the request
-        HttpEntity<HistoryRequest> entity = new HttpEntity<>(historyRequest, headers);
+        HttpEntity<Request> entity = new HttpEntity<>(request, headers);
 
         // send POST request
-        return restTemplate.postForObject(url, entity, HistoryResponse.class);
+        ResponseEntity<HistoryResponse> response = this.restTemplate.postForEntity(url, entity, HistoryResponse.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println(HttpStatus.OK);
+            return response.getBody();
+        } else {
+            System.out.println("null from createPostWithHistoryObject");
+            return null;
+        }
     }
 }

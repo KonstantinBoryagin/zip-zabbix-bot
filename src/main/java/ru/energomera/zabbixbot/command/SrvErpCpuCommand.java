@@ -8,11 +8,11 @@ import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryRequest;
 import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResponse;
 import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResult;
 
-public class HistoryCommand implements Command{
+public class SrvErpCpuCommand implements Command{
     private final SendMessageService sendMessageService;
     private final ZabbixRestService zabbixRestService = new ZabbixRestService(new RestTemplateBuilder());
 
-    public HistoryCommand(SendMessageService sendMessageService) {
+    public SrvErpCpuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
 
@@ -20,12 +20,12 @@ public class HistoryCommand implements Command{
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
 
-        HistoryRequest historyRequest = new HistoryRequest(33484, 10);
+        HistoryRequest historyRequest = new HistoryRequest(32943, 20);
         HistoryResponse historyResponse = zabbixRestService.createPostWithHistoryObject(historyRequest);
         HistoryResult[] historyResponseResult = historyResponse.getResult();
         String message = String.format("Колличество полученных объектов - %d", historyResponseResult.length);
         sendMessageService.sendMessage(chatId, message);
-        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, "Proxy server ICMP ping",
-                "время", "ответ");
+        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, "SRV-ERP 2: CPU Utilization",
+                "время", "загрузка");
     }
 }

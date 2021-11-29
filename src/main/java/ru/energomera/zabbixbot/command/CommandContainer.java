@@ -18,6 +18,7 @@ public class CommandContainer {
                 .put(ZABBIX.getCommandName(), new ZabbixCommand(sendMessageService))
                 .put(PING.getCommandName(), new PingCommand(sendMessageService))
                 .put(HISTORY.getCommandName(), new HistoryCommand(sendMessageService))
+                .put(CPU_SRV_ERP_2.getCommandName(), new SrvErpCpuCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();

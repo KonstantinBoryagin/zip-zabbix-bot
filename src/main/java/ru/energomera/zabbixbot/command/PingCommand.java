@@ -4,8 +4,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.service.SendMessageService;
 import ru.energomera.zabbixbot.service.ZabbixRestService;
-import ru.energomera.zabbixbot.zabbixapi.dto.PingResponse;
-import ru.energomera.zabbixbot.zabbixapi.dto.PingResult;
+import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingResponse;
+import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingResult;
 
 public class PingCommand implements Command{
     private final SendMessageService sendMessageService;
@@ -23,7 +23,7 @@ public class PingCommand implements Command{
 //        ZabbixRestService zabbixRestService = new ZabbixRestService(new RestTemplateBuilder());
 
         PingResponse pingResponse = zabbixRestService.createPostWithObjects();
-        PingResult[] pingResult = pingResponse.getPingResult();
+        PingResult[] pingResult = pingResponse.getResult();
         String message = String.format("Колличество полученных объектов - %d", pingResult.length);
         sendMessageService.sendMessage(chatId, message);
         sendMessageService.sendPingPicture(chatId, pingResult);

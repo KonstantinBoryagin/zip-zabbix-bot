@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.zabbixapi.dto;
+package ru.energomera.zabbixbot.zabbixapi.dto.ping;
 
 import lombok.Data;
 

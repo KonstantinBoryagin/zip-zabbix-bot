@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.zabbixapi.dto;
+package ru.energomera.zabbixbot.zabbixapi.dto.ping;
 
 import lombok.Data;
 import lombok.ToString;
@@ -7,6 +7,6 @@ import lombok.ToString;
 @ToString
 public class PingResponse {
     private String jsonrpc;
-    private PingResult[] pingResult;
+    private PingResult[] result;
     private int id;
 }
