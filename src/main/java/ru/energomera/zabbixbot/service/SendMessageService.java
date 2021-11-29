@@ -11,5 +11,6 @@ public interface SendMessageService {
     void sendSticker(String chatId, Stickers sticker);
 
     void sendPingPicture(String chatId, PingResult[] pingResults);
-    void sendHistoryPicture(String chatId, HistoryResult[] historyResults, String chartName, String axisXName, String axisYName);
+    void sendHistoryPicture(String chatId, HistoryResult[] historyResults, String chartName,
+                            String axisXName, String axisYName, String seriesName);
 }

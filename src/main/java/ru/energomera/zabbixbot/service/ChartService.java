@@ -38,8 +38,8 @@ public class ChartService {
     }
 
     public File createHistoryPicture(HistoryResult[] historyResults, String chartName,
-                                     String axisXName, String axisYName) throws IOException {
-        DefaultCategoryDataset dataset = createHistoryDataset(historyResults);
+                                     String axisXName, String axisYName, String seriesName) throws IOException {
+        DefaultCategoryDataset dataset = createHistoryDataset(historyResults, seriesName);
         JFreeChart chart = ChartFactory.createLineChart(chartName,
                 axisXName,
                 axisYName,
@@ -90,9 +90,9 @@ public class ChartService {
         return dataset;
     }
 
-    private DefaultCategoryDataset createHistoryDataset(HistoryResult[] historyResults) {
+    private DefaultCategoryDataset createHistoryDataset(HistoryResult[] historyResults, String seriesName) {
 
-        String series1 = "Internet Proxy ЗИП: ICMP response time";
+        String series1 = seriesName;
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 

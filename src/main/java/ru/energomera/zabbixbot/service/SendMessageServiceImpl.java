@@ -77,7 +77,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
     @Override
     public void sendHistoryPicture(String chatId, HistoryResult[] historyResults,
-                                   String chartName, String axisXName, String axisYName) {
+                                   String chartName, String axisXName, String axisYName, String seriesName) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         InputFile inputPicture = new InputFile();
@@ -85,7 +85,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         File picture = null;
         try {
-            picture = chartService.createHistoryPicture(historyResults, chartName, axisXName, axisYName);
+            picture = chartService.createHistoryPicture(historyResults, chartName, axisXName, axisYName, seriesName);
         } catch (IOException e) {
             e.printStackTrace();
         }

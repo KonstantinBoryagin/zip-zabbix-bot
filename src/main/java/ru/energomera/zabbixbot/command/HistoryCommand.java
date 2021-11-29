@@ -26,6 +26,6 @@ public class HistoryCommand implements Command{
         String message = String.format("Колличество полученных объектов - %d", historyResponseResult.length);
         sendMessageService.sendMessage(chatId, message);
         sendMessageService.sendHistoryPicture(chatId, historyResponseResult, "Proxy server ICMP ping",
-                "время", "ответ");
+                "время", "ответ", "ICMP ping");
     }
 }
