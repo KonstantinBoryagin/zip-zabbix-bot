@@ -6,6 +6,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
@@ -13,6 +16,8 @@ import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResult;
 import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingResult;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SendMessageServiceImpl implements SendMessageService {
@@ -77,7 +82,8 @@ public class SendMessageServiceImpl implements SendMessageService {
 
     @Override
     public void sendHistoryPicture(String chatId, HistoryResult[] historyResults,
-                                   String chartName, String axisXName, String axisYName, String seriesName) {
+                                   String chartName, String axisXName, String axisYName,
+                                   String seriesName, ReplyKeyboard keyboard) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         InputFile inputPicture = new InputFile();
@@ -91,9 +97,26 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
         inputPicture.setMedia(picture);
         sendPhoto.setPhoto(inputPicture);
+        sendPhoto.setReplyMarkup(keyboard);
 
         try {
             telegramBot.execute(sendPhoto);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(message);
+        sendMessage.enableHtml(true);
+
+        sendMessage.setReplyMarkup(keyboard);
+
+        try {
+            telegramBot.execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

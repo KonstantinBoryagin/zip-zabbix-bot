@@ -9,7 +9,14 @@ public enum Icon {
     NOT(":x:"),
     DOUBT(":zzz:"),
     ROBOT_FACE(":robot_face:"),
-    FLAG(":checkered_flag:");
+    FLAG(":checkered_flag:"),
+    ONE(":one:"),
+    TWO(":two:"),
+    THREE(":three:"),
+    FOUR(":four:"),
+    FIVE(":five:"),
+    SIX(":one:"),
+    CHART_IMG(":part_alternation_mark:");
 
     private String value;
 

@@ -19,6 +19,7 @@ public class SrvErpCpuCommand implements Command{
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
+//        String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
 
         HistoryRequest historyRequest = new HistoryRequest(32943, 20);
         HistoryResponse historyResponse = zabbixRestService.createPostWithHistoryObject(historyRequest);
@@ -26,6 +27,6 @@ public class SrvErpCpuCommand implements Command{
         String message = String.format("Колличество полученных объектов - %d", historyResponseResult.length);
         sendMessageService.sendMessage(chatId, message);
         sendMessageService.sendHistoryPicture(chatId, historyResponseResult, "SRV-ERP 2: CPU Utilization",
-                "время", "загрузка", "CPU utilization");
+                "время", "загрузка", "CPU utilization", ChartCommand.replyChartOptions());
     }
 }
