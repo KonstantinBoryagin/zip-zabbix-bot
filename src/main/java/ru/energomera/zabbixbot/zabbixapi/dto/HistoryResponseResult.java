@@ -1,11 +1,11 @@
-package ru.energomera.zabbixbot.zabbixapi.dto.srvrp2;
+package ru.energomera.zabbixbot.zabbixapi.dto;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class CpuUtilizationResult {
+public class HistoryResponseResult {
     private long itemid;
     private long clock;
     private double value;

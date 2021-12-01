@@ -47,10 +47,6 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
 
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
-            } else if(message.contains(CPU_SRV_ERP_2.getCommandName())) {
-                commandContainer.retrieveCommand(CPU_SRV_ERP_2.getCommandName()).execute(update);
-            } else if(message.contains(HISTORY.getCommandName())) {
-                commandContainer.retrieveCommand(HISTORY.getCommandName()).execute(update);
             } else if (message.equals("ЗИП")) {
                 commandContainer.retrieveCommand("ZipCommand").execute(update);
             } else {

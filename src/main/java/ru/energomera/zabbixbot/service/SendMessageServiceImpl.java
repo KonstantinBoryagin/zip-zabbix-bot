@@ -7,18 +7,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResult;
-import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingResult;
+import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class SendMessageServiceImpl implements SendMessageService {
@@ -110,30 +106,7 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public void sendPingPicture(String chatId, PingResult[] pingResults) {
-        SendPhoto sendPhoto = new SendPhoto();
-        sendPhoto.setChatId(chatId);
-        InputFile inputPicture = new InputFile();
-        ChartService chartService = new ChartService();
-
-        File picture = null;
-        try {
-            picture = chartService.createPingPicture(pingResults);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        inputPicture.setMedia(picture);
-        sendPhoto.setPhoto(inputPicture);
-
-        try {
-            telegramBot.execute(sendPhoto);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendHistoryPicture(String chatId, HistoryResult[] historyResults,
+    public void sendHistoryPicture(String chatId, HistoryResponseResult[] historyResponseResults,
                                    String chartName, String axisXName, String axisYName,
                                    String seriesName) {
         SendPhoto sendPhoto = new SendPhoto();
@@ -143,7 +116,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         File picture = null;
         try {
-            picture = chartService.createHistoryPicture(historyResults, chartName, axisXName, axisYName, seriesName);
+            picture = chartService.createHistoryChartPicture(historyResponseResults, chartName, axisXName, axisYName, seriesName);
         } catch (IOException e) {
             e.printStackTrace();
         }

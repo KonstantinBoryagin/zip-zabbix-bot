@@ -2,12 +2,11 @@ package ru.energomera.zabbixbot.zabbixapi.dto;
 
 import lombok.Data;
 import lombok.ToString;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResult;
 
 @Data
 @ToString
-public class Response {
+public class ResponseFromZabbixHistory {
     private String jsonrpc;
-    private HistoryResult[] result;
+    private HistoryResponseResult[] result;
     private int id;
 }

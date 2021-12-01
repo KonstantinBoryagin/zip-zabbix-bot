@@ -15,9 +15,7 @@ public class CommandContainer {
                 .put(START.getCommandName(), new StartCommand(sendMessageService))
 //                .put(STOP.getCommandName(), new StopCommand(sendMessageService))
                 .put(HELP.getCommandName(), new HelpCommand(sendMessageService))
-                .put(ZABBIX.getCommandName(), new ZabbixCommand(sendMessageService))
-                .put(PING.getCommandName(), new PingCommand(sendMessageService))
-                .put(HISTORY.getCommandName(), new HistoryCommand(sendMessageService))
+                .put(PROXY_PING_COMMAND.getCommandName(), new ProxyPingCommand(sendMessageService))
                 .put(CPU_SRV_ERP_2.getCommandName(), new SrvErpCpuCommand(sendMessageService))
                 .put(CHART.getCommandName(), new ChartCommand(sendMessageService))
                 .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
@@ -26,9 +24,13 @@ public class CommandContainer {
                 .build();
 
         unknownCommand = new UnknownCommand(sendMessageService);
+
     }
+
+
 
     public Command retrieveCommand(String commandIdentifier){
         return commandMap.getOrDefault(commandIdentifier, unknownCommand);
     }
+
 }

@@ -16,6 +16,7 @@ public enum Icon {
     FOUR(":four:"),
     FIVE(":five:"),
     SIX(":one:"),
+    POOP(":poop:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

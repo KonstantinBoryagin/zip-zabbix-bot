@@ -1,18 +1,9 @@
 package ru.energomera.zabbixbot.command;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageCaption;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.energomera.zabbixbot.controller.ZabbixRestService;
 import ru.energomera.zabbixbot.service.SendMessageService;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryRequest;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResponse;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResult;
 
-import static ru.energomera.zabbixbot.command.CommandName.HISTORY;
 import static ru.energomera.zabbixbot.command.CommandName.UPDATE;
 
 public class UpdateCommand implements Command {

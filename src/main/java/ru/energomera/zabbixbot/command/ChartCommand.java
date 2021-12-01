@@ -37,7 +37,7 @@ public class ChartCommand implements Command{
 
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         KeyboardButton button = new KeyboardButton(ONE.get() + "  " + CPU_SRV_ERP_2.getCommandName());
-        KeyboardButton button2 = new KeyboardButton(TWO.get() + "  " + HISTORY.getCommandName());
+        KeyboardButton button2 = new KeyboardButton(TWO.get() + "  " + PROXY_PING_COMMAND.getCommandName());
 
         List<KeyboardButton> keyboardRow1 = new ArrayList<>();
         keyboardRow1.add(button);
