@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.service.MessageFromWebHookHandler;
 import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
@@ -41,12 +40,18 @@ public class WebHook {
         try {
             zabbixWebHook = gson.fromJson(json, ZabbixWebHook.class);
 
-            String line = zabbixWebHook.getText();
-            String[] split = line.split(System.getProperty("line.separator"));
-            for (int i = 0; i < split.length; i++) {
-                System.out.println(split[i] + "   " + (i + 1) + " line");
-                System.out.println("------------------");
-            }
+            String subj = zabbixWebHook.getSubj();
+            System.out.println("-------");
+            System.out.println(subj);
+            System.out.println("-------");
+            String line = zabbixWebHook.getMessage();
+//            String[] split = line.split(System.getProperty("line.separator"));
+//            for (int i = 0; i < split.length; i++) {
+//                System.out.println(split[i] + "   " + (i + 1) + " line");
+//                System.out.println("------------------");
+//            }
+            System.out.println(line);
+            System.out.println("-------");
 
             //проверяем что это нужное сообщение
             if(zabbixWebHook.getChat_id().equals(trueChatId)){

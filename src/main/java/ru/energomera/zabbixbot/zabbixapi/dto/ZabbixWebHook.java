@@ -12,6 +12,7 @@ public class ZabbixWebHook {
     private String parse_mode;
     private boolean disable_web_page_preview;
     private boolean disable_notification;
-    private String text;
+    private String subj;
+    private String message;
 
 }

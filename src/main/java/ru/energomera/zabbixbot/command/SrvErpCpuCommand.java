@@ -26,7 +26,7 @@ public class SrvErpCpuCommand implements Command{
         HistoryResult[] historyResponseResult = historyResponse.getResult();
         String message = String.format("Колличество полученных объектов - %d", historyResponseResult.length);
 //        sendMessageService.sendMessage(chatId, message);
-        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, "SRV-ERP 2: CPU Utilization",
-                "время", "загрузка", "CPU utilization", ChartCommand.replyChartOptions());
+//        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, "SRV-ERP 2: CPU Utilization",
+//                "время", "загрузка", "CPU utilization", ChartCommand.replyChartOptions());
     }
 }

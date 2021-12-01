@@ -3,6 +3,7 @@ package ru.energomera.zabbixbot.bot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import ru.energomera.zabbixbot.command.CommandContainer;
@@ -56,12 +57,13 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
-            String message = update.getCallbackQuery().getData();
+            String commandFromUser = update.getCallbackQuery().getData();
+            System.out.println(commandFromUser);
 
-            if (message.startsWith(COMMAND_PREFIX)) {
-                String commandIdentifier = message.split(" ")[0].toLowerCase();
-
-                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            if (commandFromUser.startsWith(COMMAND_PREFIX)) {
+//                String commandIdentifier = commandFromUser.split(" ")[0].toLowerCase();
+//change it
+                commandContainer.retrieveCommand(UPDATE.getCommandName()).execute(update);
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }

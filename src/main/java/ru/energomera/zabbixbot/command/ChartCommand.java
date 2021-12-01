@@ -65,6 +65,9 @@ public class ChartCommand implements Command{
     public static ReplyKeyboard replyChartOptions() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
+        List<List<InlineKeyboardButton>> rowList= new ArrayList<>();  // массив всех кнопок
+
+
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText(CHART_IMG.get() + " Меню графиков " + CHART_IMG.get());
         inlineKeyboardButton.setCallbackData(CHART.getCommandName());
@@ -72,7 +75,29 @@ public class ChartCommand implements Command{
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         keyboardButtonsRow1.add(inlineKeyboardButton);
 
-        List<List<InlineKeyboardButton>> rowList= new ArrayList<>();
+
+        rowList.add(keyboardButtonsRow1);
+
+        inlineKeyboardMarkup.setKeyboard(rowList);
+
+        return inlineKeyboardMarkup;
+
+    }
+
+    public static ReplyKeyboard replyChartOptions2(String chartName) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        List<List<InlineKeyboardButton>> rowList= new ArrayList<>();  // массив всех кнопок
+
+
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText(CHART_IMG.get() + " Показать график " + CHART_IMG.get());
+        inlineKeyboardButton.setCallbackData(UPDATE.getCommandName() + chartName);
+
+        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
+        keyboardButtonsRow1.add(inlineKeyboardButton);
+
+
         rowList.add(keyboardButtonsRow1);
 
         inlineKeyboardMarkup.setKeyboard(rowList);

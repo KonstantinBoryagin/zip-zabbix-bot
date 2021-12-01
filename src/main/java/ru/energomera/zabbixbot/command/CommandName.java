@@ -12,6 +12,7 @@ public enum CommandName {
     HISTORY("Proxy ICMP ping"),
     CPU_SRV_ERP_2("SRV-ERP_2 CPU Utilization"),
     CHART("/chart"),
+    UPDATE("/update "),
     NO("");
 
     private final String commandName;

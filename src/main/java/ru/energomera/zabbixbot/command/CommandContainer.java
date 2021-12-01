@@ -20,6 +20,7 @@ public class CommandContainer {
                 .put(HISTORY.getCommandName(), new HistoryCommand(sendMessageService))
                 .put(CPU_SRV_ERP_2.getCommandName(), new SrvErpCpuCommand(sendMessageService))
                 .put(CHART.getCommandName(), new ChartCommand(sendMessageService))
+                .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -30,10 +31,14 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public void sendMessage(String chatId, String message) {
+    public void sendMessageFromWebHook(String chatId, String subject, String message) {
+
+        String text = subject + "\n\n" + message;
+
+
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.setText(message);
+        sendMessage.setText(text);
         sendMessage.enableHtml(true);
 
         try {
@@ -42,6 +47,38 @@ public class SendMessageServiceImpl implements SendMessageService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void sendMessageFromWebHookWithCallBackButton(String chatId, String subject, String message, ReplyKeyboard replyKeyboard) {
+        String text = subject + "\n\n" + message;
+
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+        sendMessage.enableHtml(true);
+
+        sendMessage.setReplyMarkup(replyKeyboard);
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendChangedMessageFromWebHook(EditMessageText editMessageText) {
+
+
+        try {
+            telegramBot.execute(editMessageText);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void sendReplyMessage(String chatId, String message, int messageId) {
@@ -98,7 +135,7 @@ public class SendMessageServiceImpl implements SendMessageService {
     @Override
     public void sendHistoryPicture(String chatId, HistoryResult[] historyResults,
                                    String chartName, String axisXName, String axisYName,
-                                   String seriesName, ReplyKeyboard keyboard) {
+                                   String seriesName) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         InputFile inputPicture = new InputFile();
@@ -112,7 +149,6 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
         inputPicture.setMedia(picture);
         sendPhoto.setPhoto(inputPicture);
-        sendPhoto.setReplyMarkup(keyboard);
 
         try {
             telegramBot.execute(sendPhoto);
@@ -120,6 +156,7 @@ public class SendMessageServiceImpl implements SendMessageService {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard, int messageId) {
