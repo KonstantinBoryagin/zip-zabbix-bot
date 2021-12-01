@@ -18,8 +18,19 @@ public class UnknownCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        String chatId = update.getMessage().getChatId().toString();
 
-        sendMessageService.sendMessage(chatId, UNKNOWN_MESSAGE);
+        String chatId;
+        if(update.hasCallbackQuery()) {
+            chatId = update.getCallbackQuery().getMessage().getChatId().toString();
+        } else if(update.hasChannelPost()){
+            chatId = update.getChannelPost().getChatId().toString();
+            System.out.println(chatId +  "hasChannelPost");
+        } else {
+            chatId = update.getMessage().getChatId().toString();
+            System.out.println(chatId + "getMessage");
+        }
+
+        Integer messageId = update.getMessage().getMessageId();
+        sendMessageService.sendReplyMessage(chatId, UNKNOWN_MESSAGE, messageId);
     }
 }

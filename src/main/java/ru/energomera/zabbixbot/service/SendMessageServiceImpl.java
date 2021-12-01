@@ -44,6 +44,21 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
+    public void sendReplyMessage(String chatId, String message, int messageId) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(message);
+        sendMessage.enableHtml(true);
+        sendMessage.setReplyToMessageId(messageId);
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void sendSticker(String chatId, Stickers sticker) {
         SendSticker sendSticker = new SendSticker();
         sendSticker.setChatId(chatId);
@@ -107,11 +122,12 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard) {
+    public void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard, int messageId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(message);
         sendMessage.enableHtml(true);
+        sendMessage.setReplyToMessageId(messageId);
 
         sendMessage.setReplyMarkup(keyboard);
 

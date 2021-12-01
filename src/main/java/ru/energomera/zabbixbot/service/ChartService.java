@@ -52,7 +52,7 @@ public class ChartService {
 
         //устанавливаем цвета
         plot.setBackgroundPaint(new Color(51, 51, 51));  //график
-        chart.setBackgroundPaint(new Color(204, 204, 204)); //картинка вокруг
+//        chart.setBackgroundPaint(new Color(204, 204, 204)); //картинка вокруг
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         renderer.setSeriesStroke(1, new BasicStroke(3.5f));

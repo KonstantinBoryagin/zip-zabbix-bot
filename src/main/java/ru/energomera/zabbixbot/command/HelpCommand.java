@@ -25,7 +25,8 @@ public class HelpCommand implements Command{
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
+        Integer messageId = update.getMessage().getMessageId();
 
-        sendMessageService.sendMessage(chatId, HELP_MESSAGE);
+        sendMessageService.sendReplyMessage(chatId, HELP_MESSAGE, messageId);
     }
 }

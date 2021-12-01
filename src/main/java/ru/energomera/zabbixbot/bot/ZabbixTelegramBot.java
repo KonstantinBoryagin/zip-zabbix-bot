@@ -6,11 +6,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import ru.energomera.zabbixbot.command.CommandContainer;
-import ru.energomera.zabbixbot.command.ZipCommand;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
@@ -69,6 +65,12 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
+        } else if(update.hasChannelPost()) {
+            String s = update.getChannelPost().getChatId().toString();
+            System.out.println(s);
+//            commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
+            commandContainer.retrieveCommand(CHART.getCommandName()).execute(update);
+
         } else {
             Sticker sticker = update.getMessage().getSticker();
             if (sticker != null) {

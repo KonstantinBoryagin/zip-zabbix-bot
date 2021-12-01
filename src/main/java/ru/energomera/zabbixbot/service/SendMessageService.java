@@ -7,7 +7,9 @@ import ru.energomera.zabbixbot.zabbixapi.dto.ping.PingResult;
 
 public interface SendMessageService {
 
-    void sendMessage(String chatId, String Message);
+    void sendMessage(String chatId, String message);
+
+    void sendReplyMessage(String chatId, String Message, int messageId);
 
     void sendSticker(String chatId, Stickers sticker);
 
@@ -16,5 +18,5 @@ public interface SendMessageService {
     void sendHistoryPicture(String chatId, HistoryResult[] historyResults, String chartName,
                             String axisXName, String axisYName, String seriesName, ReplyKeyboard keyboard);
 
-    void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard);
+    void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard, int messageId);
 }

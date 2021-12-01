@@ -1,6 +1,5 @@
 package ru.energomera.zabbixbot.command;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -9,10 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import ru.energomera.zabbixbot.service.SendMessageService;
-import ru.energomera.zabbixbot.service.ZabbixRestService;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryRequest;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResponse;
-import ru.energomera.zabbixbot.zabbixapi.dto.history.HistoryResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +27,17 @@ public class ChartCommand implements Command{
         String chatId;
         if(update.hasCallbackQuery()) {
             chatId = update.getCallbackQuery().getMessage().getChatId().toString();
+        } else if(update.hasChannelPost()){
+            chatId = update.getChannelPost().getChatId().toString();
+            System.out.println(chatId);
         } else {
             chatId = update.getMessage().getChatId().toString();
         }
 
+
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        KeyboardButton button = new KeyboardButton(ONE.get() + " -  " + CPU_SRV_ERP_2.getCommandName());
-        KeyboardButton button2 = new KeyboardButton(TWO.get() + " -  " + HISTORY.getCommandName());
+        KeyboardButton button = new KeyboardButton(ONE.get() + "  " + CPU_SRV_ERP_2.getCommandName());
+        KeyboardButton button2 = new KeyboardButton(TWO.get() + "  " + HISTORY.getCommandName());
 
         List<KeyboardButton> keyboardRow1 = new ArrayList<>();
         keyboardRow1.add(button);
@@ -55,10 +54,11 @@ public class ChartCommand implements Command{
         keyboardMarkup.setKeyboard(rows);
         keyboardMarkup.setResizeKeyboard(true);
         keyboardMarkup.setOneTimeKeyboard(true);
+        keyboardMarkup.setSelective(true);
 
 
-
-        sendMessageService.sendMessageWithInlineKeyboard(chatId, "Выберите график: ", keyboardMarkup);
+        int messageId = update.getMessage().getMessageId();
+        sendMessageService.sendMessageWithInlineKeyboard(chatId, "Выберите график: ", keyboardMarkup, messageId);
 
     }
 

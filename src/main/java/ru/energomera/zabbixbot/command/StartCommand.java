@@ -20,6 +20,6 @@ public class StartCommand implements Command{
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
         String message = String.format(START_MESSAGE, Icon.ROBOT_FACE.get(), chatId);
-        sendMessageService.sendMessage(chatId, message);
+//        sendMessageService.sendMessage(chatId, message);
     }
 }

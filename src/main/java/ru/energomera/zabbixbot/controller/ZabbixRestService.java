@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.service;
+package ru.energomera.zabbixbot.controller;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
