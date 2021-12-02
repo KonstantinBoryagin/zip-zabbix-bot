@@ -24,6 +24,15 @@ public class WebHook {
     @Value("${bot.chatId}")
     private String trueChatId;
 
+    @Value("${bot.group25_chatId}")
+    private String group25ChatId;
+
+    @Value("${bot.group7_chatId}")
+    private String group7ChatId;
+
+    @Value("${bot.group5_chatId}")
+    private String group5ChatId;
+
     private ZabbixTelegramBot zabbixTelegramBot;
     private MessageFromWebHookHandler webHookHandler;
 
@@ -54,8 +63,11 @@ public class WebHook {
             System.out.println("-------");
 
             //проверяем что это нужное сообщение
-            if(zabbixWebHook.getChat_id().equals(trueChatId)){
+            if(zabbixWebHook.getChat_id().equals(trueChatId) || zabbixWebHook.getChat_id().equals(group25ChatId)
+             || zabbixWebHook.getChat_id().equals(group7ChatId) || zabbixWebHook.getChat_id().equals(group5ChatId)){
+
                 webHookHandler.processInputMessage(zabbixWebHook);
+
             } else {
                 //log
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

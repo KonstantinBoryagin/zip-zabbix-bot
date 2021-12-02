@@ -9,6 +9,7 @@ import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
+import static ru.energomera.zabbixbot.sticker.Icon.BACK;
 
 @Component
 public class ZabbixTelegramBot extends TelegramLongPollingBot {
@@ -46,24 +47,23 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
 
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            } else if(message.contains("Сыграем")){
+                commandContainer.retrieveCommand(DICE.getCommandName()).execute(update);
+            } else if(message.contains("Графики")){
+                commandContainer.retrieveCommand(MENU_CHARTS.getCommandName()).execute(update);
             } else if (message.equals("ЗИП")) {
                 commandContainer.retrieveCommand("ZipCommand").execute(update);
+            } else if (message.equals(BACK.get() + "  Назад")) {    //вынеси это в константы классов
+                commandContainer.retrieveCommand(MENU.getCommandName()).execute(update);
             } else if (message.equals(PROXY_PING_COMMAND.getCommandName())) {
                 commandContainer.retrieveCommand(PROXY_PING_COMMAND.getCommandName()).execute(update);
-            } else {
+            } else{
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
             String commandFromUser = update.getCallbackQuery().getData();
             System.out.println(commandFromUser);
 
-            if (commandFromUser.startsWith(COMMAND_PREFIX)) {
-//                String commandIdentifier = commandFromUser.split(" ")[0].toLowerCase();
-//change it
-                commandContainer.retrieveCommand(UPDATE.getCommandName()).execute(update);
-            } else {
-                commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
-            }
         } else if (update.hasChannelPost()) {
             String s = update.getChannelPost().getChatId().toString();
             System.out.println(s);

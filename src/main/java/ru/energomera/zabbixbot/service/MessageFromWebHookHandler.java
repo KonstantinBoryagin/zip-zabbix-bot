@@ -15,6 +15,7 @@ public class MessageFromWebHookHandler {
     private SendMessageService sendMessageService;
     private CommandContainer commandContainer;
 
+
     @Autowired
     public MessageFromWebHookHandler(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;

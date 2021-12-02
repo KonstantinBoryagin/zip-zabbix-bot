@@ -2,7 +2,6 @@ package ru.energomera.zabbixbot.command;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.service.SendMessageService;
-import ru.energomera.zabbixbot.sticker.Icon;
 
 public class StartCommand implements Command{
 
@@ -19,7 +18,8 @@ public class StartCommand implements Command{
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
-        String message = String.format(START_MESSAGE, Icon.ROBOT_FACE.get(), chatId);
-//        sendMessageService.sendMessage(chatId, message);
+//        String message = String.format(START_MESSAGE, Icon.ROBOT_FACE.get(), chatId);
+
+        sendMessageService.sendMessage(chatId, chatId);
     }
 }

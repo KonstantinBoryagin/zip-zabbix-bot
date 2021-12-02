@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.service;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import ru.energomera.zabbixbot.sticker.Stickers;
@@ -8,6 +9,8 @@ import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 import java.util.List;
 
 public interface SendMessageService {
+
+    void sendMessage(String chatId, String message);
 
     void sendMessageFromWebHook(String chatId, String subject, String message);
 
@@ -25,7 +28,9 @@ public interface SendMessageService {
     void sendHistoryPictureWithText(String chatId, String subject, String message,
                                     HistoryResponseResult[] historyResponseResults, String chartName, String seriesName);
 
-    void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard, int messageId);
+    void sendMessageToGroupWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard keyboard, int messageId);
+
+    void sendDice(SendDice dice);
 
 }
 

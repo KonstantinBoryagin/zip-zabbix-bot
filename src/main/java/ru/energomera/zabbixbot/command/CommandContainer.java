@@ -1,7 +1,11 @@
 package ru.energomera.zabbixbot.command;
 
 import com.google.common.collect.ImmutableMap;
+import ru.energomera.zabbixbot.command.menu.MenuChartsCommand;
+import ru.energomera.zabbixbot.command.menu.DiceCommand;
+import ru.energomera.zabbixbot.command.menu.MenuCommand;
 import ru.energomera.zabbixbot.service.SendMessageService;
+
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
 
@@ -21,6 +25,9 @@ public class CommandContainer {
                 .put(CHART.getCommandName(), new ChartCommand(sendMessageService))
                 .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
                 .put(YANDEX.getCommandName(), new YandexPingCommand(sendMessageService))
+                .put(MENU.getCommandName(), new MenuCommand(sendMessageService))
+                .put(DICE.getCommandName(), new DiceCommand(sendMessageService))
+                .put(MENU_CHARTS.getCommandName(), new MenuChartsCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();

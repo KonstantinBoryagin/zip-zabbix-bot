@@ -58,7 +58,7 @@ public class ChartCommand implements Command{
 
 
         int messageId = update.getMessage().getMessageId();
-        sendMessageService.sendMessageWithInlineKeyboard(chatId, "Выберите график: ", keyboardMarkup, messageId);
+        sendMessageService.sendMessageToGroupWithReplyKeyboardMarkup(chatId, "Выберите график: ", keyboardMarkup, messageId);
 
     }
 

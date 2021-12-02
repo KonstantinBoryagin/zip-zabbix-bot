@@ -3,6 +3,7 @@ package ru.energomera.zabbixbot.service;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
@@ -26,6 +27,21 @@ public class SendMessageServiceImpl implements SendMessageService {
     @Autowired
     public SendMessageServiceImpl(ZabbixTelegramBot telegramBot) {
         this.telegramBot = telegramBot;
+    }
+
+
+    @Override
+    public void sendMessage(String chatId, String message) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(chatId)
+                .build();
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -175,17 +191,26 @@ public class SendMessageServiceImpl implements SendMessageService {
 
 
     @Override
-    public void sendMessageWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard, int messageId) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(message);
-        sendMessage.enableHtml(true);
-        sendMessage.setReplyToMessageId(messageId);
-
-        sendMessage.setReplyMarkup(keyboard);
+    public void sendMessageToGroupWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard keyboard, int messageId) {
+        SendMessage sendMessage = SendMessage.builder()
+                .replyToMessageId(messageId)
+                .chatId(chatId)
+                .text("Menu")
+                .replyMarkup(keyboard)
+                .build();
 
         try {
             telegramBot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendDice(SendDice dice) {
+
+        try {
+            telegramBot.execute(dice);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

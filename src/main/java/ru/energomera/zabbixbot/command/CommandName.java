@@ -7,11 +7,14 @@ public enum CommandName {
     START("/start"),
     STOP("/stop"),
     HELP("/help"),
+    MENU("/menu"),
     PROXY_PING_COMMAND("Proxy ICMP ping"),
     CPU_SRV_ERP_2("SRV-ERP_2 CPU Utilization"),
     CHART("/chart"),
     UPDATE("/update "),
     YANDEX("/yandex"),
+    DICE("/dice"),
+    MENU_CHARTS("/menu_charts"),
     NO("");
 
     private final String commandName;
