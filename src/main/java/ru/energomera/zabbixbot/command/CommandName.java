@@ -11,6 +11,7 @@ public enum CommandName {
     CPU_SRV_ERP_2("SRV-ERP_2 CPU Utilization"),
     CHART("/chart"),
     UPDATE("/update "),
+    YANDEX("/yandex"),
     NO("");
 
     private final String commandName;

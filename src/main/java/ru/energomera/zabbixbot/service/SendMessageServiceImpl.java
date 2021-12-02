@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.service;
 
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,6 +16,7 @@ import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class SendMessageServiceImpl implements SendMessageService {
@@ -106,17 +108,23 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public void sendHistoryPicture(String chatId, HistoryResponseResult[] historyResponseResults,
-                                   String chartName, String axisXName, String axisYName,
-                                   String seriesName) {
+    public void sendHistoryPicture(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
+                                   String chartName, String[] seriesName) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         InputFile inputPicture = new InputFile();
         ChartService chartService = new ChartService();
 
+        //создаем набор данных графика
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        //наполняем его значениями
+        for (int i = 0; i < listOfHistoryResponseResults.size(); i++) {
+            dataset = chartService.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
+        }
+
         File picture = null;
         try {
-            picture = chartService.createHistoryChartPicture(historyResponseResults, chartName, axisXName, axisYName, seriesName);
+            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,6 +133,41 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         try {
             telegramBot.execute(sendPhoto);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHistoryPictureWithText(String chatId, String subject, String message, HistoryResponseResult[] historyResponseResults,
+                                           String chartName, String seriesName) {
+
+        String text = subject + "\n\n" + message;
+
+        InputFile inputPicture = new InputFile();
+        ChartService chartService = new ChartService();
+
+        //создаем набор данных графика
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        //наполняем его значениями
+        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
+
+        File picture = null;
+        try {
+            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        inputPicture.setMedia(picture);
+
+        SendPhoto post = SendPhoto.builder()
+                .chatId(chatId)
+                .caption(text)
+                .photo(inputPicture)
+                .build();
+
+        try {
+            telegramBot.execute(post);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

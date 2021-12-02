@@ -6,7 +6,10 @@ import static ru.energomera.zabbixbot.sticker.Icon.POOP;
 
 @Getter
 public enum KeyWordsAndTags {
-    PROXY_PING("Internet Proxy ЗИП", "\n " + POOP.get() + " #proxy_ping")
+    PROBLEM("ПРОБЛЕМА", "#problem"),
+    SOLVED("РЕШЕНО", "#solved"),
+    PROXY_PING("Internet Proxy ЗИП", "\n " + POOP.get() + " #proxy_ping"),
+    YANDEX("ya.ru", "\n #yandex.ru")
     ;
 
 
