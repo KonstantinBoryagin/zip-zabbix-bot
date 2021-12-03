@@ -15,7 +15,7 @@ public enum CommandName {
     YANDEX("/yandex"),
     DICE("/dice"),
     MENU_CHARTS("/menu_charts"),
-    NO("");
+    TEMP("/temp");
 
     private final String commandName;
 

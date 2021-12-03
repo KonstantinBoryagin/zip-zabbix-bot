@@ -63,16 +63,17 @@ public class WebHook {
             System.out.println("-------");
 
             //проверяем что это нужное сообщение
-            if(zabbixWebHook.getChat_id().equals(trueChatId) || zabbixWebHook.getChat_id().equals(group25ChatId)
-             || zabbixWebHook.getChat_id().equals(group7ChatId) || zabbixWebHook.getChat_id().equals(group5ChatId)){
+            if (zabbixWebHook.getChat_id().equals(trueChatId) || zabbixWebHook.getChat_id().equals(group7ChatId)
+                    || zabbixWebHook.getChat_id().equals(group5ChatId)) {
 
                 webHookHandler.processInputMessage(zabbixWebHook);
 
+            } else if(zabbixWebHook.getChat_id().equals(group25ChatId)){
+                webHookHandler.processMessageFor25Department(zabbixWebHook);
             } else {
                 //log
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-
 
 
         } catch (JsonSyntaxException e) {

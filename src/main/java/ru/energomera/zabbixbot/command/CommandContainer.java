@@ -28,6 +28,7 @@ public class CommandContainer {
                 .put(MENU.getCommandName(), new MenuCommand(sendMessageService))
                 .put(DICE.getCommandName(), new DiceCommand(sendMessageService))
                 .put(MENU_CHARTS.getCommandName(), new MenuChartsCommand(sendMessageService))
+                .put(TEMP.getCommandName(), new TempCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();

@@ -1,5 +1,7 @@
 package ru.energomera.zabbixbot.service;
 
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -30,7 +32,12 @@ public interface SendMessageService {
 
     void sendMessageToGroupWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard keyboard, int messageId);
 
+    void sendMessageToGroupWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard);
+
     void sendDice(SendDice dice);
+    void sendAnswer(AnswerCallbackQuery answer);
+
+    void sendTest(BotApiMethod method);
 
 }
 

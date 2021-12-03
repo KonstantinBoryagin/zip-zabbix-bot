@@ -3,11 +3,17 @@ package ru.energomera.zabbixbot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static ru.energomera.zabbixbot.command.CommandName.PROXY_PING_COMMAND;
 import static ru.energomera.zabbixbot.command.KeyWordsAndTags.*;
+import static ru.energomera.zabbixbot.sticker.Icon.EXCLAMATION;
 
 @Service
 public class MessageFromWebHookHandler {
@@ -34,6 +40,23 @@ public class MessageFromWebHookHandler {
             sendMessageService.sendMessageFromWebHook(chatId, subject, message);
         }
 
+    }
+
+    public void processMessageFor25Department(ZabbixWebHook webHookEntity) {
+        String chatId = webHookEntity.getChat_id();
+        String subject = EXCLAMATION.get() + webHookEntity.getSubj();
+        String message = subject  + "\n\n" + webHookEntity.getMessage();
+
+        List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(InlineKeyboardButton.builder().text("hi").callbackData("/yes").build());
+        row.add(InlineKeyboardButton.builder().text("bye").callbackData("/no").build());
+
+        keyboardList.add(row);
+
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(keyboardList);
+
+        sendMessageService.sendMessageToGroupWithInlineKeyboard(chatId, message, keyboard);
     }
 
     private void formProxyMessage(String chatId, String subject, String message) {

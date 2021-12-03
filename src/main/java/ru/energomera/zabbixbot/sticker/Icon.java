@@ -20,6 +20,7 @@ public enum Icon {
     GAME_DICE(":game_die:"),
     SLOT_MACHINE(":slot_machine:"),
     BACK(":back:"),
+    EXCLAMATION(":exclamation:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

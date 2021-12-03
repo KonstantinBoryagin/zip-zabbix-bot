@@ -3,6 +3,8 @@ package ru.energomera.zabbixbot.service;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -207,10 +209,47 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
+    public void sendMessageToGroupWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(message)
+                .disableWebPagePreview(false)
+                .replyMarkup(keyboard)
+                .build();
+
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void sendDice(SendDice dice) {
 
         try {
             telegramBot.execute(dice);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendAnswer(AnswerCallbackQuery answer) {
+
+
+        try {
+            telegramBot.execute(answer);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendTest(BotApiMethod method) {
+        try {
+            telegramBot.execute(method);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

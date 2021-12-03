@@ -58,11 +58,14 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
             } else if (message.equals(PROXY_PING_COMMAND.getCommandName())) {
                 commandContainer.retrieveCommand(PROXY_PING_COMMAND.getCommandName()).execute(update);
             } else{
-                commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
+//                commandContainer.retrieveCommand(.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
+
             String commandFromUser = update.getCallbackQuery().getData();
             System.out.println(commandFromUser);
+
+            commandContainer.retrieveCommand(TEMP.getCommandName()).execute(update);
 
         } else if (update.hasChannelPost()) {
             String s = update.getChannelPost().getChatId().toString();
