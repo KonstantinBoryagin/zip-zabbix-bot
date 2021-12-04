@@ -72,7 +72,7 @@ public class SendMessageServiceImpl implements SendMessageService {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
-//                .replyToMessageId(messageId)
+                .replyToMessageId(messageId)
                 .disableWebPagePreview(false)
                 .build();
 

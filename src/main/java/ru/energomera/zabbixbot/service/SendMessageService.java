@@ -39,6 +39,7 @@ public interface SendMessageService {
     void sendMessageToGroupWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard);
 
     void sendDice(SendDice dice);
+
     void sendAnswer(AnswerCallbackQuery answer);
 
     void sendTest(BotApiMethod method);

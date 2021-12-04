@@ -79,8 +79,8 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
         } else if(update.hasInlineQuery()) {
 
-            commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
-
+//            commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
+            commandContainer.retrieveCommand(UPDATE.getCommandName()).execute(update);
 
         } else {
 
