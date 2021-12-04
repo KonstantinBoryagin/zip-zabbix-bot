@@ -59,13 +59,17 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 commandContainer.retrieveCommand(PROXY_PING_COMMAND.getCommandName()).execute(update);
             } else{
 //                commandContainer.retrieveCommand(.getCommandName()).execute(update);
+                commandContainer.retrieveCommand(TEMP2.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
 
-            String commandFromUser = update.getCallbackQuery().getData();
-            System.out.println(commandFromUser);
+            String message = update.getCallbackQuery().getData();
 
-            commandContainer.retrieveCommand(TEMP.getCommandName()).execute(update);
+            if (message.startsWith(COMMAND_PREFIX)) {
+                String commandIdentifier = message.split(" ")[0].toLowerCase();
+
+                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            }
 
         } else if (update.hasChannelPost()) {
             String s = update.getChannelPost().getChatId().toString();
@@ -73,7 +77,13 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 //            commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             commandContainer.retrieveCommand(CHART.getCommandName()).execute(update);
 
+        } else if(update.hasInlineQuery()) {
+
+            commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
+
+
         } else {
+
             Sticker sticker = update.getMessage().getSticker();
             if (sticker != null) {
                 String fileId = sticker.getFileId();

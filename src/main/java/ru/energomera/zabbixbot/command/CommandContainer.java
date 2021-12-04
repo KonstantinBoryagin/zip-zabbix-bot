@@ -29,6 +29,10 @@ public class CommandContainer {
                 .put(DICE.getCommandName(), new DiceCommand(sendMessageService))
                 .put(MENU_CHARTS.getCommandName(), new MenuChartsCommand(sendMessageService))
                 .put(TEMP.getCommandName(), new TempCommand(sendMessageService))
+                .put(TEMP2.getCommandName(), new Temp2Command(sendMessageService))
+                .put(TEMP3.getCommandName(), new Temp3Command(sendMessageService))
+                .put(CLOSE.getCommandName(), new CloseCommand(sendMessageService))
+                .put(TEMP_INLINE.getCommandName(), new TempInlineCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();

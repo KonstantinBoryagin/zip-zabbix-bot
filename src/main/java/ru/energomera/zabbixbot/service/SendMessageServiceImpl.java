@@ -11,7 +11,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
@@ -19,6 +22,7 @@ import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 @Service
@@ -33,18 +37,90 @@ public class SendMessageServiceImpl implements SendMessageService {
 
 
     @Override
-    public void sendMessage(String chatId, String message) {
+    public Integer sendMessageWithReply(String chatId, String message) {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
-                .text(chatId)
+                .text(message)
+                .disableWebPagePreview(false)
                 .build();
 
+        ForceReplyKeyboard build = ForceReplyKeyboard.builder()
+                .inputFieldPlaceholder("Введите здесь свое сообщение")   //появится в поле ввода у пользователя
+//                .selective(true)  //нужно где то взять ид сообщения или юзера
+                .forceReply(true).build();
+
+        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
+
+
+        sendMessage.setReplyMarkup(build);
+
+
         try {
-            telegramBot.execute(sendMessage);
+            Message execute = telegramBot.execute(sendMessage);
+            Integer newMessageId = execute.getMessageId();
+            System.out.println(newMessageId + "   sendMessageWithReply worked success"); //temp
+            return newMessageId;
+
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+        return null;
     }
+
+    @Override
+    public Integer sendMessageWithReply(String chatId, String message, Integer messageId) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(message)
+//                .replyToMessageId(messageId)
+                .disableWebPagePreview(false)
+                .build();
+
+        ForceReplyKeyboard build = ForceReplyKeyboard.builder()
+                .inputFieldPlaceholder("Введите ")//появится в поле ввода у пользователя
+//                .selective(true)  //нужно где то взять ид сообщения или юзера
+                .forceReply(true)
+                .build();
+
+//        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
+
+
+        sendMessage.setReplyMarkup(build);
+
+
+        try {
+            Message execute = telegramBot.execute(sendMessage);
+            Integer newMessageId = execute.getMessageId();
+            System.out.println(newMessageId + "   sendMessageWithReply worked success"); //temp
+            return newMessageId;
+
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Override
+    public Integer sendMessage(String chatId, String message) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(message)
+                .disableWebPagePreview(false)
+                .build();
+
+        try {
+            Message execute = telegramBot.execute(sendMessage);
+            Integer messageId = execute.getMessageId();
+            System.out.println(messageId + "   sendMessage worked success"); //temp
+            return messageId;
+
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public void sendMessageFromWebHook(String chatId, String subject, String message) {
@@ -249,7 +325,7 @@ public class SendMessageServiceImpl implements SendMessageService {
     @Override
     public void sendTest(BotApiMethod method) {
         try {
-            telegramBot.execute(method);
+            Serializable execute = telegramBot.execute(method);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

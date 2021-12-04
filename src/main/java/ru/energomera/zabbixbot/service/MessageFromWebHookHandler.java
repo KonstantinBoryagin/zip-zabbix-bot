@@ -44,16 +44,15 @@ public class MessageFromWebHookHandler {
 
     public void processMessageFor25Department(ZabbixWebHook webHookEntity) {
         String chatId = webHookEntity.getChat_id();
-        String subject = EXCLAMATION.get() + webHookEntity.getSubj();
+        String subject = EXCLAMATION.get() + webHookEntity.getSubj() + EXCLAMATION.get();
         String message = subject  + "\n\n" + webHookEntity.getMessage();
 
         List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
-        row.add(InlineKeyboardButton.builder().text("hi").callbackData("/yes").build());
-        row.add(InlineKeyboardButton.builder().text("bye").callbackData("/no").build());
+        row.add(InlineKeyboardButton.builder().text("Обновить сведения").callbackData("/update").build());
+        row.add(InlineKeyboardButton.builder().text("Закрыть инцендент").callbackData("/close").build());
 
         keyboardList.add(row);
-
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(keyboardList);
 
         sendMessageService.sendMessageToGroupWithInlineKeyboard(chatId, message, keyboard);

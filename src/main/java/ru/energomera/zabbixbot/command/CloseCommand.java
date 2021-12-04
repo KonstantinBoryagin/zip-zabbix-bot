@@ -4,10 +4,10 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-public class UpdateCommand implements Command {
+public class CloseCommand implements Command{
     private final SendMessageService sendMessageService;
 
-    public UpdateCommand(SendMessageService sendMessageService) {
+    public CloseCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
 
@@ -18,15 +18,10 @@ public class UpdateCommand implements Command {
         String commandFromUser = update.getCallbackQuery().getData();
         String callBackQueryId = update.getCallbackQuery().getId();
 
-        AnswerCallbackQuery build = AnswerCallbackQuery.builder()
+        sendMessageService.sendTest(AnswerCallbackQuery.builder()
                 .callbackQueryId(callBackQueryId)
-                .showAlert(true)
-                .text("Введите ваше сообщение: ")
-                .build();
-
-        sendMessageService.sendTest(build);
-
-        sendMessageService.sendMessageWithReply(chatId, "красивая подсказка ");
+                .text("Выберите варианты обновления: ")
+                .build());
 
 
     }

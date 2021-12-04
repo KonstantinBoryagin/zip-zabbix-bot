@@ -12,7 +12,11 @@ import java.util.List;
 
 public interface SendMessageService {
 
-    void sendMessage(String chatId, String message);
+    Integer sendMessage(String chatId, String message);
+
+    Integer sendMessageWithReply(String chatId, String message);
+
+    Integer sendMessageWithReply(String chatId, String message, Integer messageId);
 
     void sendMessageFromWebHook(String chatId, String subject, String message);
 

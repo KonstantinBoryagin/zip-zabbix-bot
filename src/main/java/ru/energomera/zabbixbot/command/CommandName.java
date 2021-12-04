@@ -11,10 +11,14 @@ public enum CommandName {
     PROXY_PING_COMMAND("Proxy ICMP ping"),
     CPU_SRV_ERP_2("SRV-ERP_2 CPU Utilization"),
     CHART("/chart"),
-    UPDATE("/update "),
+    UPDATE("/update"),
     YANDEX("/yandex"),
     DICE("/dice"),
     MENU_CHARTS("/menu_charts"),
+    TEMP2("/temp2"),
+    TEMP3("/temp3"),
+    TEMP_INLINE("/temp_inline"),
+    CLOSE("/close"),
     TEMP("/temp");
 
     private final String commandName;
