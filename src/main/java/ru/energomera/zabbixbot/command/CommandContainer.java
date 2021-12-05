@@ -11,6 +11,7 @@ import static ru.energomera.zabbixbot.command.CommandName.*;
 
 public class CommandContainer {
     private final ImmutableMap<String, Command> commandMap;
+    private final ImmutableMap<String, Command> buttonMap;
     private final ImmutableMap<String, Chart> chartMap;
     private final Command unknownCommand;
 
@@ -23,7 +24,6 @@ public class CommandContainer {
                 .put(PROXY_PING_COMMAND.getCommandName(), new ProxyPingCommand(sendMessageService))
                 .put(CPU_SRV_ERP_2.getCommandName(), new SrvErpCpuCommand(sendMessageService))
                 .put(CHART.getCommandName(), new ChartCommand(sendMessageService))
-                .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
                 .put(YANDEX.getCommandName(), new YandexPingCommand(sendMessageService))
                 .put(MENU.getCommandName(), new MenuCommand(sendMessageService))
                 .put(DICE.getCommandName(), new DiceCommand(sendMessageService))
@@ -44,12 +44,20 @@ public class CommandContainer {
                 .put(YANDEX.getCommandName(), new YandexPingCommand(sendMessageService))
                 .build();
 
+        buttonMap = ImmutableMap.<String, Command>builder()
+                .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
+                .build();
+
     }
 
 
 
     public Command retrieveCommand(String commandIdentifier){
         return commandMap.getOrDefault(commandIdentifier, unknownCommand);
+    }
+
+    public Command retrieveCallBack(String commandIdentifier){
+        return buttonMap.get(commandIdentifier);
     }
 
     public Chart retrieveChart(String commandIdentifier){

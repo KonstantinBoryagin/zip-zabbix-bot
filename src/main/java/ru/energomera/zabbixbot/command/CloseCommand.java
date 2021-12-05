@@ -20,7 +20,7 @@ public class CloseCommand implements Command{
 
         sendMessageService.sendTest(AnswerCallbackQuery.builder()
                 .callbackQueryId(callBackQueryId)
-                .text("Выберите варианты обновления: ")
+                .text("Введите сообщение ")
                 .build());
 
 

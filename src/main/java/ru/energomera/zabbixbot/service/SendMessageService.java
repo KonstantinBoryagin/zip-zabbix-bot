@@ -2,6 +2,7 @@ package ru.energomera.zabbixbot.service;
 
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -15,9 +16,8 @@ public interface SendMessageService {
     Integer sendMessage(String chatId, String message);
 
     Integer sendMessageWithReply(String chatId, String message);
-
+    Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage);
     Integer sendMessageWithReply(String chatId, String message, Integer messageId);
-
     void sendMessageFromWebHook(String chatId, String subject, String message);
 
     void sendMessageFromWebHookWithCallBackButton(String chatId, String subject, String message, ReplyKeyboard replyKeyboard);

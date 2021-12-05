@@ -21,6 +21,8 @@ public enum Icon {
     SLOT_MACHINE(":slot_machine:"),
     BACK(":back:"),
     EXCLAMATION(":exclamation:"),
+    PUSHPIN(":pushpin:"),
+    WHITE_CHECK_MARK(":white_check_mark:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

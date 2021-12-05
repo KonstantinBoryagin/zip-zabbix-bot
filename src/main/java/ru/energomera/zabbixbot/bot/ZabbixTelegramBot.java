@@ -66,9 +66,11 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
             String message = update.getCallbackQuery().getData();
 
             if (message.startsWith(COMMAND_PREFIX)) {
-                String commandIdentifier = message.split(" ")[0].toLowerCase();
+                String commandIdentifier = message.split("\\|")[0].toLowerCase();
+                System.out.println(commandIdentifier);
+                System.out.println(message.split("\\|")[1].toLowerCase()              );
 
-                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+                commandContainer.retrieveCallBack(commandIdentifier).execute(update);
             }
 
         } else if (update.hasChannelPost()) {

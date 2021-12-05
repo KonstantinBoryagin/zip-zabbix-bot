@@ -14,6 +14,7 @@ import java.util.List;
 import static ru.energomera.zabbixbot.command.CommandName.PROXY_PING_COMMAND;
 import static ru.energomera.zabbixbot.command.KeyWordsAndTags.*;
 import static ru.energomera.zabbixbot.sticker.Icon.EXCLAMATION;
+import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
 
 @Service
 public class MessageFromWebHookHandler {
@@ -47,13 +48,8 @@ public class MessageFromWebHookHandler {
         String subject = EXCLAMATION.get() + webHookEntity.getSubj() + EXCLAMATION.get();
         String message = subject  + "\n\n" + webHookEntity.getMessage();
 
-        List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
-        List<InlineKeyboardButton> row = new ArrayList<>();
-        row.add(InlineKeyboardButton.builder().text("Обновить сведения").callbackData("/update").build());
-        row.add(InlineKeyboardButton.builder().text("Закрыть инцендент").callbackData("/close").build());
 
-        keyboardList.add(row);
-        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(keyboardList);
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(addInlineKeyboardToGroupNotificationPost());
 
         sendMessageService.sendMessageToGroupWithInlineKeyboard(chatId, message, keyboard);
     }
@@ -64,7 +60,15 @@ public class MessageFromWebHookHandler {
         } else if (subject.contains(SOLVED.getKeyWord())) {
             sendMessageService.sendMessageFromWebHook(chatId, subject, message);
         }
+    }
+    public static List<List<InlineKeyboardButton>>  addInlineKeyboardToGroupNotificationPost() {
+        List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Дополнить").callbackData("/update|1").build());
+        row.add(InlineKeyboardButton.builder().text("Закрыть").callbackData("/update|2").build());
 
+        keyboardList.add(row);
 
+        return keyboardList;
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -60,6 +62,32 @@ public class SendMessageServiceImpl implements SendMessageService {
             Integer newMessageId = execute.getMessageId();
             System.out.println(newMessageId + "   sendMessageWithReply worked success"); //temp
             return newMessageId;
+
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage) {
+
+        ForceReplyKeyboard build = ForceReplyKeyboard.builder()
+                .inputFieldPlaceholder("Введите здесь свое сообщение")   //появится в поле ввода у пользователя
+//                .selective(true)  //нужно где то взять ид сообщения или юзера
+                .forceReply(true).build();
+
+        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
+
+
+        copyMessage.setReplyMarkup(build);
+
+
+        try {
+            MessageId execute = telegramBot.execute(copyMessage);
+            Long messageId = execute.getMessageId();
+            System.out.println(messageId + "   sendMessageWithReply worked success"); //temp
+            return messageId;
 
         } catch (TelegramApiException e) {
             e.printStackTrace();
