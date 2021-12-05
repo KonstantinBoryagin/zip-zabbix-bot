@@ -3,18 +3,21 @@ package ru.energomera.zabbixbot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.PROXY_PING_COMMAND;
 import static ru.energomera.zabbixbot.command.KeyWordsAndTags.*;
-import static ru.energomera.zabbixbot.sticker.Icon.EXCLAMATION;
-import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
+import static ru.energomera.zabbixbot.command.TempInlineCommand.userPrivateChoose;
+import static ru.energomera.zabbixbot.sticker.Icon.*;
 
 @Service
 public class MessageFromWebHookHandler {
@@ -46,10 +49,13 @@ public class MessageFromWebHookHandler {
     public void processMessageFor25Department(ZabbixWebHook webHookEntity) {
         String chatId = webHookEntity.getChat_id();
         String subject = EXCLAMATION.get() + webHookEntity.getSubj() + EXCLAMATION.get();
-        String message = subject  + "\n\n" + webHookEntity.getMessage();
+        String text = parseZabbixWebhookMessage(webHookEntity.getMessage());
+        String message = subject  + "\n\n" + text;
 
 
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(addInlineKeyboardToGroupNotificationPost());
+
+
 
         sendMessageService.sendMessageToGroupWithInlineKeyboard(chatId, message, keyboard);
     }
@@ -61,14 +67,58 @@ public class MessageFromWebHookHandler {
             sendMessageService.sendMessageFromWebHook(chatId, subject, message);
         }
     }
+
     public static List<List<InlineKeyboardButton>>  addInlineKeyboardToGroupNotificationPost() {
+        List<List<InlineKeyboardButton>> keyboardList = formDefaultKeyboard();
+
+        ////////////////////////
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        row2.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").callbackData("/change|1").build());
+        //////////////////////
+
+
+
+        /////////////
+        keyboardList.add(row2);
+
+        return keyboardList;
+    }
+
+    public static List<InlineKeyboardButton> inlineChangeButton(Update update) {
+        String text = update.getCallbackQuery().getMessage().getText() + "|";
+        String chatId = update.getCallbackQuery().getMessage().getChatId().toString() + "|";
+        String messageId = update.getCallbackQuery().getMessage().getMessageId().toString();
+        User user = update.getCallbackQuery().getFrom();
+        List<String> userList = new ArrayList<>();
+        Collections.addAll(userList, text, chatId, messageId);
+
+        userPrivateChoose.put(user, userList);
+
+//        String query = "Edit message|" + text + chatId + messageId + "|";
+//        System.out.println(query + " ----- query from button inline change mode");
+
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQueryCurrentChat("Edit message").build());
+
+        return row;
+    }
+
+    public static List<List<InlineKeyboardButton>> formDefaultKeyboard() {
         List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
         row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Дополнить").callbackData("/update|1").build());
-        row.add(InlineKeyboardButton.builder().text("Закрыть").callbackData("/update|2").build());
-
+        row.add(InlineKeyboardButton.builder().text(WHITE_CHECK_MARK.get() + "Закрыть").callbackData("/update|2").build());
         keyboardList.add(row);
-
         return keyboardList;
+    }
+
+    private String parseZabbixWebhookMessage(String text) {
+        String message = "";
+        String[] splitText = text.split("\\|");
+        for (int i = 0; i < splitText.length; i++) {
+            message += splitText[i] + "\n";
+        }
+
+        return message;
     }
 }

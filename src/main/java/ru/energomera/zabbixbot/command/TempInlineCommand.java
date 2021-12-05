@@ -2,12 +2,16 @@ package ru.energomera.zabbixbot.command;
 
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
+import org.telegram.telegrambots.meta.api.objects.User;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-public class TempInlineCommand implements Command{
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class TempInlineCommand implements Command {
     private final SendMessageService sendMessageService;
-    public static Integer currentMessageId = 0;
+    public static Map<User, List<String>> userPrivateChoose = new HashMap<>();
 
     public TempInlineCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
@@ -17,13 +21,12 @@ public class TempInlineCommand implements Command{
     public void execute(Update update) {
         String id = update.getInlineQuery().getId();
 
-        AnswerInlineQuery build = AnswerInlineQuery.builder().inlineQueryId(id).switchPmText("Edit message").switchPmParameter("123").build();
-        InputTextMessageContent hello_hello = InputTextMessageContent.builder().messageText("Hello hello").build();
+//        for (int i = 0; i < splitQuery.length; i++) {
+//            System.out.print("split -- " + i + ":   " + splitQuery[i] + " || ");
+//        }
 
-        System.out.println(update.getInlineQuery().getQuery());
-        Long userId = update.getInlineQuery().getFrom().getId();
-        System.out.println(userId);
-//        sendMessageService.sendTest(hello_hello);
-        sendMessageService.sendTest(build);
+
+        AnswerInlineQuery build3 = AnswerInlineQuery.builder().inlineQueryId(id).switchPmText("Edit message").switchPmParameter("123").build();
+        sendMessageService.sendTest(build3);
     }
 }

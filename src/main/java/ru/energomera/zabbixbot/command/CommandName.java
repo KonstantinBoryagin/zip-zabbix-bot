@@ -19,6 +19,8 @@ public enum CommandName {
     TEMP3("/temp3"),
     TEMP_INLINE("/temp_inline"),
     CLOSE("/close"),
+    CHANGE("/change"),
+    BACK("/back"),
     TEMP("/temp");
 
     private final String commandName;

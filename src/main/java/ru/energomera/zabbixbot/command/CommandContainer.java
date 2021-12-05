@@ -31,7 +31,6 @@ public class CommandContainer {
                 .put(TEMP.getCommandName(), new TempCommand(sendMessageService))
                 .put(TEMP2.getCommandName(), new Temp2Command(sendMessageService))
                 .put(TEMP3.getCommandName(), new Temp3Command(sendMessageService))
-                .put(CLOSE.getCommandName(), new CloseCommand(sendMessageService))
                 .put(TEMP_INLINE.getCommandName(), new TempInlineCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
@@ -46,6 +45,9 @@ public class CommandContainer {
 
         buttonMap = ImmutableMap.<String, Command>builder()
                 .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
+                .put(CLOSE.getCommandName(), new CloseCommand(sendMessageService))
+                .put(CHANGE.getCommandName(), new ChangeCommand(sendMessageService))
+                .put(BACK.getCommandName(), new BackCommand(sendMessageService))
                 .build();
 
     }

@@ -47,9 +47,9 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
 
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
-            } else if(message.contains("Сыграем")){
+            } else if (message.contains("Сыграем")) {
                 commandContainer.retrieveCommand(DICE.getCommandName()).execute(update);
-            } else if(message.contains("Графики")){
+            } else if (message.contains("Графики")) {
                 commandContainer.retrieveCommand(MENU_CHARTS.getCommandName()).execute(update);
             } else if (message.equals("ЗИП")) {
                 commandContainer.retrieveCommand("ZipCommand").execute(update);
@@ -57,7 +57,7 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 commandContainer.retrieveCommand(MENU.getCommandName()).execute(update);
             } else if (message.equals(PROXY_PING_COMMAND.getCommandName())) {
                 commandContainer.retrieveCommand(PROXY_PING_COMMAND.getCommandName()).execute(update);
-            } else{
+            } else {
 //                commandContainer.retrieveCommand(.getCommandName()).execute(update);
                 commandContainer.retrieveCommand(TEMP2.getCommandName()).execute(update);
             }
@@ -67,8 +67,8 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split("\\|")[0].toLowerCase();
-                System.out.println(commandIdentifier);
-                System.out.println(message.split("\\|")[1].toLowerCase()              );
+//                System.out.println(commandIdentifier);
+//                System.out.println(message.split("\\|")[1].toLowerCase());
 
                 commandContainer.retrieveCallBack(commandIdentifier).execute(update);
             }
@@ -79,10 +79,14 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 //            commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             commandContainer.retrieveCommand(CHART.getCommandName()).execute(update);
 
-        } else if(update.hasInlineQuery()) {
+        } else if (update.hasInlineQuery()) {
 
-//            commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
-            commandContainer.retrieveCommand(UPDATE.getCommandName()).execute(update);
+            String inlineQuery = update.getInlineQuery().getQuery();
+//            System.out.println(inlineQuery);
+//            System.out.println("HERE " );///////////////////////////////////////////////////////////////////
+            if(inlineQuery.equals("Edit message")) {
+                commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
+            }
 
         } else {
 

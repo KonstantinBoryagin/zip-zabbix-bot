@@ -24,7 +24,6 @@ import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 @Service
@@ -353,7 +352,7 @@ public class SendMessageServiceImpl implements SendMessageService {
     @Override
     public void sendTest(BotApiMethod method) {
         try {
-            Serializable execute = telegramBot.execute(method);
+            telegramBot.execute(method);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
