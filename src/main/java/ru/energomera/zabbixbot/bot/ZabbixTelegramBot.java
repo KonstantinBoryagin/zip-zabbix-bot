@@ -84,9 +84,9 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
             String inlineQuery = update.getInlineQuery().getQuery();
 //            System.out.println(inlineQuery);
 //            System.out.println("HERE " );///////////////////////////////////////////////////////////////////
-            if(inlineQuery.equals("Edit message")) {
+//            if(inlineQuery.equals("/start")) {
                 commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
-            }
+//            }
 
         } else {
 

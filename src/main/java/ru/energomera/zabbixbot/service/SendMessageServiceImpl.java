@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.CopyMessage;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -42,6 +43,7 @@ public class SendMessageServiceImpl implements SendMessageService {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
+                .parseMode(ParseMode.MARKDOWNV2)
                 .disableWebPagePreview(false)
                 .build();
 

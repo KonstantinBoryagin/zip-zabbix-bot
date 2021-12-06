@@ -85,8 +85,8 @@ public class MessageFromWebHookHandler {
     }
 
     public static List<InlineKeyboardButton> inlineChangeButton(Update update) {
-        String text = update.getCallbackQuery().getMessage().getText() + "|";
-        String chatId = update.getCallbackQuery().getMessage().getChatId().toString() + "|";
+        String text = update.getCallbackQuery().getMessage().getText();
+        String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
         String messageId = update.getCallbackQuery().getMessage().getMessageId().toString();
         User user = update.getCallbackQuery().getFrom();
         List<String> userList = new ArrayList<>();
@@ -98,7 +98,7 @@ public class MessageFromWebHookHandler {
 //        System.out.println(query + " ----- query from button inline change mode");
 
         List<InlineKeyboardButton> row = new ArrayList<>();
-        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQueryCurrentChat("Edit message").build());
+        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQueryCurrentChat("").build());
 
         return row;
     }

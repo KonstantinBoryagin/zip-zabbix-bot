@@ -88,5 +88,8 @@ public class UpdateCommand implements Command {
 
         userChoose.put(user, messagesIdForUser);
 
+        for(User name: userChoose.keySet()){
+            System.out.println(name + "  ---  userChoose.keySet()");
+        }
     }
 }
