@@ -23,6 +23,7 @@ public enum CommandName {
     BACK("/back"),
     BUTTON("/button"),
     EDIT("/edit"),
+    CANCEL("/cancel"),
     TEMP("/temp");
 
     private final String commandName;

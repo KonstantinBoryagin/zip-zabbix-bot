@@ -27,7 +27,12 @@ public enum Icon {
     INFORMATION_SOURCE(":information_source:"),
     ARROW_FORWARD(":arrow_forward:"),
     FLAME(":fire:"),
-    MEMO("pencil"),
+    LEFTWARDS_ARROW(":leftwards_arrow_with_hook:"),
+    HOURGLASS_FLOWING_SAND(":hourglass_flowing_sand:"),
+    ARROW_HEADING_DOWN(":arrow_heading_down:"),
+    ARROW_RIGHT(":arrow_right:"),
+    ARROW_LEFT(":arrow_left:"),
+    MAILBOX_WITH_MAIL(":mailbox_with_mail:"),
     SUNGLASSES(":sunglasses:"),
     CHART_IMG(":part_alternation_mark:");
 

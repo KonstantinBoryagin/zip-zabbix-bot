@@ -4,11 +4,12 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
@@ -23,28 +24,10 @@ public class UpdateCommand implements Command {
     @Override
     public void execute(Update update) {
 
-        Integer subCommand = Integer.valueOf(update.getCallbackQuery().getData().split("\\|")[1]);
-
         List<Object> messagesIdForUser = new ArrayList<>();
 
-        String oldMessage;
-        if (subCommand == 1) {
-            oldMessage = update.getCallbackQuery().getMessage().getText()
-                    + "\n ------------------------------------------------------ \n"
-                    + PUSHPIN.get() + "    "
-            ;
-            System.out.println(subCommand);
-        } else if (subCommand == 2) {
-            oldMessage = update.getCallbackQuery().getMessage().getText()
-                    + "\n ------------------------------------------------------ \n"
-                    + WHITE_CHECK_MARK.get() + "    "
-            ;
-            System.out.println(subCommand);
-        } else {
-            oldMessage = update.getCallbackQuery().getMessage().getText() +
-                    "\n ------------------------------------------------------ \n"
-            ;
-        }
+        String oldMessage = update.getCallbackQuery().getMessage().getText();
+
         String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
         Integer messageId = update.getCallbackQuery().getMessage().getMessageId();
         User user = update.getCallbackQuery().getFrom();
@@ -57,46 +40,46 @@ public class UpdateCommand implements Command {
         AnswerCallbackQuery build = AnswerCallbackQuery.builder()
                 .callbackQueryId(callBackQueryId)
 //                .showAlert(true)
-                .text("Следуйте подсказкам! " + SUNGLASSES.get())
+                .text("Следуйте подсказкам! " + ARROW_HEADING_DOWN.get())
                 .build();
 
         sendMessageService.sendTest(build);
 //+ INFORMATION_SOURCE.get()    _Tip: Введите информацию которую хотите добавить и нажмите отправить._
 
         Long userId = user.getId();
-
         String signature = user.getLastName() == null ? user.getFirstName() : user.getFirstName() + " " + user.getLastName();
+
         /////////////////////    TO STRING FORMAT
         String tipMessage = INFORMATION_SOURCE.get() + " *Подсказка\\:*\n"
                 + "_*[" + signature + "](tg://user?id=" + userId + ")*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
                 + ARROW_FORWARD.get() + "_";
 
 
-        String warningMessage = FLAME.get() + "_*Важно\\!* Если передумали вносить информацию \\- нажмите кнопку "
-                + BACK.get() + "*Отменить*" +
-                " под этим сообщением\\!_";
+        String warningMessage = FLAME.get() + "_*Важно\\!* Если передумали вносить информацию \\- нажмите_  "
+                + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
 
 
         ForceReplyKeyboard forceReplyKeyboard = ForceReplyKeyboard.builder()
-                .inputFieldPlaceholder("Let's rock!")//появится в поле ввода у пользователя
-                .selective(true)  //нужно где то взять ид сообщения или юзера
+                .inputFieldPlaceholder("Let's rock!")   //появится в поле ввода у пользователя
+                .selective(true)
                 .forceReply(true)
                 .build();
 
 
         /////////////////////////////
-        List<InlineKeyboardButton> row = new ArrayList<>(Arrays.asList(InlineKeyboardButton.builder()
-                .text(BACK.get() + "Отменить")
-                .callbackData("/cancel")
-                .build()));
-        InlineKeyboardMarkup cancelButton = InlineKeyboardMarkup.builder()
-                .keyboardRow(row)
-                .build();
+//        List<InlineKeyboardButton> row = new ArrayList<>(Arrays.asList(InlineKeyboardButton.builder()
+//                .text(LEFTWARDS_ARROW.get() + "  Отменить  " + LEFTWARDS_ARROW.get())
+//                .callbackData("/cancel")
+//                .build()));
+//        InlineKeyboardMarkup cancelButton = InlineKeyboardMarkup.builder()
+//                .keyboardRow(row)
+//                .build();
 
-        Integer tempMessage = sendMessageService.sendMessageWithReplyMarkDown2(chatId, tipMessage, forceReplyKeyboard);
-        Integer tempMessage2 = sendMessageService.sendMessageWithReplyMarkDown2(chatId, warningMessage, cancelButton);
+        Integer tipMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, tipMessage, forceReplyKeyboard);
+        Integer warningMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, warningMessage);
 
-        messagesIdForUser.add(tempMessage);
+        messagesIdForUser.add(tipMessageId);
+        messagesIdForUser.add(warningMessageId);
 
         userChoose.put(user, messagesIdForUser);
 

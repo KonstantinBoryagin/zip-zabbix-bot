@@ -34,6 +34,7 @@ public class CommandContainer {
                 .put(TEMP_INLINE.getCommandName(), new TempInlineCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
                 .put(BUTTON.getCommandName(), new ButtonCommand(sendMessageService))
+                .put(CANCEL.getCommandName(), new CancelCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();
 

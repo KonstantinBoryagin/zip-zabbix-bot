@@ -17,7 +17,8 @@ import java.util.List;
 import static ru.energomera.zabbixbot.command.CommandName.PROXY_PING_COMMAND;
 import static ru.energomera.zabbixbot.command.KeyWordsAndTags.*;
 import static ru.energomera.zabbixbot.command.TempInlineCommand.userPrivateChoose;
-import static ru.energomera.zabbixbot.sticker.Icon.*;
+import static ru.energomera.zabbixbot.sticker.Icon.EXCLAMATION;
+import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
 
 @Service
 public class MessageFromWebHookHandler {
@@ -48,14 +49,13 @@ public class MessageFromWebHookHandler {
 
     public void processMessageFor25Department(ZabbixWebHook webHookEntity) {
         String chatId = webHookEntity.getChat_id();
-        String subject = "<strong>" + EXCLAMATION.get() + webHookEntity.getSubj().trim() + EXCLAMATION.get() + "</strong>";
+        String subject = "<b>" + EXCLAMATION.get() + webHookEntity.getSubj().trim() + EXCLAMATION.get() + "</b>";
         String text = parseZabbixWebhookMessage(webHookEntity.getMessage());
-        String message = subject  + "\n\n" + text;
+//        String hashtag = resultForParsing[1];
+        String message = subject + "\n\n" + text;
 
 
-        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(addInlineKeyboardToGroupNotificationPost());
-
-
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(formDefaultKeyboard());
 
         sendMessageService.sendMessageToGroupWithInlineKeyboard(chatId, message, keyboard);
     }
@@ -68,14 +68,13 @@ public class MessageFromWebHookHandler {
         }
     }
 
-    public static List<List<InlineKeyboardButton>>  addInlineKeyboardToGroupNotificationPost() {
+    public static List<List<InlineKeyboardButton>> addInlineKeyboardToGroupNotificationPost() {
         List<List<InlineKeyboardButton>> keyboardList = formDefaultKeyboard();
 
         ////////////////////////
         List<InlineKeyboardButton> row2 = new ArrayList<>();
         row2.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").callbackData("/change|1").build());
         //////////////////////
-
 
 
         /////////////
@@ -106,19 +105,22 @@ public class MessageFromWebHookHandler {
     public static List<List<InlineKeyboardButton>> formDefaultKeyboard() {
         List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
-        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Дополнить").callbackData("/update|1").build());
-        row.add(InlineKeyboardButton.builder().text(WHITE_CHECK_MARK.get() + "Закрыть").callbackData("/edit").build());
+        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Дополнить сообщение").callbackData("/update").build());
         keyboardList.add(row);
         return keyboardList;
     }
 
     private String parseZabbixWebhookMessage(String text) {
         String message = "";
+        String incidentNumber = "";
         String[] splitText = text.split("\\|");
         for (int i = 0; i < splitText.length; i++) {
             String[] splitLine = splitText[i].split(":");
 
-            if(splitLine.length == 2) {
+            if (splitLine.length == 2) {
+                if (splitLine[0].equals("ИД")) {
+                    incidentNumber = splitLine[1].trim();
+                }
                 message += "<b>" + splitLine[0].trim() + ": </b>" + splitLine[1].trim() + "\n";
             } else {
                 message += "<b>" + splitLine[0].trim() + ": </b>" + splitLine[1].trim() + ":" + splitLine[2].trim()
@@ -126,6 +128,7 @@ public class MessageFromWebHookHandler {
 
             }
         }
+        message += "\n<i>#incident_" + incidentNumber + "</i>";
 
         return message;
     }

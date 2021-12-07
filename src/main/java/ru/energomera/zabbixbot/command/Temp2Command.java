@@ -15,9 +15,11 @@ import java.util.List;
 import static ru.energomera.zabbixbot.command.TempInlineCommand.userPrivateChoose;
 import static ru.energomera.zabbixbot.command.UpdateCommand.userChoose;
 import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.addInlineKeyboardToGroupNotificationPost;
+import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.formDefaultKeyboard;
+import static ru.energomera.zabbixbot.sticker.Icon.MAILBOX_WITH_MAIL;
 import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
 
-public class Temp2Command implements Command{
+public class Temp2Command implements Command {
     private final SendMessageService sendMessageService;
 
     public Temp2Command(SendMessageService sendMessageService) {
@@ -27,17 +29,16 @@ public class Temp2Command implements Command{
     @Override
     public void execute(Update update) {
 
-
-
         Integer thisMessageId = update.getMessage().getMessageId();
         String chatId = update.getMessage().getChatId().toString();
         User user = update.getMessage().getFrom();
 
 
-        if(userChoose.containsKey(user)) {
+        if (userChoose.containsKey(user)) {
             List<Object> userList = userChoose.get(user);
 
-            Integer helpMesssageId = (Integer)userList.get(3);
+            Integer warningMessageId = (Integer) userList.get(4);
+            Integer helpMessageId = (Integer) userList.get(3);
             Integer originalMessageId = (Integer) userList.get(2);
             String userChatId = (String) userList.get(1);
             String oldMessage = (String) userList.get(0);
@@ -47,11 +48,14 @@ public class Temp2Command implements Command{
             String signature = lastname == null ? firstname : firstname + " " + lastname;
 
 
-            String newMessage = oldMessage + signature + ": \n" +  update.getMessage().getText();
+            String newMessage = oldMessage + "\n ------------------------------------------------------ \n"
+                    + PUSHPIN.get() + "    "
+                    + signature + ": \n"
+                    + update.getMessage().getText();
 
             if (userChatId.equals(chatId)) {
 
-                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(addInlineKeyboardToGroupNotificationPost());
+                InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(formDefaultKeyboard());
 
                 EditMessageText editMessage = EditMessageText.builder()
                         .chatId(userChatId)
@@ -75,18 +79,26 @@ public class Temp2Command implements Command{
 
                 DeleteMessage delete1 = DeleteMessage.builder()
                         .chatId(userChatId)
-                        .messageId(helpMesssageId)
+                        .messageId(helpMessageId)
                         .build();
 
                 sendMessageService.sendTest(delete1);
 
+                DeleteMessage delete3 = DeleteMessage.builder()
+                        .chatId(userChatId)
+                        .messageId(warningMessageId)
+                        .build();
 
+                sendMessageService.sendTest(delete3);
+
+                String notificationMessage = MAILBOX_WITH_MAIL.get() + "  _*" + signature
+                        + "* оставил комментарий под сообщением " + " _";            //положи сюда # ссобщения
 
                 userChoose.remove(user);
             }
         }
 
-        if(userPrivateChoose.containsKey(user)){
+        if (userPrivateChoose.containsKey(user)) {
             List<String> postData = userPrivateChoose.get(user);
 
             String oldText = postData.get(0);
@@ -99,7 +111,7 @@ public class Temp2Command implements Command{
 
             String newMessage = oldText +
                     "\n ---------------------------------------------------------- \n"
-                    + PUSHPIN.get() + "    " + signature + ": \n" +  update.getMessage().getText();
+                    + PUSHPIN.get() + "    " + signature + ": \n" + update.getMessage().getText();
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(addInlineKeyboardToGroupNotificationPost());
 
@@ -118,24 +130,24 @@ public class Temp2Command implements Command{
             //////////////////// BACK user to group
 
             /////////////////////////////////////////////
-        List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
+            List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
 
-        ////////////////////////
-        List<InlineKeyboardButton> row2 = new ArrayList<>();
-        row2.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQuery("").build());
-        //////////////////////
+            ////////////////////////
+            List<InlineKeyboardButton> row2 = new ArrayList<>();
+            row2.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQuery("").build());
+            //////////////////////
 
-        /////////////
-        keyboardList.add(row2);
+            /////////////
+            keyboardList.add(row2);
 
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup(keyboardList);
+            InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup(keyboardList);
 
 
-        sendMessageService.sendTest(SendMessage.builder()
-                .chatId(chatId)
-                .text("Go")
-                .replyMarkup(keyboardMarkup)
-                .build());
+            sendMessageService.sendTest(SendMessage.builder()
+                    .chatId(chatId)
+                    .text("Go")
+                    .replyMarkup(keyboardMarkup)
+                    .build());
         }
 
 
