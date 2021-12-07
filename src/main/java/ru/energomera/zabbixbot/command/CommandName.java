@@ -21,6 +21,8 @@ public enum CommandName {
     CLOSE("/close"),
     CHANGE("/change"),
     BACK("/back"),
+    BUTTON("/button"),
+    EDIT("/edit"),
     TEMP("/temp");
 
     private final String commandName;

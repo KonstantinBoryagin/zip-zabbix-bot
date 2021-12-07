@@ -39,7 +39,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
 
     @Override
-    public Integer sendMessageWithReply(String chatId, String message) {
+    public Integer sendMessageWithReplyMarkDown2(String chatId, String message) {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
@@ -97,7 +97,7 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public Integer sendMessageWithReply(String chatId, String message, Integer messageId) {
+    public Integer sendMessageWithReplyMarkDown2(String chatId, String message, Integer messageId) {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
@@ -314,11 +314,18 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
+    public void sendMessageToGroupWithReplyKeyboardMarkupMarDown2(String chatId, String message, ReplyKeyboard keyboard) {
+
+
+    }
+
+    @Override
     public void sendMessageToGroupWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard) {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
                 .disableWebPagePreview(false)
+                .parseMode(ParseMode.HTML)
                 .replyMarkup(keyboard)
                 .build();
 

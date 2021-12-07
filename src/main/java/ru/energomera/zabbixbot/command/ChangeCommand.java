@@ -61,7 +61,7 @@ public class ChangeCommand implements Command{
 
                 sendMessageService.sendTest(build);
 
-                sendMessageService.sendMessageWithReply(chatId, "красивая подсказка ");
+                sendMessageService.sendMessageWithReplyMarkDown2(chatId, "красивая подсказка ");
             }
         }
     }

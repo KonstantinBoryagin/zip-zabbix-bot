@@ -15,9 +15,9 @@ public interface SendMessageService {
 
     Integer sendMessage(String chatId, String message);
 
-    Integer sendMessageWithReply(String chatId, String message);
+    Integer sendMessageWithReplyMarkDown2(String chatId, String message);
     Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage);
-    Integer sendMessageWithReply(String chatId, String message, Integer messageId);
+    Integer sendMessageWithReplyMarkDown2(String chatId, String message, Integer messageId);
     void sendMessageFromWebHook(String chatId, String subject, String message);
 
     void sendMessageFromWebHookWithCallBackButton(String chatId, String subject, String message, ReplyKeyboard replyKeyboard);
@@ -35,6 +35,8 @@ public interface SendMessageService {
                                     HistoryResponseResult[] historyResponseResults, String chartName, String seriesName);
 
     void sendMessageToGroupWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard keyboard, int messageId);
+
+    void sendMessageToGroupWithReplyKeyboardMarkupMarDown2(String chatId, String message, ReplyKeyboard keyboard);
 
     void sendMessageToGroupWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard);
 

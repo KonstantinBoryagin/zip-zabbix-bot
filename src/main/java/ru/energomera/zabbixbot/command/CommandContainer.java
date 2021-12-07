@@ -33,6 +33,7 @@ public class CommandContainer {
                 .put(TEMP3.getCommandName(), new Temp3Command(sendMessageService))
                 .put(TEMP_INLINE.getCommandName(), new TempInlineCommand(sendMessageService))
                 .put("ZipCommand", new ZipCommand(sendMessageService))
+                .put(BUTTON.getCommandName(), new ButtonCommand(sendMessageService))
 //                .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .build();
 
@@ -48,6 +49,7 @@ public class CommandContainer {
                 .put(CLOSE.getCommandName(), new CloseCommand(sendMessageService))
                 .put(CHANGE.getCommandName(), new ChangeCommand(sendMessageService))
                 .put(BACK.getCommandName(), new BackCommand(sendMessageService))
+                .put(EDIT.getCommandName(), new EditCommand(sendMessageService))
                 .build();
 
     }

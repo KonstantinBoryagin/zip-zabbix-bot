@@ -48,7 +48,7 @@ public class MessageFromWebHookHandler {
 
     public void processMessageFor25Department(ZabbixWebHook webHookEntity) {
         String chatId = webHookEntity.getChat_id();
-        String subject = EXCLAMATION.get() + webHookEntity.getSubj() + EXCLAMATION.get();
+        String subject = "<strong>" + EXCLAMATION.get() + webHookEntity.getSubj().trim() + EXCLAMATION.get() + "</strong>";
         String text = parseZabbixWebhookMessage(webHookEntity.getMessage());
         String message = subject  + "\n\n" + text;
 
@@ -107,7 +107,7 @@ public class MessageFromWebHookHandler {
         List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();
         List<InlineKeyboardButton> row = new ArrayList<>();
         row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Дополнить").callbackData("/update|1").build());
-        row.add(InlineKeyboardButton.builder().text(WHITE_CHECK_MARK.get() + "Закрыть").callbackData("/update|2").build());
+        row.add(InlineKeyboardButton.builder().text(WHITE_CHECK_MARK.get() + "Закрыть").callbackData("/edit").build());
         keyboardList.add(row);
         return keyboardList;
     }
@@ -116,7 +116,15 @@ public class MessageFromWebHookHandler {
         String message = "";
         String[] splitText = text.split("\\|");
         for (int i = 0; i < splitText.length; i++) {
-            message += splitText[i] + "\n";
+            String[] splitLine = splitText[i].split(":");
+
+            if(splitLine.length == 2) {
+                message += "<b>" + splitLine[0].trim() + ": </b>" + splitLine[1].trim() + "\n";
+            } else {
+                message += "<b>" + splitLine[0].trim() + ": </b>" + splitLine[1].trim() + ":" + splitLine[2].trim()
+                        + ":" + splitLine[3].trim() + "\n";                                                           //для времени что бы отсечь секунды - 0000
+
+            }
         }
 
         return message;

@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
-import static ru.energomera.zabbixbot.sticker.Icon.WHITE_CHECK_MARK;
+import static ru.energomera.zabbixbot.sticker.Icon.*;
 
 public class UpdateCommand implements Command {
     private final SendMessageService sendMessageService;
@@ -82,8 +81,11 @@ public class UpdateCommand implements Command {
                 .build();
 
         sendMessageService.sendTest(build);
-
-        Integer tempMessage = sendMessageService.sendMessageWithReply(chatId, "красивая подсказка ");
+//+ INFORMATION_SOURCE.get()    _Tip: Введите информацию которую хотите добавить и нажмите отправить._
+        String tipMessage = "*Редактировать\\:*\n" + ROUND_PUSHPIN.get()
+                + "_Tip: Введите информацию которую хотите добавить и нажмите "
+                + ARROW_FORWARD.get() + "_";
+        Integer tempMessage = sendMessageService.sendMessageWithReplyMarkDown2(chatId, tipMessage);
         messagesIdForUser.add(tempMessage);
 
         userChoose.put(user, messagesIdForUser);

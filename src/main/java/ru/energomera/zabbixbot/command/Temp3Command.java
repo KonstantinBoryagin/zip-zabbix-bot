@@ -19,7 +19,7 @@ public class Temp3Command implements Command{
         System.out.println("temp3 mesId - " + messageId);
 
 
-        currentMessageId = sendMessageService.sendMessageWithReply(chatId, "Тут будет красивая подсказка, потом");
+        currentMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, "Тут будет красивая подсказка, потом");
         System.out.println("temp 3 - cuurent messageId - " + currentMessageId);
 
 

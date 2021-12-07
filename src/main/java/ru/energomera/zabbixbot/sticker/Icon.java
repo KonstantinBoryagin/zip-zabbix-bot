@@ -22,7 +22,11 @@ public enum Icon {
     BACK(":back:"),
     EXCLAMATION(":exclamation:"),
     PUSHPIN(":pushpin:"),
+    ROUND_PUSHPIN(":round_pushpin:"),
     WHITE_CHECK_MARK(":white_check_mark:"),
+    INFORMATION_SOURCE(":information_source:"),
+    ARROW_FORWARD(":arrow_forward:"),
+    FLAME(":fire:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;
