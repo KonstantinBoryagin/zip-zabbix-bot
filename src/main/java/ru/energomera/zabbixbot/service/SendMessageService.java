@@ -5,6 +5,8 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import ru.energomera.zabbixbot.sticker.Stickers;
 import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
@@ -17,7 +19,9 @@ public interface SendMessageService {
 
     Integer sendMessageWithReplyMarkDown2(String chatId, String message);
     Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage);
-    Integer sendMessageWithReplyMarkDown2(String chatId, String message, Integer messageId);
+    Integer sendMessageWithReplyMarkDown2(String chatId, String message, InlineKeyboardMarkup cancelButton);
+    Integer sendMessageWithReplyMarkDown2(String chatId, String message, ForceReplyKeyboard forceReplyKeyboard);
+
     void sendMessageFromWebHook(String chatId, String subject, String message);
 
     void sendMessageFromWebHookWithCallBackButton(String chatId, String subject, String message, ReplyKeyboard replyKeyboard);

@@ -27,6 +27,8 @@ public enum Icon {
     INFORMATION_SOURCE(":information_source:"),
     ARROW_FORWARD(":arrow_forward:"),
     FLAME(":fire:"),
+    MEMO("pencil"),
+    SUNGLASSES(":sunglasses:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

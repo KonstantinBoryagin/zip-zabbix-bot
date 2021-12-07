@@ -16,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -44,15 +45,15 @@ public class SendMessageServiceImpl implements SendMessageService {
                 .chatId(chatId)
                 .text(message)
                 .parseMode(ParseMode.MARKDOWNV2)
-                .disableWebPagePreview(false)
+                .disableNotification(true)
                 .build();
 
         ForceReplyKeyboard build = ForceReplyKeyboard.builder()
-                .inputFieldPlaceholder("Введите здесь свое сообщение")   //появится в поле ввода у пользователя
-//                .selective(true)  //нужно где то взять ид сообщения или юзера
+                .inputFieldPlaceholder("Let's rock!")   //появится в поле ввода у пользователя
+                .selective(true)  //нужно где то взять ид сообщения или юзера
                 .forceReply(true).build();
 
-        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
+//        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
 
 
         sendMessage.setReplyMarkup(build);
@@ -97,25 +98,38 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public Integer sendMessageWithReplyMarkDown2(String chatId, String message, Integer messageId) {
+    public Integer sendMessageWithReplyMarkDown2(String chatId, String message, InlineKeyboardMarkup keyboard) {
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
-                .replyToMessageId(messageId)
-                .disableWebPagePreview(false)
+//                .replyToMessageId(messageId)
+                .replyMarkup(keyboard)
+                .disableNotification(true)
+                .parseMode(ParseMode.MARKDOWNV2)
                 .build();
 
-        ForceReplyKeyboard build = ForceReplyKeyboard.builder()
-                .inputFieldPlaceholder("Введите ")//появится в поле ввода у пользователя
-//                .selective(true)  //нужно где то взять ид сообщения или юзера
-                .forceReply(true)
+        try {
+            Message execute = telegramBot.execute(sendMessage);
+            Integer newMessageId = execute.getMessageId();
+            System.out.println(newMessageId + "   sendMessageWithReply worked success"); //temp
+            return newMessageId;
+
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer sendMessageWithReplyMarkDown2(String chatId, String message, ForceReplyKeyboard forceReplyKeyboard) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(message)
+//                .replyToMessageId(messageId)
+                .replyMarkup(forceReplyKeyboard)
+                .disableNotification(true)
+                .parseMode(ParseMode.MARKDOWNV2)
                 .build();
-
-//        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
-
-
-        sendMessage.setReplyMarkup(build);
-
 
         try {
             Message execute = telegramBot.execute(sendMessage);

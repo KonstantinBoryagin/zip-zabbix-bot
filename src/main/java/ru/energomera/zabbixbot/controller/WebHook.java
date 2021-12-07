@@ -63,12 +63,12 @@ public class WebHook {
             System.out.println("-------");
 
             //проверяем что это нужное сообщение
-            if (zabbixWebHook.getChat_id().equals(trueChatId) || zabbixWebHook.getChat_id().equals(group7ChatId)
+            if (zabbixWebHook.getChat_id().equals(trueChatId)
                     || zabbixWebHook.getChat_id().equals(group5ChatId)) {
 
                 webHookHandler.processInputMessage(zabbixWebHook);
 
-            } else if(zabbixWebHook.getChat_id().equals(group25ChatId)){
+            } else if(zabbixWebHook.getChat_id().equals(group25ChatId) || zabbixWebHook.getChat_id().equals(group7ChatId)){
                 webHookHandler.processMessageFor25Department(zabbixWebHook);
             } else {
                 //log
