@@ -20,9 +20,7 @@ public class CancelCommand implements Command{
     public void execute(Update update) {
         Integer thisMessageId = update.getMessage().getMessageId();
         String chatId = update.getMessage().getChatId().toString();
-        System.out.println(chatId);
         User user = update.getMessage().getFrom();
-        System.out.println(user);
 
         if (userChoose.containsKey(user)) {
             List<Object> userList = userChoose.get(user);
@@ -34,10 +32,9 @@ public class CancelCommand implements Command{
             if (userChatId.equals(chatId)) {
 
                 //DELETE MESSAGES
-
                 DeleteMessage delete1 = DeleteMessage.builder()
                         .chatId(userChatId)
-                        .messageId(helpMessageId)
+                        .messageId(thisMessageId)
                         .build();
 
                 sendMessageService.sendTest(delete1);
@@ -51,7 +48,7 @@ public class CancelCommand implements Command{
 
                 DeleteMessage delete3 = DeleteMessage.builder()
                         .chatId(userChatId)
-                        .messageId(thisMessageId)
+                        .messageId(helpMessageId)
                         .build();
 
                 sendMessageService.sendTest(delete3);

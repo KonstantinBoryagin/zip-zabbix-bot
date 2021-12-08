@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
@@ -27,6 +29,7 @@ public class UpdateCommand implements Command {
         List<Object> messagesIdForUser = new ArrayList<>();
 
         String oldMessage = update.getCallbackQuery().getMessage().getText();
+        String hashtag = findHashtag(oldMessage);
 
         String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
         Integer messageId = update.getCallbackQuery().getMessage().getMessageId();
@@ -36,6 +39,7 @@ public class UpdateCommand implements Command {
         messagesIdForUser.add(oldMessage);
         messagesIdForUser.add(chatId);
         messagesIdForUser.add(messageId);
+
 
         AnswerCallbackQuery build = AnswerCallbackQuery.builder()
                 .callbackQueryId(callBackQueryId)
@@ -65,26 +69,25 @@ public class UpdateCommand implements Command {
                 .forceReply(true)
                 .build();
 
-
-        /////////////////////////////
-//        List<InlineKeyboardButton> row = new ArrayList<>(Arrays.asList(InlineKeyboardButton.builder()
-//                .text(LEFTWARDS_ARROW.get() + "  Отменить  " + LEFTWARDS_ARROW.get())
-//                .callbackData("/cancel")
-//                .build()));
-//        InlineKeyboardMarkup cancelButton = InlineKeyboardMarkup.builder()
-//                .keyboardRow(row)
-//                .build();
-
         Integer tipMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, tipMessage, forceReplyKeyboard);
         Integer warningMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, warningMessage);
 
         messagesIdForUser.add(tipMessageId);
         messagesIdForUser.add(warningMessageId);
+        messagesIdForUser.add(hashtag);
 
         userChoose.put(user, messagesIdForUser);
 
         for (User name : userChoose.keySet()) {
             System.out.println(name + "  ---  userChoose.keySet()");
         }
+    }
+
+    private String findHashtag(String text) {
+        String regex = "#incident_(\\d+){5,}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+
+        return matcher.find() ? matcher.group(0) : "";
     }
 }

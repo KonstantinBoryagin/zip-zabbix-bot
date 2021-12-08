@@ -64,11 +64,13 @@ public class WebHook {
 
             //проверяем что это нужное сообщение
             if (zabbixWebHook.getChat_id().equals(trueChatId)
-                    || zabbixWebHook.getChat_id().equals(group5ChatId)) {
+            ) {
 
                 webHookHandler.processInputMessage(zabbixWebHook);
 
-            } else if(zabbixWebHook.getChat_id().equals(group25ChatId) || zabbixWebHook.getChat_id().equals(group7ChatId)){
+            } else if (zabbixWebHook.getChat_id().equals(group25ChatId)
+                    || zabbixWebHook.getChat_id().equals(group7ChatId)
+                    || zabbixWebHook.getChat_id().equals(group5ChatId)) {
                 webHookHandler.processMessageFor25Department(zabbixWebHook);
             } else {
                 //log
