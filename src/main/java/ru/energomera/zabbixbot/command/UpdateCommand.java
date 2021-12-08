@@ -59,7 +59,7 @@ public class UpdateCommand implements Command {
                 + ARROW_FORWARD.get() + "_";
 
 
-        String warningMessage = FLAME.get() + "_*Важно\\!* Если передумали вносить информацию \\- нажмите_  "
+        String warningMessage = FLAME.get() + "*Важно\\!* _Если передумали вносить информацию \\- нажмите_  "
                 + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
 
 
