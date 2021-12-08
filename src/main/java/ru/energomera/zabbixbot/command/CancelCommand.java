@@ -33,21 +33,21 @@ public class CancelCommand implements Command{
 
                 //DELETE MESSAGES
                 DeleteMessage delete1 = DeleteMessage.builder()
-                        .chatId(userChatId)
+                        .chatId(chatId)
                         .messageId(thisMessageId)
                         .build();
 
                 sendMessageService.sendTest(delete1);
 
                 DeleteMessage delete2 = DeleteMessage.builder()
-                        .chatId(userChatId)
+                        .chatId(chatId)
                         .messageId(warningMessageId)
                         .build();
 
                 sendMessageService.sendTest(delete2);
 
                 DeleteMessage delete3 = DeleteMessage.builder()
-                        .chatId(userChatId)
+                        .chatId(chatId)
                         .messageId(helpMessageId)
                         .build();
 

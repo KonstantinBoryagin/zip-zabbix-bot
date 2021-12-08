@@ -90,7 +90,7 @@ public class Temp2Command implements Command {
                 sendMessageService.sendTest(delete3);
 
                 /////// send notification about new commit
-                String notificationAboutNewCommit = MAILBOX_WITH_MAIL.get() + "<i>" + signature + " оставил новый комментарий в "
+                String notificationAboutNewCommit = MAILBOX_WITH_MAIL.get() + "<i>   " + signature + " оставил(а) новый комментарий в "
                         + hashtag + "</i>";
                 SendMessage notification = SendMessage.builder()
                         .chatId(chatId)
