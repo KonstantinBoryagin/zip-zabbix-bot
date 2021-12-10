@@ -21,8 +21,8 @@ import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
 @RequestMapping("/api/public/zabbix")
 public class WebHook {
 
-    @Value("${bot.chatId}")
-    private String trueChatId;
+    @Value("${bot.adminGroupChatId}")
+    private String adminGroupChatId;
 
     @Value("${bot.group25_chatId}")
     private String group25ChatId;
@@ -50,9 +50,9 @@ public class WebHook {
             zabbixWebHook = gson.fromJson(json, ZabbixWebHook.class);
 
             String subj = zabbixWebHook.getSubj();
-            System.out.println("-------");
+            System.out.println("input from zabbix hook-------");
             System.out.println(subj);
-            System.out.println("-------");
+            System.out.println("input from zabbix hook-------");
             String line = zabbixWebHook.getMessage();
 //            String[] split = line.split(System.getProperty("line.separator"));
 //            for (int i = 0; i < split.length; i++) {
@@ -60,18 +60,19 @@ public class WebHook {
 //                System.out.println("------------------");
 //            }
             System.out.println(line);
-            System.out.println("-------");
+            System.out.println("input from zabbix hook-------");
+            String messageChatId = zabbixWebHook.getChat_id();
+            System.out.println("messageChatId --->  " + messageChatId);
 
             //проверяем что это нужное сообщение
-            if (zabbixWebHook.getChat_id().equals(trueChatId)
-            ) {
+            if (messageChatId.equals(adminGroupChatId)) {
 
-                webHookHandler.processInputMessage(zabbixWebHook);
+                webHookHandler.processMessageForAdminGroup(zabbixWebHook);
 
-            } else if (zabbixWebHook.getChat_id().equals(group25ChatId)
-                    || zabbixWebHook.getChat_id().equals(group7ChatId)
-                    || zabbixWebHook.getChat_id().equals(group5ChatId)) {
-                webHookHandler.processMessageFor25Department(zabbixWebHook);
+            } else if (messageChatId.equals(group25ChatId)
+                    || messageChatId.equals(group7ChatId)
+                    || messageChatId.equals(group5ChatId)) {
+                webHookHandler.processMessageForDepartmentNotifications(zabbixWebHook);
             } else {
                 //log
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -79,7 +80,7 @@ public class WebHook {
 
 
         } catch (JsonSyntaxException e) {
-            System.out.println("wrong");
+            System.out.println("wrong serialible input JSON");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

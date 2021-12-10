@@ -3,8 +3,12 @@ package ru.energomera.zabbixbot.bot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
 
@@ -22,6 +26,9 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
+    @Value("${bot.adminGroupChatId}")
+    private String adminGroupChatId;
+
     private final CommandContainer commandContainer;
 
     public ZabbixTelegramBot() {
@@ -38,10 +45,38 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
         return token;
     }
 
+
+
     @Override
     public void onUpdateReceived(Update update) {
+
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
+
+            /////////////////////// worked - check user in admin group
+            User fromUser = update.getMessage().getFrom();
+            GetChatMember getChatMember = GetChatMember.builder()
+                    .chatId(adminGroupChatId)
+                    .userId(fromUser.getId())
+                    .build();
+            ChatMember chatMember = null;
+
+            try {
+                chatMember = execute(getChatMember);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+                //log
+            }
+
+            String status = chatMember != null ? chatMember.getStatus() : "nope";
+            if (status.equals("creator")
+                    || status.equals("administrator")
+                    || status.equals("member")) {
+                System.out.println(status);
+            } else {
+                System.out.println(status);
+            }
+            //////////////////////
 
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split("@")[0].toLowerCase();
@@ -85,7 +120,7 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 //            System.out.println(inlineQuery);
 //            System.out.println("HERE " );///////////////////////////////////////////////////////////////////
 //            if(inlineQuery.equals("/start")) {
-                commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
+            commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
 //            }
 
         } else {

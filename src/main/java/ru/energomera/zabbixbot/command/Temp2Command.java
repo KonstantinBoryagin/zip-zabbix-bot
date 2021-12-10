@@ -61,6 +61,7 @@ public class Temp2Command implements Command {
                         .messageId(originalMessageId)
                         .replyMarkup(keyboard)
                         .disableWebPagePreview(false)
+                        .parseMode(ParseMode.HTML)
                         .build();
 
                 sendMessageService.sendTest(editMessage);

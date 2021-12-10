@@ -16,6 +16,8 @@ public interface SendMessageService {
 
     Integer sendMessage(String chatId, String message);
 
+    void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId);
+
 //    Integer sendMessageWithReplyMarkDown2(String chatId, String message);
     Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage);
     Integer sendMessageWithReplyMarkDown2(String chatId, String message);

@@ -34,6 +34,10 @@ public enum Icon {
     ARROW_LEFT(":arrow_left:"),
     MAILBOX_WITH_MAIL(":mailbox_with_mail:"),
     SUNGLASSES(":sunglasses:"),
+    CLOCK_2(":clock2:"),
+    BULB(":bulb:"),
+    THOUGHT_BALLOON(":thought_balloon:"),
+    FACE_WITH_MONOCLE(":face_with_monocle:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

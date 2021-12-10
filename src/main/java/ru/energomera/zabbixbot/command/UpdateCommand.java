@@ -19,6 +19,14 @@ public class UpdateCommand implements Command {
     private final SendMessageService sendMessageService;
     public static Map<User, List<Object>> userChoose = new HashMap<>();
 
+    public static final String TIP_MESSAGE = INFORMATION_SOURCE.get() + " *Подсказка\\:*\n"
+            + "_*[%s](tg://user?id=%d)*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
+            + ARROW_FORWARD.get() + "_";
+
+    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!* _Если передумали вносить информацию \\- нажмите_  "
+            + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
+
+
     public UpdateCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
@@ -54,13 +62,14 @@ public class UpdateCommand implements Command {
         String signature = user.getLastName() == null ? user.getFirstName() : user.getFirstName() + " " + user.getLastName();
 
         /////////////////////    TO STRING FORMAT
-        String tipMessage = INFORMATION_SOURCE.get() + " *Подсказка\\:*\n"
-                + "_*[" + signature + "](tg://user?id=" + userId + ")*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
-                + ARROW_FORWARD.get() + "_";
+//        String tipMessage = INFORMATION_SOURCE.get() + " *Подсказка\\:*\n"
+//                + "_*[" + signature + "](tg://user?id=" + userId + ")*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
+//                + ARROW_FORWARD.get() + "_";
 
+        String tipMessage = String.format(TIP_MESSAGE, signature, userId);
 
-        String warningMessage = FLAME.get() + "*Важно\\!* _Если передумали вносить информацию \\- нажмите_  "
-                + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
+//        String warningMessage = FLAME.get() + "*Важно\\!* _Если передумали вносить информацию \\- нажмите_  "
+//                + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
 
 
         ForceReplyKeyboard forceReplyKeyboard = ForceReplyKeyboard.builder()
@@ -70,7 +79,7 @@ public class UpdateCommand implements Command {
                 .build();
 
         Integer tipMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, tipMessage, forceReplyKeyboard);
-        Integer warningMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, warningMessage);
+        Integer warningMessageId = sendMessageService.sendMessageWithReplyMarkDown2(chatId, WARNING_MESSAGE);
 
         messagesIdForUser.add(tipMessageId);
         messagesIdForUser.add(warningMessageId);

@@ -145,6 +145,7 @@ public class SendMessageServiceImpl implements SendMessageService {
                 .chatId(chatId)
                 .text(message)
                 .disableWebPagePreview(false)
+                .parseMode(ParseMode.HTML)
                 .build();
 
         try {
@@ -157,6 +158,22 @@ public class SendMessageServiceImpl implements SendMessageService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId) {
+        EditMessageText editMessageText = EditMessageText.builder()
+                .chatId(chatId)
+                .messageId(oldMessageId)
+                .parseMode(ParseMode.HTML)
+                .text(editMessage)
+                .build();
+
+        try {
+            telegramBot.execute(editMessageText);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -10,8 +10,7 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.energomera.zabbixbot.sticker.Icon.CHART_IMG;
-import static ru.energomera.zabbixbot.sticker.Icon.GAME_DICE;
+import static ru.energomera.zabbixbot.sticker.Icon.*;
 
 public class MenuCommand implements Command {
     private final SendMessageService sendMessageService;
@@ -25,6 +24,8 @@ public class MenuCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
         int messageId = update.getMessage().getMessageId();  //что бы у остальных не отображалась клава
 
+        List<KeyboardButton> row = new ArrayList<>();
+        row.add(KeyboardButton.builder().text(FLAME.get() + "  Нерешенные проблемы").build());
         List<KeyboardButton> row1 = new ArrayList<>();
         row1.add(KeyboardButton.builder().text(CHART_IMG.get() + "  Графики").build());
         List<KeyboardButton> row2 = new ArrayList<>();
