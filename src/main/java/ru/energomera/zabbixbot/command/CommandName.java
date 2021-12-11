@@ -2,6 +2,8 @@ package ru.energomera.zabbixbot.command;
 
 import lombok.Getter;
 
+import static ru.energomera.zabbixbot.sticker.Icon.FLAME;
+
 @Getter
 public enum CommandName {
     START("/start"),
@@ -24,6 +26,7 @@ public enum CommandName {
     BUTTON("/button"),
     EDIT("/edit"),
     CANCEL("/cancel"),
+    PROBLEM(FLAME.get() + "  Актуальные проблемы"),
     TEMP("/temp");
 
     private final String commandName;

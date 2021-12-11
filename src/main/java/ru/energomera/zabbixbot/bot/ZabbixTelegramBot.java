@@ -29,6 +29,15 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
     @Value("${bot.adminGroupChatId}")
     private String adminGroupChatId;
 
+    @Value("${bot.group25_chatId}")
+    private String group25ChatId;
+
+    @Value("${bot.group7_chatId}")
+    private String group7ChatId;
+
+    @Value("${bot.group5_chatId}")
+    private String group5ChatId;
+
     private final CommandContainer commandContainer;
 
     public ZabbixTelegramBot() {
@@ -49,6 +58,11 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
+
+
+
+
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
@@ -82,6 +96,8 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 String commandIdentifier = message.split("@")[0].toLowerCase();
 
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            } else if(message.equals(PROBLEM.getCommandName())) {
+                commandContainer.retrieveCommand(message).execute(update);
             } else if (message.contains("Сыграем")) {
                 commandContainer.retrieveCommand(DICE.getCommandName()).execute(update);
             } else if (message.contains("Графики")) {

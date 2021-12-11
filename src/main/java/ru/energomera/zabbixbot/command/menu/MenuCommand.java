@@ -8,7 +8,7 @@ import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
@@ -24,16 +24,15 @@ public class MenuCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
         int messageId = update.getMessage().getMessageId();  //что бы у остальных не отображалась клава
 
-        List<KeyboardButton> row = new ArrayList<>();
-        row.add(KeyboardButton.builder().text(FLAME.get() + "  Нерешенные проблемы").build());
-        List<KeyboardButton> row1 = new ArrayList<>();
-        row1.add(KeyboardButton.builder().text(CHART_IMG.get() + "  Графики").build());
-        List<KeyboardButton> row2 = new ArrayList<>();
-        row2.add(KeyboardButton.builder().text(GAME_DICE.get() + "  Сыграем?").build());
-
-        KeyboardRow keyboardRow1 = new KeyboardRow(row1);
-        KeyboardRow keyboardRow2 = new KeyboardRow(row2);
-
+        KeyboardRow keyboardRow1 = new KeyboardRow(
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(FLAME.get() + "  Актуальные проблемы").build())));
+        KeyboardRow keyboardRow2 = new KeyboardRow(
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(CHART_IMG.get() + "  Графики").build())));
+        KeyboardRow keyboardRow3 = new KeyboardRow(
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(SLOT_MACHINE.get() + "  Сыграем?").build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
                 .resizeKeyboard(true)       //подогнать под размер экрана
@@ -41,8 +40,8 @@ public class MenuCommand implements Command {
                 .oneTimeKeyboard(false)     //скрывать после нажатия
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
+                .keyboardRow(keyboardRow3)
                 .build();
-
 
         sendMessageService.sendMessageToGroupWithReplyKeyboardMarkup(chatId, "Выберите график: ", replyKeyboardMarkup, messageId);
 

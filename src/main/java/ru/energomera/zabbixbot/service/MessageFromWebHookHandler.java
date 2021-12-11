@@ -23,7 +23,7 @@ public class MessageFromWebHookHandler {
 
     private SendMessageService sendMessageService;
     private CommandContainer commandContainer;
-    private Map<String, List<Object>> messagesRepository = new HashMap<>();
+    public static Map<String, List<Object>> messagesRepository = new HashMap<>();
 
 
     @Autowired
