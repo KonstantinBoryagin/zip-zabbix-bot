@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command;
+package ru.energomera.zabbixbot.command.departments;
 
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -7,11 +7,12 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.List;
 
-import static ru.energomera.zabbixbot.command.UpdateCommand.userChoose;
+import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoose;
 import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.formDefaultKeyboard;
 import static ru.energomera.zabbixbot.sticker.Icon.MAILBOX_WITH_MAIL;
 import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;

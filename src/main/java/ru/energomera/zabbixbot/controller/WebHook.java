@@ -3,7 +3,6 @@ package ru.energomera.zabbixbot.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.service.MessageFromWebHookHandler;
 import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
 
@@ -33,12 +31,10 @@ public class WebHook {
     @Value("${bot.group5_chatId}")
     private String group5ChatId;
 
-    private ZabbixTelegramBot zabbixTelegramBot;
-    private MessageFromWebHookHandler webHookHandler;
+    private final MessageFromWebHookHandler webHookHandler;
 
     @Autowired
-    public WebHook(ZabbixTelegramBot zabbixTelegramBot, MessageFromWebHookHandler webHookHandler) {
-        this.zabbixTelegramBot = zabbixTelegramBot;
+    public WebHook(MessageFromWebHookHandler webHookHandler) {
         this.webHookHandler = webHookHandler;
     }
 
@@ -80,7 +76,7 @@ public class WebHook {
 
 
         } catch (JsonSyntaxException e) {
-            System.out.println("wrong serialible input JSON");
+            System.out.println("wrong serializible input JSON");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

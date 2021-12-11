@@ -38,6 +38,8 @@ public enum Icon {
     BULB(":bulb:"),
     THOUGHT_BALLOON(":thought_balloon:"),
     FACE_WITH_MONOCLE(":face_with_monocle:"),
+    NO_ENTRY(":no_entry_sign:"),
+    MONKEY(":monkey:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

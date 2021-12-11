@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.menu;
+package ru.energomera.zabbixbot.command.privatechat;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -8,10 +8,10 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import static ru.energomera.zabbixbot.sticker.Icon.SLOT_MACHINE;
 
-public class DiceCommand implements Command {
+public class SlotMachineCommand implements Command {
     private final SendMessageService sendMessageService;
 
-    public DiceCommand(SendMessageService sendMessageService) {
+    public SlotMachineCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
 

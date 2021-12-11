@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command;
+package ru.energomera.zabbixbot.command.privatechat;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import static ru.energomera.zabbixbot.command.TempInlineCommand.userPrivateChoos
 import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.addInlineKeyboardToGroupNotificationPost;
 import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
 
-public class BackCommand implements Command{
+public class BackCommand implements Command {
     private final SendMessageService sendMessageService;
 
     public BackCommand(SendMessageService sendMessageService) {

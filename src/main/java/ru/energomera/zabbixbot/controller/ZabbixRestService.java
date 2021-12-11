@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,39 +14,13 @@ import java.util.Collections;
 public class ZabbixRestService {
 
     private final RestTemplate restTemplate;
-    private final String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
+
+    @Value("${bot.url}")
+    private String url;
 
     public ZabbixRestService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
-
-//    public PingResponse createPostWithObjects() {
-//        String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
-//
-//        // create headers
-//        HttpHeaders headers = new HttpHeaders();
-//        // set `content-type` header
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        // set `accept` header
-//        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//
-//        // create a post object
-//        PingRequest pingRequest = new PingRequest();
-//
-//        // build the request
-//        HttpEntity<PingRequest> entity = new HttpEntity<>(pingRequest, headers);
-//
-//        // send POST request
-//        ResponseEntity<PingResponse> response = this.restTemplate.postForEntity(url, entity, PingResponse.class);
-//
-//        if (response.getStatusCode() == HttpStatus.OK) {
-//            System.out.println(HttpStatus.OK);
-//            return response.getBody();
-//        } else {
-//            System.out.println("null from createPostWithObjects");
-//            return null;
-//        }
-//    }
 
     public ResponseFromZabbixHistory createPostWithHistoryObject(RequestToZabbixHistory requestToZabbixHistory) {
 

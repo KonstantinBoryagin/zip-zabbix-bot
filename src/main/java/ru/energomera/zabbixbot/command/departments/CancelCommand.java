@@ -1,15 +1,16 @@
-package ru.energomera.zabbixbot.command;
+package ru.energomera.zabbixbot.command.departments;
 
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.List;
 
-import static ru.energomera.zabbixbot.command.UpdateCommand.userChoose;
+import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoose;
 
-public class CancelCommand implements Command{
+public class CancelCommand implements Command {
     private final SendMessageService sendMessageService;
 
     public CancelCommand(SendMessageService sendMessageService) {

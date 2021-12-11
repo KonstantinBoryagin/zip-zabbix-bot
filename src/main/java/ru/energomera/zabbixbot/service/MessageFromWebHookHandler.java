@@ -56,15 +56,19 @@ public class MessageFromWebHookHandler {
 
         switch (keyWord) {
             case "Проблема":
-                /////// тут еще можно добавить формирование сообщения + hashtag
-                List<Object> messageProperties = new ArrayList<>();
-                String problemMessage = FLAME.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
-                Integer sendMessageId = sendMessageService.sendMessage(chatId, problemMessage);
-                long startProblem = System.currentTimeMillis();
+                if(messagesRepository.containsKey(incidentText)){
+                    List<Object> messageProperties = messagesRepository.get(incidentText);
 
-                messageProperties.add(sendMessageId);
-                messageProperties.add(startProblem);
-                messagesRepository.put(incidentText, messageProperties);   //save to map
+                } else {
+                    List<Object> messageProperties = new ArrayList<>();
+                    String problemMessage = FLAME.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
+                    Integer sendMessageId = sendMessageService.sendMessage(chatId, problemMessage);
+                    long startProblem = System.currentTimeMillis();
+
+                    messageProperties.add(sendMessageId);
+                    messageProperties.add(startProblem);
+                    messagesRepository.put(incidentText, messageProperties);   //save to map
+                }
                 break;
             case "Решено":
                 if (messagesRepository.containsKey(incidentText)) {

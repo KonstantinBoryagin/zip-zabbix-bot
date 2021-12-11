@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.menu;
+package ru.energomera.zabbixbot.command.privatechat;
 
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
