@@ -16,6 +16,8 @@ public interface SendMessageService {
 
     Integer sendMessage(String chatId, String message);
 
+    void sendPrivateMessageWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard replyKeyboard);
+
     void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId);
 
 //    Integer sendMessageWithReplyMarkDown2(String chatId, String message);
@@ -33,8 +35,11 @@ public interface SendMessageService {
 
     void sendSticker(String chatId, Stickers sticker);
 
-    void sendHistoryPicture(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
+    void sendHistoryPictureForManyCharts(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
                             String chartName, String[] seriesName);
+
+    void sendHistoryPicture(String chatId, HistoryResponseResult historyResponseResults,
+                                         String chartName, String seriesName);
 
     void sendHistoryPictureWithText(String chatId, String subject, String message,
                                     HistoryResponseResult[] historyResponseResults, String chartName, String seriesName);

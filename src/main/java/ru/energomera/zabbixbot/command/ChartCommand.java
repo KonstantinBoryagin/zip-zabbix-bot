@@ -24,15 +24,7 @@ public class ChartCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        String chatId;
-        if(update.hasCallbackQuery()) {
-            chatId = update.getCallbackQuery().getMessage().getChatId().toString();
-        } else if(update.hasChannelPost()){
-            chatId = update.getChannelPost().getChatId().toString();
-            System.out.println(chatId);
-        } else {
-            chatId = update.getMessage().getChatId().toString();
-        }
+        String chatId = update.getMessage().getChatId().toString();
 
 
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();

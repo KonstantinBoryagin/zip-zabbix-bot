@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class SendMessageServiceImpl implements SendMessageService {
 
     private final ZabbixTelegramBot telegramBot;
@@ -151,13 +153,28 @@ public class SendMessageServiceImpl implements SendMessageService {
         try {
             Message execute = telegramBot.execute(sendMessage);
             Integer messageId = execute.getMessageId();
-            System.out.println(messageId + "   sendMessage worked success"); //temp
+            log.info("message with id {} sent successfully", messageId);
             return messageId;
 
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Can't send message {}", message, e);
         }
         return null;
+    }
+
+    @Override
+    public void sendPrivateMessageWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard replyKeyboard) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(message)
+                .replyMarkup(replyKeyboard)
+                .build();
+        try {
+            telegramBot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.error("Can't send replyKeyboard to private chat {}", chatId, e);
+        }
+
     }
 
     @Override
@@ -257,8 +274,8 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public void sendHistoryPicture(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
-                                   String chartName, String[] seriesName) {
+    public void sendHistoryPictureForManyCharts(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
+                                                String chartName, String[] seriesName) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(chatId);
         InputFile inputPicture = new InputFile();
@@ -266,6 +283,41 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         //создаем набор данных графика
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        //наполняем его значениями
+        for (int i = 0; i < listOfHistoryResponseResults.size(); i++) {
+            dataset = chartService.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
+        }
+
+        File picture = null;
+        try {
+            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        inputPicture.setMedia(picture);
+        sendPhoto.setPhoto(inputPicture);
+
+        SendPhoto.builder()
+                .chatId(chatId)
+                .photo(new InputFile())
+
+        try {
+            telegramBot.execute(sendPhoto);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendHistoryPicture(String chatId, HistoryResponseResult historyResponseResults,
+                                   String chartName, String seriesName) {
+        SendPhoto sendPhoto = new SendPhoto();
+        sendPhoto.setChatId(chatId);
+        InputFile inputPicture = new InputFile();
+        ChartService chartService = new ChartService();
+
+        //создаем набор данных графика
+        DefaultCategoryDataset dataset = chartService.createIcmpPingDataset(new DefaultCategoryDataset(), );
         //наполняем его значениями
         for (int i = 0; i < listOfHistoryResponseResults.size(); i++) {
             dataset = chartService.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
@@ -328,7 +380,7 @@ public class SendMessageServiceImpl implements SendMessageService {
         SendMessage sendMessage = SendMessage.builder()
                 .replyToMessageId(messageId)
                 .chatId(chatId)
-                .text("Menu")
+                .text(message)
                 .replyMarkup(keyboard)
                 .build();
 

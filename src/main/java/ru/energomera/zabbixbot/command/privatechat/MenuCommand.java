@@ -11,9 +11,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
+import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
 
+/**
+ * Отправляет главную клавиатуру (выбор доступных меню)
+ */
 public class MenuCommand implements Command {
     private final SendMessageService sendMessageService;
+    private final String message = "Выбирай " + ARROW_HEADING_DOWN.get();
 
     public MenuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
@@ -22,7 +27,6 @@ public class MenuCommand implements Command {
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
-        int messageId = update.getMessage().getMessageId();  //что бы у остальных не отображалась клава
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
                 new ArrayList<>(
@@ -35,15 +39,14 @@ public class MenuCommand implements Command {
                         Arrays.asList(KeyboardButton.builder().text(SLOT.getCommandName()).build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
-                .resizeKeyboard(true)       //подогнать под размер экрана
-                .selective(true)             //только у пользователя которому отвечаем
-                .oneTimeKeyboard(false)     //скрывать после нажатия
+                .resizeKeyboard(true)
+                .oneTimeKeyboard(false)
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
                 .build();
 
-        sendMessageService.sendMessageToGroupWithReplyKeyboardMarkup(chatId, "Выберите график: ", replyKeyboardMarkup, messageId);
+        sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);
 
     }
 }

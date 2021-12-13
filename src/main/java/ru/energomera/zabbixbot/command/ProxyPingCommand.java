@@ -59,7 +59,7 @@ public class ProxyPingCommand implements Command, Chart{
         String[] seriesNames = {"Proxy server", "yandex.ru", "google DNS"};
 
 
-        sendMessageService.sendHistoryPicture(chatId, listOfHistoryResponseResults, chartName, seriesNames);
+        sendMessageService.sendHistoryPictureForManyCharts(chatId, listOfHistoryResponseResults, chartName, seriesNames);
     }
 
     public void sendChart(String chatId, String subject, String message) {

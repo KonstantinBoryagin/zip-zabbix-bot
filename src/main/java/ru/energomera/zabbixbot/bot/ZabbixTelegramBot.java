@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.bot;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,15 +13,21 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
 /**
  * Класс для инициализации бота унаследованный от {@link TelegramLongPollingBot}
  */
 @Component
+@Slf4j
 public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
     public static final String COMMAND_PREFIX = "/";
+
+    private List<User> membersOfAdminGroup = new ArrayList<>();
 
     @Value("${bot.username}")
     private String username;
@@ -121,93 +128,6 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
                 System.out.println(fileId);
             }
         }
-//
-//
-//        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//        if (update.hasMessage() && update.getMessage().hasText()) {
-//            String message = update.getMessage().getText().trim();
-//
-//            /////////////////////// worked - check user in admin group
-//            User fromUser = update.getMessage().getFrom();
-//            GetChatMember getChatMember = GetChatMember.builder()
-//                    .chatId(adminGroupChatId)
-//                    .userId(fromUser.getId())
-//                    .build();
-//            ChatMember chatMember = null;
-//
-//            try {
-//                chatMember = execute(getChatMember);
-//            } catch (TelegramApiException e) {
-//                e.printStackTrace();
-//                //log
-//            }
-//
-//            String status = chatMember != null ? chatMember.getStatus() : "nope";
-//            if (status.equals("creator")
-//                    || status.equals("administrator")
-//                    || status.equals("member")) {
-//                System.out.println(status);
-//            } else {
-//                System.out.println(status);
-//            }
-//            //////////////////////
-//
-//            if (message.startsWith(COMMAND_PREFIX)) {
-//                String commandIdentifier = message.split("@")[0].toLowerCase();
-//
-//                commandContainer.retrieveCommand(commandIdentifier).execute(update);
-//            } else if (message.equals(PROBLEM.getCommandName())) {
-//                commandContainer.retrieveCommand(message).execute(update);
-//            } else if (message.contains("Сыграем")) {
-//                commandContainer.retrieveCommand(DICE.getCommandName()).execute(update);
-//            } else if (message.contains("Графики")) {
-//                commandContainer.retrieveCommand(MENU_CHARTS.getCommandName()).execute(update);
-//            } else if (message.equals("ЗИП")) {
-//                commandContainer.retrieveCommand("ZipCommand").execute(update);
-//            } else if (message.equals(BACK.get() + "  Назад")) {    //вынеси это в константы классов
-//                commandContainer.retrieveCommand(MENU.getCommandName()).execute(update);
-//            } else if (message.equals(PROXY_PING_COMMAND.getCommandName())) {
-//                commandContainer.retrieveCommand(PROXY_PING_COMMAND.getCommandName()).execute(update);
-//            } else {
-////                commandContainer.retrieveCommand(.getCommandName()).execute(update);
-//                commandContainer.retrieveCommand(TEMP2.getCommandName()).execute(update);
-//            }
-//        } else if (update.hasCallbackQuery()) {
-//
-//            String message = update.getCallbackQuery().getData();
-//
-//            if (message.startsWith(COMMAND_PREFIX)) {
-//                String commandIdentifier = message.split("\\|")[0].toLowerCase();
-////                System.out.println(commandIdentifier);
-////                System.out.println(message.split("\\|")[1].toLowerCase());
-//
-//                commandContainer.retrieveCallBack(commandIdentifier).execute(update);
-//            }
-//
-//        } else if (update.hasChannelPost()) {
-//            String s = update.getChannelPost().getChatId().toString();
-//            System.out.println(s);
-////            commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
-//            commandContainer.retrieveCommand(CHART.getCommandName()).execute(update);
-//
-//        } else if (update.hasInlineQuery()) {
-//
-//            String inlineQuery = update.getInlineQuery().getQuery();
-////            System.out.println(inlineQuery);
-////            System.out.println("HERE " );///////////////////////////////////////////////////////////////////
-////            if(inlineQuery.equals("/start")) {
-//            commandContainer.retrieveCommand(TEMP_INLINE.getCommandName()).execute(update);
-////            }
-//
-//        } else {
-//
-//            Sticker sticker = update.getMessage().getSticker();
-//            if (sticker != null) {
-//                String fileId = sticker.getFileId();
-//                System.out.println(fileId);
-//            }
-//        }
     }
 
     /**
@@ -216,28 +136,37 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
      * @return булево значение
      */
     private boolean isUserInAdminGroup(User user) {
-        GetChatMember getChatMember = GetChatMember.builder()
-                .chatId(adminGroupChatId)
-                .userId(user.getId())
-                .build();
-        ChatMember chatMember = null;
-
-        try {
-            chatMember = execute(getChatMember);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-            //log
-        }
-
-        String status = chatMember != null ? chatMember.getStatus() : "nope";
-        if (status.equals("creator")
-                || status.equals("administrator")
-                || status.equals("member")) {
-            System.out.println(status);
+        if (membersOfAdminGroup.contains(user)) {
+            ///////////////
+            for(User member : membersOfAdminGroup) {
+                System.out.println(member.getFirstName() + " is a member of admins group");
+            }
+            ///////////////
             return true;
         } else {
-            System.out.println(status);
-            return false;
+            GetChatMember getChatMember = GetChatMember.builder()
+                    .chatId(adminGroupChatId)
+                    .userId(user.getId())
+                    .build();
+            ChatMember chatMember = null;
+
+            try {
+                chatMember = execute(getChatMember);
+            } catch (TelegramApiException e) {
+                log.error("Can't execute getChatMember for {}", user.getId(), e);
+            }
+
+            String status = chatMember != null ? chatMember.getStatus() : "nope";
+            if (status.equals("creator")
+                    || status.equals("administrator")
+                    || status.equals("member")) {
+                log.info("User {} is {} in admins group", user.getFirstName(), status);
+                membersOfAdminGroup.add(user);
+                return true;
+            } else {
+                log.warn("Access denied. User {} is {} in admins group", user.getFirstName(), status);
+                return false;
+            }
         }
     }
 }

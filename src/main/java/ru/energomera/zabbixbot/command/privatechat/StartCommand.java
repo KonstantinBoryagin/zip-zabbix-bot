@@ -8,6 +8,10 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import static ru.energomera.zabbixbot.sticker.Icon.MONKEY;
 import static ru.energomera.zabbixbot.sticker.Icon.ROBOT_FACE;
 
+/**
+ * Ответ на команду /start в приватном чате с ботом
+ * (увидят только участники группы администраторов)
+ */
 public class StartCommand implements Command {
 
     private final SendMessageService sendMessageService;

@@ -2,6 +2,9 @@ package ru.energomera.zabbixbot.sticker;
 
 import com.vdurmont.emoji.EmojiParser;
 
+/**
+ * Хранилище эмодзи, преобразуются с помощью зависимости java-icon и метода get()
+ */
 public enum Icon {
     PLUS(":heavy_plus_sign:"),
     MINUS(":heavy_minus_sign:"),
@@ -19,7 +22,7 @@ public enum Icon {
     POOP(":poop:"),
     GAME_DICE(":game_die:"),
     SLOT_MACHINE(":slot_machine:"),
-    BACK(":back:"),
+    BACK_ARROW(":back:"),
     EXCLAMATION(":exclamation:"),
     PUSHPIN(":pushpin:"),
     ROUND_PUSHPIN(":round_pushpin:"),
@@ -30,6 +33,7 @@ public enum Icon {
     LEFTWARDS_ARROW(":leftwards_arrow_with_hook:"),
     HOURGLASS_FLOWING_SAND(":hourglass_flowing_sand:"),
     ARROW_HEADING_DOWN(":arrow_heading_down:"),
+    FULL_MOON_WITH_FACE(":full_moon_with_face:"),
     ARROW_RIGHT(":arrow_right:"),
     ARROW_LEFT(":arrow_left:"),
     MAILBOX_WITH_MAIL(":mailbox_with_mail:"),

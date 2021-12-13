@@ -45,6 +45,7 @@ public class ChartService {
         String pathToImage = "src/main/resources/picture_history.png";
         File file = new File(pathToImage);
         ChartUtils.saveChartAsPNG(file, chart, 600, 400);
+        ChartUtils.writeBufferedImageAsPNG();
         return file;
     }
 

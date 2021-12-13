@@ -8,6 +8,9 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import static ru.energomera.zabbixbot.sticker.Icon.SLOT_MACHINE;
 
+/**
+ * Немножко фана, анимированное эмодзи с игровым автоматом
+ */
 public class SlotMachineCommand implements Command {
     private final SendMessageService sendMessageService;
 

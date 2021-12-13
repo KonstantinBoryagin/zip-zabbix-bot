@@ -23,8 +23,8 @@ public class MessageFromWebHookHandler {
 
     private SendMessageService sendMessageService;
     private CommandContainer commandContainer;
-    public static Map<String, List<Object>> messagesRepository = new HashMap<>();
-
+    public static Map<String, List<List<Object>>> messagesRepository = new LinkedHashMap<>();
+    private String saveRuleException = "LogitemTrigger   Важность: Not classified";
 
     @Autowired
     public MessageFromWebHookHandler(SendMessageService sendMessageService) {
@@ -52,27 +52,43 @@ public class MessageFromWebHookHandler {
         String[] splitResult = subject.split(":", 2);
 
         String keyWord = splitResult[0];        //Проблема или Решено
-        String incidentText = splitResult[1] + message;   //остальной текст
+        String incidentText = splitResult[1] + "\n" + message;   //остальной текст
 
         switch (keyWord) {
             case "Проблема":
-                if(messagesRepository.containsKey(incidentText)){
-                    List<Object> messageProperties = messagesRepository.get(incidentText);
+                String problemMessage = FLAME.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
+                Integer sendMessageId = sendMessageService.sendMessage(chatId, problemMessage);
 
-                } else {
+                if(message.equals(saveRuleException)) {    //исключение, на нее не приходит "Решено"
+                    break;
+                } else if(messagesRepository.containsKey(incidentText)){
+                    List<List<Object>> allMessagesProperties = messagesRepository.get(incidentText);
                     List<Object> messageProperties = new ArrayList<>();
-                    String problemMessage = FLAME.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
-                    Integer sendMessageId = sendMessageService.sendMessage(chatId, problemMessage);
+
                     long startProblem = System.currentTimeMillis();
 
                     messageProperties.add(sendMessageId);
                     messageProperties.add(startProblem);
-                    messagesRepository.put(incidentText, messageProperties);   //save to map
+
+                    allMessagesProperties.add(messageProperties);
+                } else {
+                    List<List<Object>> allMessagesProperties = new ArrayList<>();
+                    List<Object> messageProperties = new ArrayList<>();
+
+                    long startProblem = System.currentTimeMillis();
+
+                    messageProperties.add(sendMessageId);
+                    messageProperties.add(startProblem);
+
+                    allMessagesProperties.add(messageProperties);
+                    messagesRepository.put(incidentText, allMessagesProperties);   //save to map
                 }
                 break;
             case "Решено":
                 if (messagesRepository.containsKey(incidentText)) {
-                    List<Object> oldMessageProperties = messagesRepository.get(incidentText);
+                    List<List<Object>> allMessagesProperties = messagesRepository.get(incidentText);
+
+                    List<Object> oldMessageProperties = allMessagesProperties.remove(0);
                     Integer oldMessageId = (Integer) oldMessageProperties.get(0);
                     long problemStart = (long) oldMessageProperties.get(1);
                     long problemTime = System.currentTimeMillis() - problemStart;
@@ -83,7 +99,10 @@ public class MessageFromWebHookHandler {
                     String solvedMessage = CHECK.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n"
                             + message + "\n\n" + CLOCK_2.get() + "<i>  " + formatProblemTime + "</i>";
                     sendMessageService.sendEditedMessage(chatId, solvedMessage, oldMessageId);
-                    messagesRepository.remove(incidentText);    //clear map
+
+                    if(allMessagesProperties.size() == 0) {
+                        messagesRepository.remove(incidentText);  //clear map if list is empty
+                    }
                 } else {
                     String editMessage = CHECK.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
                     sendMessageService.sendMessage(chatId, editMessage);

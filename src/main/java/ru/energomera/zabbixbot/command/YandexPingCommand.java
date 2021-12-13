@@ -23,22 +23,13 @@ public class YandexPingCommand implements Command, Chart{
 
     @Override
     public void execute(Update update) {
-        String chatId;
-        if(update.hasCallbackQuery()) {
-            chatId = update.getCallbackQuery().getMessage().getChatId().toString();
-        } else if(update.hasChannelPost()){
-            chatId = update.getChannelPost().getChatId().toString();
-            System.out.println(chatId +  "hasChannelPost");
-        } else {
-            chatId = update.getMessage().getChatId().toString();
-            System.out.println(chatId + "getMessage");
-        }
+        String chatId = update.getMessage().getChatId().toString();
 
         RequestToZabbixHistory proxyIcmpRequest = new RequestToZabbixHistory(yandexPingZabbixItemId, 20);
         ResponseFromZabbixHistory historyResponseFromZabbixHistory = zabbixRestService.createPostWithHistoryObject(proxyIcmpRequest);
         HistoryResponseResult[] historyResponseResult = historyResponseFromZabbixHistory.getResult();
 
-//        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, chartName, seriesName);
+        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, chartName, seriesName);
     }
 
     public void sendChart(String chatId, String subject, String message) {

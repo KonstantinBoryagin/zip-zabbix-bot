@@ -3,6 +3,7 @@ package ru.energomera.zabbixbot.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
 
 @RestController
 @RequestMapping("/api/public/zabbix")
+@Slf4j
 public class WebHook {
 
     @Value("${bot.adminGroupChatId}")
@@ -45,20 +47,10 @@ public class WebHook {
         try {
             zabbixWebHook = gson.fromJson(json, ZabbixWebHook.class);
 
-            String subj = zabbixWebHook.getSubj();
-            System.out.println("input from zabbix hook-------");
-            System.out.println(subj);
-            System.out.println("input from zabbix hook-------");
-            String line = zabbixWebHook.getMessage();
-//            String[] split = line.split(System.getProperty("line.separator"));
-//            for (int i = 0; i < split.length; i++) {
-//                System.out.println(split[i] + "   " + (i + 1) + " line");
-//                System.out.println("------------------");
-//            }
-            System.out.println(line);
-            System.out.println("input from zabbix hook-------");
             String messageChatId = zabbixWebHook.getChat_id();
-            System.out.println("messageChatId --->  " + messageChatId);
+
+            log.info("Received message from Zabbix with text: {} {};\n with ChatId: {}",
+                    zabbixWebHook.getSubj(), zabbixWebHook.getMessage(), zabbixWebHook.getChat_id());
 
             //проверяем что это нужное сообщение
             if (messageChatId.equals(adminGroupChatId)) {
@@ -70,20 +62,18 @@ public class WebHook {
                     || messageChatId.equals(group5ChatId)) {
                 webHookHandler.processMessageForDepartmentNotifications(zabbixWebHook);
             } else {
-                //log
+                log.warn("Message had wrong chatId {}", messageChatId);
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
 
         } catch (JsonSyntaxException e) {
-            System.out.println("wrong serializible input JSON");
+            log.error("Can't serializable JSON from Zabbbix {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
-
-        System.out.println("\n response sending \n"); //temp
 
         return new ResponseEntity<>(headers, HttpStatus.OK);
 

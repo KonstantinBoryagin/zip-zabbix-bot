@@ -60,6 +60,7 @@ public class CommandContainer {
                 .put(PROBLEM.getCommandName(), new ProblemCommand(sendMessageService))
                 .put(MENU_CHARTS.getCommandName(), new MenuChartsCommand(sendMessageService))
                 .put(SLOT.getCommandName(), new SlotMachineCommand(sendMessageService))
+                .put(BACK.getCommandName(), new MenuCommand(sendMessageService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendMessageService);
