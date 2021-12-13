@@ -15,9 +15,9 @@ import static ru.energomera.zabbixbot.sticker.Icon.*;
 @Service
 public class MessageFromWebHookHandler {
 
-    private SendMessageService sendMessageService;
+    private final SendMessageService sendMessageService;
     public static Map<String, List<List<Object>>> messagesRepository = new LinkedHashMap<>();
-    private String saveRuleException = "LogitemTrigger   Важность: Not classified";
+    private final String saveRuleException = "LogitemTrigger   Важность: Not classified";
 
     @Autowired
     public MessageFromWebHookHandler(SendMessageService sendMessageService) {

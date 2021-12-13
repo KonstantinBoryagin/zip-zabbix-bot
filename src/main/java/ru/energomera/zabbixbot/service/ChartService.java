@@ -50,8 +50,9 @@ public class ChartService {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             ImageIO.write(objBufferedImage, "png", byteArrayOutputStream);
+            log.info("createLineChartPicture worked well");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("could not create byteArrayOutputStream: ", e);
         }
 
         byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -81,8 +82,9 @@ public class ChartService {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             ImageIO.write(objBufferedImage, "png", byteArrayOutputStream);
+            log.info("createAreaChartPicture worked well");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("could not create byteArrayOutputStream: ", e);
         }
 
         byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -102,8 +104,9 @@ public class ChartService {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             ImageIO.write(objBufferedImage, "png", byteArrayOutputStream);
+            log.info("createPieChart worked well");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("could not create byteArrayOutputStream: ", e);
         }
 
         byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -121,17 +124,15 @@ public class ChartService {
             double value = historyResponseResults[i].getValue() * 1000; //превращаем в мили сек.
 
             Date date = new Date(clock * 1000);
-            System.out.println(date);
             DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
             String hour = dateFormatter.format(date);
-            System.out.println(hour);
             dataset.addValue(value, series, hour);
         }
 
         return dataset;
     }
 
-    public DefaultPieDataset createDatasetForPieChart(HistoryResponseResult[] historyResponseResults, String seriesName) {
+    public DefaultPieDataset<String> createDatasetForPieChart(HistoryResponseResult[] historyResponseResults, String seriesName) {
         double value = historyResponseResults[0].getValue();
 
         double free = 100 - value;
@@ -139,7 +140,7 @@ public class ChartService {
         String formatSeries = String.format("%s - %.2f%%", seriesName, value);
         String formatSeries2 = String.format("Free space - %.2f%%", free);
 
-        DefaultPieDataset pieDataSet = new DefaultPieDataset();
+        DefaultPieDataset<String> pieDataSet = new DefaultPieDataset<>();
         pieDataSet.setValue(formatSeries, value);
         pieDataSet.setValue(formatSeries2, free);
 

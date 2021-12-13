@@ -6,6 +6,9 @@ import lombok.ToString;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * DTO for request to Zabbix
+ */
 @Data
 @ToString
 public class RequestToZabbixHistory {

@@ -68,7 +68,7 @@ public class WebHook {
 
 
         } catch (JsonSyntaxException e) {
-            log.error("Can't serializable JSON from Zabbbix {}", e.getMessage());
+            log.error("Can't serializable JSON from Zabbix", e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

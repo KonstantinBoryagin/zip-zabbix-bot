@@ -30,6 +30,6 @@ public class SrvErpCpuCommand implements Command {
         ResponseFromZabbixHistory cpuHistoryResponse = zabbixRestService.createPostWithHistoryObject(cpuUtilizationRequest);
         HistoryResponseResult[] cpuHistoryResponseResult = cpuHistoryResponse.getResult();
 
-        sendMessageService.sendCpuUtilization(chatId, cpuHistoryResponseResult, chartName, seriesName);
+        sendMessageService.sendCpuUtilizationChart(chatId, cpuHistoryResponseResult, chartName, seriesName);
     }
 }
