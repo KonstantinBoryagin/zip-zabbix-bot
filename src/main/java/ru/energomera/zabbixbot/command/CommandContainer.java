@@ -1,9 +1,10 @@
 package ru.energomera.zabbixbot.command;
 
 import com.google.common.collect.ImmutableMap;
+import ru.energomera.zabbixbot.command.adminsgroup.HelpAdminsGroupCommand;
 import ru.energomera.zabbixbot.command.departments.CancelCommand;
 import ru.energomera.zabbixbot.command.departments.HelpCommand;
-import ru.energomera.zabbixbot.command.departments.Temp2Command;
+import ru.energomera.zabbixbot.command.departments.EditIncidentMessageCommand;
 import ru.energomera.zabbixbot.command.departments.UpdateCommand;
 import ru.energomera.zabbixbot.command.privatechat.*;
 import ru.energomera.zabbixbot.controller.ZabbixRestService;
@@ -12,9 +13,15 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
 
+/**
+ * Контейнер для {@link Command}
+ */
 public class CommandContainer {
+    //основные команды
     private final ImmutableMap<String, Command> generalCommandMap;
+    //команды для 3-х цеховых групп с рассылкой инцидентов
     private final ImmutableMap<String, Command> DepartmentCommandMap;
+    //команды для приватного чата с ботом
     private final ImmutableMap<String, Command> privateChatCommandMap;
     private final Command unknownCommand;
 
@@ -23,19 +30,13 @@ public class CommandContainer {
         generalCommandMap = ImmutableMap.<String, Command>builder()
 
                 .put(UNKNOWN_USER.getCommandName(), new UnknownUserCommand(sendMessageService))
-//                .put(CHART.getCommandName(), new ChartCommand(sendMessageService))
-//                .put(TEMP.getCommandName(), new TempCommand(sendMessageService))
                 .put(HELP.getCommandName(), new HelpAdminsGroupCommand(sendMessageService))
-//                .put(TEMP3.getCommandName(), new Temp3Command(sendMessageService))
-//                .put(TEMP_INLINE.getCommandName(), new TempInlineCommand(sendMessageService))
                 .put(ZIP.getCommandName(), new ZipCommand(sendMessageService))
-                .put(BUTTON.getCommandName(), new ButtonCommand(sendMessageService))
-
                 .build();
 
         DepartmentCommandMap = ImmutableMap.<String, Command>builder()
                 .put(CANCEL.getCommandName(), new CancelCommand(sendMessageService))
-                .put(TEMP2.getCommandName(), new Temp2Command(sendMessageService))
+                .put(EDIT_INCIDENT.getCommandName(), new EditIncidentMessageCommand(sendMessageService))
                 .put(HELP.getCommandName(), new HelpCommand(sendMessageService))
                 .put(UPDATE.getCommandName(), new UpdateCommand(sendMessageService))
                 .build();

@@ -18,7 +18,7 @@ import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
  */
 public class MenuChartsCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final String message = "Графики " + ARROW_HEADING_DOWN.get();
+    private final String message = "<b><i>Графики   </i></b>" + ARROW_HEADING_DOWN.get();
 
     public MenuChartsCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
@@ -29,18 +29,18 @@ public class MenuChartsCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
-          new ArrayList<KeyboardButton>(Arrays.asList(KeyboardButton.builder().text(CPU_SRV_ERP_2.getCommandName()).build())
+                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(CPU_SRV_ERP_2.getCommandName()).build(),
+                        KeyboardButton.builder().text(ERP_DISK_F.getCommandName()).build())
         ));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(PROXY_PING_COMMAND.getCommandName()).build(),
                         KeyboardButton.builder().text(INTERNET_PING.getCommandName()).build()))
         );
         KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<KeyboardButton>(Arrays.asList(KeyboardButton.builder().text(COMMUTATOR_PING.getCommandName()).build(),
-                        KeyboardButton.builder().text(ERP_DISK_F.getCommandName()).build())
-                        ));
-        KeyboardRow keyboardRow5 = new KeyboardRow(
-                new ArrayList<KeyboardButton>(Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())
+                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(COMMUTATOR_PING.getCommandName()).build()
+                )));
+        KeyboardRow keyboardRow4 = new KeyboardRow(
+                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())
                 ));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
@@ -49,7 +49,7 @@ public class MenuChartsCommand implements Command {
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
-                .keyboardRow(keyboardRow5)
+                .keyboardRow(keyboardRow4)
                 .build();
 
 

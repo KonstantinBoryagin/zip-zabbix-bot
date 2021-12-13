@@ -28,7 +28,7 @@ public class ChartService {
     private final String axisXNameForPingChart = "время";
     private final String axisYNameForPingChart = "ответ(мс)";
 
-    public byte[] createIcmpPingLineChartPicture(DefaultCategoryDataset dataset, String chartName) throws IOException{
+    public byte[] createLineChartPicture(DefaultCategoryDataset dataset, String chartName) throws IOException{
 
         JFreeChart chart = ChartFactory.createLineChart(chartName,
                 axisXNameForPingChart,
@@ -59,7 +59,7 @@ public class ChartService {
         return byteArray;
     }
 
-    public byte[] createCpuUtilizationChart(DefaultCategoryDataset dataset, String chartName) {
+    public byte[] createAreaChartPicture(DefaultCategoryDataset dataset, String chartName) {
 
         JFreeChart chart = ChartFactory.createAreaChart(chartName,
                 axisXNameForPingChart,

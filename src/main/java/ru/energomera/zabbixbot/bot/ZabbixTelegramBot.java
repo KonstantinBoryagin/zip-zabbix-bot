@@ -91,7 +91,7 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
                     commandContainer.retrieveDepartmentCommand(commandIdentifier).execute(update);
                 } else {
-                    commandContainer.retrieveDepartmentCommand(TEMP2.getCommandName()).execute(update);
+                    commandContainer.retrieveDepartmentCommand(EDIT_INCIDENT.getCommandName()).execute(update);
                 }
 
             } else if (chatId.equals(adminGroupChatId)) {

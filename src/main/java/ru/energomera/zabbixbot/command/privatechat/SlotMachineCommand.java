@@ -1,8 +1,6 @@
 package ru.energomera.zabbixbot.command.privatechat;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
@@ -20,15 +18,10 @@ public class SlotMachineCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        SendDice build = SendDice.builder()
-                .chatId(update.getMessage().getChatId().toString())
-                .emoji(SLOT_MACHINE.get())
-                .build();
+       String chatId = update.getMessage().getChatId().toString();
+       String emoji = SLOT_MACHINE.get();
 
-        build.setReplyMarkup(ReplyKeyboardMarkup.builder().clearKeyboard().build());
-
-
-        sendMessageService.sendDice(build);
+        sendMessageService.sendEmoji(chatId, emoji);
 
     }
 }

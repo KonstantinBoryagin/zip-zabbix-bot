@@ -1,6 +1,5 @@
 package ru.energomera.zabbixbot.command.departments;
 
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.energomera.zabbixbot.command.Command;
@@ -10,6 +9,10 @@ import java.util.List;
 
 import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoose;
 
+/**
+ * Реакция на нажатие /cancel при отмене редактирования сообщения об инциденте в одной из цеховых групп.
+ * Очищает групповой чат от служебных сообщений
+ */
 public class CancelCommand implements Command {
     private final SendMessageService sendMessageService;
 
@@ -33,28 +36,12 @@ public class CancelCommand implements Command {
             if (userChatId.equals(chatId)) {
 
                 //DELETE MESSAGES
-                DeleteMessage delete1 = DeleteMessage.builder()
-                        .chatId(chatId)
-                        .messageId(thisMessageId)
-                        .build();
 
-                sendMessageService.sendTest(delete1);
+                sendMessageService.deleteMessageFromChat(chatId, thisMessageId);
+                sendMessageService.deleteMessageFromChat(chatId, warningMessageId);
+                sendMessageService.deleteMessageFromChat(chatId, helpMessageId);
 
-                DeleteMessage delete2 = DeleteMessage.builder()
-                        .chatId(chatId)
-                        .messageId(warningMessageId)
-                        .build();
-
-                sendMessageService.sendTest(delete2);
-
-                DeleteMessage delete3 = DeleteMessage.builder()
-                        .chatId(chatId)
-                        .messageId(helpMessageId)
-                        .build();
-
-                sendMessageService.sendTest(delete3);
-
-                    ////чистим мапу
+                //чистим мапу
                 userChoose.remove(user);
             }
         }

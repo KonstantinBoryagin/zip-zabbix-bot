@@ -1,6 +1,5 @@
 package ru.energomera.zabbixbot.command.departments;
 
-import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
@@ -16,9 +15,16 @@ import java.util.regex.Pattern;
 
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
+/**
+ * Класс отвечает за реакцию на кнопку "Дополнить" под инцидентом в любой из цеховых групп.
+ * Отправляет подсказки.
+ * Записывает в map выбор пользователя, id сообщений и комментарий
+ */
 public class UpdateCommand implements Command {
     private final SendMessageService sendMessageService;
     public static Map<User, List<Object>> userChoose = new HashMap<>();
+
+    private final String notification = "Следуйте подсказкам! " + ARROW_HEADING_DOWN.get();
 
     public static final String TIP_MESSAGE = INFORMATION_SOURCE.get() + " *Подсказка\\:*\n"
             + "_*[%s](tg://user?id=%d)*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
@@ -49,29 +55,12 @@ public class UpdateCommand implements Command {
         messagesIdForUser.add(chatId);
         messagesIdForUser.add(messageId);
 
-
-        AnswerCallbackQuery build = AnswerCallbackQuery.builder()
-                .callbackQueryId(callBackQueryId)
-//                .showAlert(true)
-                .text("Следуйте подсказкам! " + ARROW_HEADING_DOWN.get())
-                .build();
-
-        sendMessageService.sendTest(build);
-//+ INFORMATION_SOURCE.get()    _Tip: Введите информацию которую хотите добавить и нажмите отправить._
+        sendMessageService.sendAnswer(callBackQueryId, notification);
 
         Long userId = user.getId();
         String signature = user.getLastName() == null ? user.getFirstName() : user.getFirstName() + " " + user.getLastName();
 
-        /////////////////////    TO STRING FORMAT
-//        String tipMessage = INFORMATION_SOURCE.get() + " *Подсказка\\:*\n"
-//                + "_*[" + signature + "](tg://user?id=" + userId + ")*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
-//                + ARROW_FORWARD.get() + "_";
-
         String tipMessage = String.format(TIP_MESSAGE, signature, userId);
-
-//        String warningMessage = FLAME.get() + "*Важно\\!* _Если передумали вносить информацию \\- нажмите_  "
-//                + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
-
 
         ForceReplyKeyboard forceReplyKeyboard = ForceReplyKeyboard.builder()
                 .inputFieldPlaceholder("Let's rock!")   //появится в поле ввода у пользователя
@@ -88,6 +77,7 @@ public class UpdateCommand implements Command {
 
         userChoose.put(user, messagesIdForUser);
 
+        /////////////////////////////////////////////////////////////////////////////////////////////
         for (User name : userChoose.keySet()) {
             System.out.println(name + "  ---  userChoose.keySet()");
         }

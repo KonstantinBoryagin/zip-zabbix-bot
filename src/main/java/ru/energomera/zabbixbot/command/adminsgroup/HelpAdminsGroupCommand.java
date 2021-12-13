@@ -1,12 +1,13 @@
-package ru.energomera.zabbixbot.command;
+package ru.energomera.zabbixbot.command.adminsgroup;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 import static ru.energomera.zabbixbot.sticker.Icon.ROBOT_FACE;
 
-public class HelpAdminsGroupCommand implements Command{
+public class HelpAdminsGroupCommand implements Command {
     private final SendMessageService sendMessageService;
 
 

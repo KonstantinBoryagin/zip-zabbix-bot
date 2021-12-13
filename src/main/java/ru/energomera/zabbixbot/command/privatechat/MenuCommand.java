@@ -18,7 +18,7 @@ import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
  */
 public class MenuCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final String message = "Выбирай " + ARROW_HEADING_DOWN.get();
+    private final String message = "<b><i>Выбирай   </i></b>" + ARROW_HEADING_DOWN.get();
 
     public MenuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;

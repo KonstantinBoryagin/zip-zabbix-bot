@@ -6,17 +6,19 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
@@ -25,14 +27,20 @@ import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
+
+/**
+ * Сервис для формирования и отправки сообщений
+ */
 @Service
 @Slf4j
 public class SendMessageServiceImpl implements SendMessageService {
 
     private final ZabbixTelegramBot telegramBot;
-//    @Autowired
     private final ChartService chartService;
 
     @Autowired
@@ -116,9 +124,8 @@ public class SendMessageServiceImpl implements SendMessageService {
             Message execute = telegramBot.execute(sendMessage);
             Integer newMessageId = execute.getMessageId();
             return newMessageId;
-
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("sendMessageWithReplyMarkDown2 could not sent {}", message, e);
         }
         return null;
     }
@@ -136,11 +143,9 @@ public class SendMessageServiceImpl implements SendMessageService {
         try {
             Message execute = telegramBot.execute(sendMessage);
             Integer newMessageId = execute.getMessageId();
-            System.out.println(newMessageId + "   sendMessageWithReply worked success"); //temp
             return newMessageId;
-
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("sendMessageWithReplyMarkDown2 could not sent {}", message, e);
         }
         return null;
     }
@@ -173,6 +178,7 @@ public class SendMessageServiceImpl implements SendMessageService {
                 .chatId(chatId)
                 .text(message)
                 .replyMarkup(replyKeyboard)
+                .parseMode(ParseMode.HTML)
                 .build();
         try {
             telegramBot.execute(sendMessage);
@@ -194,59 +200,59 @@ public class SendMessageServiceImpl implements SendMessageService {
         try {
             telegramBot.execute(editMessageText);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("sendEditedMessage could not sent {}", editMessage, e);
         }
     }
 
 
-    @Override
-    public void sendMessageFromWebHook(String chatId, String subject, String message) {
-
-        String text = subject + "\n\n" + message;
-
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(text);
-        sendMessage.enableHtml(true);
-
-        try {
-            telegramBot.execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendMessageFromWebHookWithCallBackButton(String chatId, String subject, String message, ReplyKeyboard replyKeyboard) {
-        String text = subject + "\n\n" + message;
-
-
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(text);
-        sendMessage.enableHtml(true);
-
-        sendMessage.setReplyMarkup(replyKeyboard);
-
-        try {
-            telegramBot.execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void sendChangedMessageFromWebHook(EditMessageText editMessageText) {
-
-
-        try {
-            telegramBot.execute(editMessageText);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    @Override
+//    public void sendMessageFromWebHook(String chatId, String subject, String message) {
+//
+//        String text = subject + "\n\n" + message;
+//
+//
+//        SendMessage sendMessage = new SendMessage();
+//        sendMessage.setChatId(chatId);
+//        sendMessage.setText(text);
+//        sendMessage.enableHtml(true);
+//
+//        try {
+//            telegramBot.execute(sendMessage);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void sendMessageFromWebHookWithCallBackButton(String chatId, String subject, String message, ReplyKeyboard replyKeyboard) {
+//        String text = subject + "\n\n" + message;
+//
+//
+//        SendMessage sendMessage = new SendMessage();
+//        sendMessage.setChatId(chatId);
+//        sendMessage.setText(text);
+//        sendMessage.enableHtml(true);
+//
+//        sendMessage.setReplyMarkup(replyKeyboard);
+//
+//        try {
+//            telegramBot.execute(sendMessage);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void sendChangedMessageFromWebHook(EditMessageText editMessageText) {
+//
+//
+//        try {
+//            telegramBot.execute(editMessageText);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
     @Override
@@ -304,7 +310,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         byte[] icmpPingLineChartPicture = null;
         try {
-             icmpPingLineChartPicture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+             icmpPingLineChartPicture = chartService.createLineChartPicture(dataset, chartName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -347,7 +353,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
         byte[] icmpPingLineChartPicture = null;
         try {
-            icmpPingLineChartPicture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+            icmpPingLineChartPicture = chartService.createLineChartPicture(dataset, chartName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -389,7 +395,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 //        sendPhoto.setPhoto(inputPicture);
 
         byte[] icmpPingLineChartPicture = null;
-        icmpPingLineChartPicture = chartService.createCpuUtilizationChart(dataset, chartName);
+        icmpPingLineChartPicture = chartService.createAreaChartPicture(dataset, chartName);
 
         InputStream in = new ByteArrayInputStream(icmpPingLineChartPicture);
         SendPhoto ya_ping = SendPhoto.builder()
@@ -449,9 +455,9 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
-    @Override
-    public void sendHistoryPictureWithText(String chatId, String subject, String message, HistoryResponseResult[] historyResponseResults,
-                                           String chartName, String seriesName) {
+//    @Override
+//    public void sendHistoryPictureWithText(String chatId, String subject, String message, HistoryResponseResult[] historyResponseResults,
+//                                           String chartName, String seriesName) {
 
 //        String text = subject + "\n\n" + message;
 //
@@ -482,76 +488,115 @@ public class SendMessageServiceImpl implements SendMessageService {
 //        } catch (TelegramApiException e) {
 //            e.printStackTrace();
 //        }
-    }
+//    }
 
+
+//    @Override
+//    public void sendMessageToGroupWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard keyboard, int messageId) {
+//        SendMessage sendMessage = SendMessage.builder()
+//                .replyToMessageId(messageId)
+//                .chatId(chatId)
+//                .text(message)
+//                .replyMarkup(keyboard)
+//                .build();
+//
+//        try {
+//            telegramBot.execute(sendMessage);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
-    public void sendMessageToGroupWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard keyboard, int messageId) {
-        SendMessage sendMessage = SendMessage.builder()
-                .replyToMessageId(messageId)
+    public void deleteMessageFromChat(String chatId, Integer messageId) {
+        DeleteMessage deleteMessage = DeleteMessage.builder()
                 .chatId(chatId)
-                .text(message)
-                .replyMarkup(keyboard)
+                .messageId(messageId)
                 .build();
-
         try {
-            telegramBot.execute(sendMessage);
+            telegramBot.execute(deleteMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("deleteMessageFromChat could not delete message with id {}", messageId, e);
         }
     }
 
     @Override
-    public void sendMessageToGroupWithReplyKeyboardMarkupMarDown2(String chatId, String message, ReplyKeyboard keyboard) {
+    public void editMessageToGroupWithInlineEditButton(String chatId, String newMessage,
+                                                       Integer originalMessageId) {
+        InlineKeyboardMarkup editButton = formInlineEditButtonForDepartmentsIncidentMessage();
 
+        EditMessageText editMessage = EditMessageText.builder()
+                .chatId(chatId)
+                .text(newMessage)
+                .messageId(originalMessageId)
+                .replyMarkup(editButton)
+                .disableWebPagePreview(false)
+                .parseMode(ParseMode.HTML)
+                .build();
 
+        try {
+            telegramBot.execute(editMessage);
+        } catch (TelegramApiException e) {
+            log.error("sendMessageToGroupWithInlineEditButton could not edit message: {}", newMessage, e);
+        }
     }
 
     @Override
-    public void sendMessageToGroupWithInlineKeyboard(String chatId, String message, ReplyKeyboard keyboard) {
+    public void sendMessageToGroupWithInlineEditButton(String chatId, String message) {
+
+        InlineKeyboardMarkup editButton = formInlineEditButtonForDepartmentsIncidentMessage();
 
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(message)
                 .parseMode(ParseMode.HTML)
-                .replyMarkup(keyboard)
+                .replyMarkup(editButton)
                 .build();
 
         try {
             telegramBot.execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("sendMessageToGroupWithInlineEditButton could not send message: {}",message , e);
         }
 
     }
 
     @Override
-    public void sendDice(SendDice dice) {
+    public void sendEmoji(String chatId, String emoji) {
+        SendDice emojiToSend = SendDice.builder()
+                .chatId(chatId)
+                .emoji(emoji)
+                .build();
 
         try {
-            telegramBot.execute(dice);
+            telegramBot.execute(emojiToSend);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Could not sent emoji for {}", chatId, e);
         }
     }
 
     @Override
-    public void sendAnswer(AnswerCallbackQuery answer) {
-
+    public void sendAnswer(String callBackQueryId, String notification) {
+        AnswerCallbackQuery answerCallbackQuery = AnswerCallbackQuery.builder()
+                .callbackQueryId(callBackQueryId)
+                .text(notification)
+                .build();
 
         try {
-            telegramBot.execute(answer);
+            telegramBot.execute(answerCallbackQuery);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("sendAnswer could not send callBackAnswer: {}",notification , e);
         }
     }
 
-    @Override
-    public void sendTest(BotApiMethod method) {
-        try {
-            telegramBot.execute(method);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+    private InlineKeyboardMarkup formInlineEditButtonForDepartmentsIncidentMessage() {
+        InlineKeyboardMarkup editButton = InlineKeyboardMarkup.builder()
+                .keyboardRow(new ArrayList<>(Arrays.asList(
+                        InlineKeyboardButton.builder()
+                                .text(PUSHPIN.get() + "Дополнить сообщение")
+                                .callbackData("/update").build()
+                )))
+                .build();
+        return editButton;
     }
 }

@@ -4,34 +4,28 @@ import lombok.Getter;
 
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
+/**
+ * Enum для имен команд {@link Command}
+ */
 @Getter
 public enum CommandName {
     START("/start"),
-    STOP("/stop"),
     HELP("/help"),
     MENU("/menu"),
-    PROXY_PING_COMMAND(TWO.get() + "  Proxy ICMP ping"),
-    CPU_SRV_ERP_2(ONE.get() + "  srv-erp 2 CPU utilization"),
-    INTERNET_PING(THREE.get() + "  Internet resources ping"),
+    ZIP("ЗИП"),
+    CANCEL("/cancel"),
+    EDIT_INCIDENT("/edit_incident"),
     UPDATE("/update"),
-    YANDEX("/yandex"),
+    UNKNOWN_USER("/unknown_user"),
+    BACK(BACK_ARROW.get() + "  Назад"),
+    PROXY_PING_COMMAND(CHART_TO_UP.get() + "  Proxy ICMP ping"),
+    CPU_SRV_ERP_2(BAR_CHART.get() + "  srv-erp 2 CPU utilization"),
+    INTERNET_PING(CHART_TO_UP.get() + "  Internet resources ping"),
     SLOT(SLOT_MACHINE.get() + "  Сыграем?"),
     MENU_CHARTS(CHART_IMG.get() + "  Графики"),
-    TEMP2("/temp2"),
-    TEMP3("/temp3"),
-    TEMP_INLINE("/temp_inline"),
-    CLOSE("/close"),
-    CHANGE("/change"),
-    BACK(BACK_ARROW.get() + "  Назад"),
-    BUTTON("/button"),
-    EDIT("/edit"),
-    CANCEL("/cancel"),
     PROBLEM(FLAME.get() + "  Актуальные проблемы"),
-    ZIP("ЗИП"),
-    UNKNOWN_USER("/unknown_user"),
-    COMMUTATOR_PING(FOUR.get() + "  Серверная(оптика) ping"),
-    ERP_DISK_F(FIVE.get() + "  srv-erp 2 F: disk used space"),
-    TEMP("/temp");
+    COMMUTATOR_PING(CHART_TO_DOWN.get() + "  Серверная(оптика) ping"),
+    ERP_DISK_F(MAG_RIGHT.get() + "  srv-erp 2 F: disk used space");
 
     private final String commandName;
 
