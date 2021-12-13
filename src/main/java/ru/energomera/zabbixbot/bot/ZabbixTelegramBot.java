@@ -2,6 +2,7 @@ package ru.energomera.zabbixbot.bot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.command.CommandContainer;
+import ru.energomera.zabbixbot.controller.ZabbixRestService;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
 
 import java.util.ArrayList;
@@ -50,7 +52,8 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
     private final CommandContainer commandContainer;
 
     public ZabbixTelegramBot() {
-        this.commandContainer = new CommandContainer(new SendMessageServiceImpl(this));
+        this.commandContainer = new CommandContainer(new SendMessageServiceImpl(this)
+        , new ZabbixRestService(new RestTemplateBuilder()));
     }
 
     @Override

@@ -3,33 +3,29 @@ package ru.energomera.zabbixbot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import static ru.energomera.zabbixbot.command.CommandName.PROXY_PING_COMMAND;
-import static ru.energomera.zabbixbot.command.KeyWordsAndTags.PROBLEM;
-import static ru.energomera.zabbixbot.command.KeyWordsAndTags.SOLVED;
-import static ru.energomera.zabbixbot.command.TempInlineCommand.userPrivateChoose;
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
 @Service
 public class MessageFromWebHookHandler {
 
     private SendMessageService sendMessageService;
-    private CommandContainer commandContainer;
+//    private CommandContainer commandContainer;
     public static Map<String, List<List<Object>>> messagesRepository = new LinkedHashMap<>();
     private String saveRuleException = "LogitemTrigger   Важность: Not classified";
 
     @Autowired
     public MessageFromWebHookHandler(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
-        commandContainer = new CommandContainer(this.sendMessageService);
+//        commandContainer = new CommandContainer(this.sendMessageService);
     }
 
     public void processMessageForAdminGroup(ZabbixWebHook webHookEntity) {
@@ -124,13 +120,13 @@ public class MessageFromWebHookHandler {
         sendMessageService.sendMessageToGroupWithInlineKeyboard(chatId, message, keyboard);
     }
 
-    private void formProxyMessage(String chatId, String subject, String message) {
-        if (subject.contains(PROBLEM.getKeyWord())) {
-            commandContainer.retrieveChart(PROXY_PING_COMMAND.getCommandName()).sendChart(chatId, subject, message);
-        } else if (subject.contains(SOLVED.getKeyWord())) {
-            sendMessageService.sendMessageFromWebHook(chatId, subject, message);
-        }
-    }
+//    private void formProxyMessage(String chatId, String subject, String message) {
+//        if (subject.contains(PROBLEM.getKeyWord())) {
+//            commandContainer.retrieveChart(PROXY_PING_COMMAND.getCommandName()).sendChart(chatId, subject, message);
+//        } else if (subject.contains(SOLVED.getKeyWord())) {
+//            sendMessageService.sendMessageFromWebHook(chatId, subject, message);
+//        }
+//    }
 
     public static List<List<InlineKeyboardButton>> addInlineKeyboardToGroupNotificationPost() {
         List<List<InlineKeyboardButton>> keyboardList = formDefaultKeyboard();
@@ -147,24 +143,24 @@ public class MessageFromWebHookHandler {
         return keyboardList;
     }
 
-    public static List<InlineKeyboardButton> inlineChangeButton(Update update) {
-        String text = update.getCallbackQuery().getMessage().getText();
-        String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
-        String messageId = update.getCallbackQuery().getMessage().getMessageId().toString();
-        User user = update.getCallbackQuery().getFrom();
-        List<String> userList = new ArrayList<>();
-        Collections.addAll(userList, text, chatId, messageId);
-
-        userPrivateChoose.put(user, userList);
-
-//        String query = "Edit message|" + text + chatId + messageId + "|";
-//        System.out.println(query + " ----- query from button inline change mode");
-
-        List<InlineKeyboardButton> row = new ArrayList<>();
-        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQueryCurrentChat("").build());
-
-        return row;
-    }
+//    public static List<InlineKeyboardButton> inlineChangeButton(Update update) {
+//        String text = update.getCallbackQuery().getMessage().getText();
+//        String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
+//        String messageId = update.getCallbackQuery().getMessage().getMessageId().toString();
+//        User user = update.getCallbackQuery().getFrom();
+//        List<String> userList = new ArrayList<>();
+//        Collections.addAll(userList, text, chatId, messageId);
+//
+//        userPrivateChoose.put(user, userList);
+//
+////        String query = "Edit message|" + text + chatId + messageId + "|";
+////        System.out.println(query + " ----- query from button inline change mode");
+//
+//        List<InlineKeyboardButton> row = new ArrayList<>();
+//        row.add(InlineKeyboardButton.builder().text(PUSHPIN.get() + "Switch").switchInlineQueryCurrentChat("").build());
+//
+//        return row;
+//    }
 
     public static List<List<InlineKeyboardButton>> formDefaultKeyboard() {
         List<List<InlineKeyboardButton>> keyboardList = new ArrayList<>();

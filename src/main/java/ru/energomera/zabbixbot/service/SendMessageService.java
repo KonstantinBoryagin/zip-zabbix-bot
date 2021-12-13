@@ -2,7 +2,6 @@ package ru.energomera.zabbixbot.service;
 
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
@@ -21,7 +20,7 @@ public interface SendMessageService {
     void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId);
 
 //    Integer sendMessageWithReplyMarkDown2(String chatId, String message);
-    Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage);
+
     Integer sendMessageWithReplyMarkDown2(String chatId, String message);
     Integer sendMessageWithReplyMarkDown2(String chatId, String message, ForceReplyKeyboard forceReplyKeyboard);
 
@@ -38,8 +37,14 @@ public interface SendMessageService {
     void sendHistoryPictureForManyCharts(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
                             String chartName, String[] seriesName);
 
-    void sendHistoryPicture(String chatId, HistoryResponseResult historyResponseResults,
+    void sendHistoryPicture(String chatId, HistoryResponseResult[] historyResponseResults,
                                          String chartName, String seriesName);
+
+    void sendCpuUtilization(String chatId, HistoryResponseResult[] historyResponseResults,
+                            String chartName, String seriesName);
+
+    void sendPiePicture(String chatId, HistoryResponseResult[] historyResponseResults,
+                        String chartName, String seriesName);
 
     void sendHistoryPictureWithText(String chatId, String subject, String message,
                                     HistoryResponseResult[] historyResponseResults, String chartName, String seriesName);

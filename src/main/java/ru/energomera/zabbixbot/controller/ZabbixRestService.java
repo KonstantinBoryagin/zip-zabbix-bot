@@ -1,6 +1,6 @@
 package ru.energomera.zabbixbot.controller;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,12 +11,12 @@ import ru.energomera.zabbixbot.zabbixapi.dto.ResponseFromZabbixHistory;
 import java.util.Collections;
 
 @RestController
+@Slf4j
 public class ZabbixRestService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${bot.url}")
-    private String url;
+    private final String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
 
     public ZabbixRestService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
@@ -39,13 +39,14 @@ public class ZabbixRestService {
         HttpEntity<RequestToZabbixHistory> entity = new HttpEntity<>(requestToZabbixHistory, headers);
 
         // send POST request
-        ResponseEntity<ResponseFromZabbixHistory> response = this.restTemplate.postForEntity(url, entity, ResponseFromZabbixHistory.class);
+        ResponseEntity<ResponseFromZabbixHistory> response = this.restTemplate.postForEntity(url,
+                entity, ResponseFromZabbixHistory.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println(HttpStatus.OK);
+            log.info("request for Zabbix server {}", HttpStatus.OK);
             return response.getBody();
         } else {
-            System.out.println("null from createPostWithHistoryObject");
+            log.error("Failed to complete the request to Zabbix server with {}", requestToZabbixHistory);
             return null;
         }
     }

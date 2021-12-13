@@ -2,11 +2,11 @@ package ru.energomera.zabbixbot.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.CopyMessage;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,17 +15,16 @@ import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.MessageId;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
 import ru.energomera.zabbixbot.sticker.Stickers;
 import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -33,11 +32,17 @@ import java.util.List;
 public class SendMessageServiceImpl implements SendMessageService {
 
     private final ZabbixTelegramBot telegramBot;
+//    @Autowired
+    private final ChartService chartService;
 
     @Autowired
     public SendMessageServiceImpl(ZabbixTelegramBot telegramBot) {
         this.telegramBot = telegramBot;
+        chartService = new ChartService();
     }
+
+
+
 
 
 //    @Override
@@ -71,31 +76,31 @@ public class SendMessageServiceImpl implements SendMessageService {
 //        return null;
 //    }
 
-    @Override
-    public Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage) {
-
-        ForceReplyKeyboard build = ForceReplyKeyboard.builder()
-                .inputFieldPlaceholder("Введите здесь свое сообщение")   //появится в поле ввода у пользователя
-//                .selective(true)  //нужно где то взять ид сообщения или юзера
-                .forceReply(true).build();
-
-        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
-
-
-        copyMessage.setReplyMarkup(build);
-
-
-        try {
-            MessageId execute = telegramBot.execute(copyMessage);
-            Long messageId = execute.getMessageId();
-            System.out.println(messageId + "   sendMessageWithReply worked success"); //temp
-            return messageId;
-
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    @Override
+//    public Long sendMessageWithReplyCopy(String chatId, CopyMessage copyMessage) {
+//
+//        ForceReplyKeyboard build = ForceReplyKeyboard.builder()
+//                .inputFieldPlaceholder("Введите здесь свое сообщение")   //появится в поле ввода у пользователя
+////                .selective(true)  //нужно где то взять ид сообщения или юзера
+//                .forceReply(true).build();
+//
+//        ReplyKeyboardRemove build1 = ReplyKeyboardRemove.builder().removeKeyboard(true).selective(true).build();
+//
+//
+//        copyMessage.setReplyMarkup(build);
+//
+//
+//        try {
+//            MessageId execute = telegramBot.execute(copyMessage);
+//            Long messageId = execute.getMessageId();
+//            System.out.println(messageId + "   sendMessageWithReply worked success"); //temp
+//            return messageId;
+//
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     @Override
     public Integer sendMessageWithReplyMarkDown2(String chatId, String message) {
@@ -276,10 +281,10 @@ public class SendMessageServiceImpl implements SendMessageService {
     @Override
     public void sendHistoryPictureForManyCharts(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
                                                 String chartName, String[] seriesName) {
-        SendPhoto sendPhoto = new SendPhoto();
-        sendPhoto.setChatId(chatId);
-        InputFile inputPicture = new InputFile();
-        ChartService chartService = new ChartService();
+//        SendPhoto sendPhoto = new SendPhoto();
+//        sendPhoto.setChatId(chatId);
+//        InputFile inputPicture = new InputFile();
+//        ChartService chartService = new ChartService();
 
         //создаем набор данных графика
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -288,18 +293,27 @@ public class SendMessageServiceImpl implements SendMessageService {
             dataset = chartService.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
         }
 
-        File picture = null;
+//        File picture = null;
+//        try {
+//            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        inputPicture.setMedia(picture);
+//        sendPhoto.setPhoto(inputPicture);
+
+        byte[] icmpPingLineChartPicture = null;
         try {
-            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+             icmpPingLineChartPicture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        inputPicture.setMedia(picture);
-        sendPhoto.setPhoto(inputPicture);
 
-        SendPhoto.builder()
+        InputStream byteArrayInputStream = new ByteArrayInputStream(icmpPingLineChartPicture);
+        SendPhoto sendPhoto = SendPhoto.builder()
                 .chatId(chatId)
-                .photo(new InputFile())
+                .photo(new InputFile(byteArrayInputStream, "ping picture"))
+                .build();
 
         try {
             telegramBot.execute(sendPhoto);
@@ -309,31 +323,127 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
     @Override
-    public void sendHistoryPicture(String chatId, HistoryResponseResult historyResponseResults,
+    public void sendHistoryPicture(String chatId, HistoryResponseResult[] historyResponseResults,
                                    String chartName, String seriesName) {
-        SendPhoto sendPhoto = new SendPhoto();
-        sendPhoto.setChatId(chatId);
-        InputFile inputPicture = new InputFile();
-        ChartService chartService = new ChartService();
+//        SendPhoto sendPhoto = new SendPhoto();
+//        sendPhoto.setChatId(chatId);
+//        InputFile inputPicture = new InputFile();
+//        ChartService chartService = new ChartService();
 
         //создаем набор данных графика
-        DefaultCategoryDataset dataset = chartService.createIcmpPingDataset(new DefaultCategoryDataset(), );
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         //наполняем его значениями
-        for (int i = 0; i < listOfHistoryResponseResults.size(); i++) {
-            dataset = chartService.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
-        }
+        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
 
-        File picture = null;
+
+//        File picture = null;
+//        try {
+//            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        inputPicture.setMedia(picture);
+//        sendPhoto.setPhoto(inputPicture);
+
+        byte[] icmpPingLineChartPicture = null;
         try {
-            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+            icmpPingLineChartPicture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        inputPicture.setMedia(picture);
-        sendPhoto.setPhoto(inputPicture);
+
+        InputStream in = new ByteArrayInputStream(icmpPingLineChartPicture);
+        SendPhoto ya_ping = SendPhoto.builder()
+                .chatId(chatId)
+                .photo(new InputFile(in, "ping picture"))
+                .build();
 
         try {
-            telegramBot.execute(sendPhoto);
+            telegramBot.execute(ya_ping);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendCpuUtilization(String chatId, HistoryResponseResult[] historyResponseResults,
+                                   String chartName, String seriesName) {
+//        SendPhoto sendPhoto = new SendPhoto();
+//        sendPhoto.setChatId(chatId);
+//        InputFile inputPicture = new InputFile();
+//        ChartService chartService = new ChartService();
+
+        //создаем набор данных графика
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        //наполняем его значениями
+        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
+
+
+//        File picture = null;
+//        try {
+//            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        inputPicture.setMedia(picture);
+//        sendPhoto.setPhoto(inputPicture);
+
+        byte[] icmpPingLineChartPicture = null;
+        icmpPingLineChartPicture = chartService.createCpuUtilizationChart(dataset, chartName);
+
+        InputStream in = new ByteArrayInputStream(icmpPingLineChartPicture);
+        SendPhoto ya_ping = SendPhoto.builder()
+                .chatId(chatId)
+                .photo(new InputFile(in, "ping picture"))
+                .build();
+
+        try {
+            telegramBot.execute(ya_ping);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendPiePicture(String chatId, HistoryResponseResult[] historyResponseResults,
+                                   String chartName, String seriesName) {
+//        SendPhoto sendPhoto = new SendPhoto();
+//        sendPhoto.setChatId(chatId);
+//        InputFile inputPicture = new InputFile();
+//        ChartService chartService = new ChartService();
+
+        //создаем набор данных графика
+//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//        //наполняем его значениями
+//        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
+
+        DefaultPieDataset datasetForPieChart = chartService.createDatasetForPieChart(historyResponseResults, seriesName);
+
+
+//        File picture = null;
+//        try {
+//            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        inputPicture.setMedia(picture);
+//        sendPhoto.setPhoto(inputPicture);
+
+        byte[] pieChartPicture = null;
+        try {
+            pieChartPicture = chartService.createPieChart(datasetForPieChart, chartName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        InputStream in = new ByteArrayInputStream(pieChartPicture);
+        SendPhoto piePicture = SendPhoto.builder()
+                .chatId(chatId)
+                .photo(new InputFile(in, "pie picture"))
+                .build();
+
+        try {
+            telegramBot.execute(piePicture);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -343,35 +453,35 @@ public class SendMessageServiceImpl implements SendMessageService {
     public void sendHistoryPictureWithText(String chatId, String subject, String message, HistoryResponseResult[] historyResponseResults,
                                            String chartName, String seriesName) {
 
-        String text = subject + "\n\n" + message;
-
-        InputFile inputPicture = new InputFile();
-        ChartService chartService = new ChartService();
-
-        //создаем набор данных графика
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        //наполняем его значениями
-        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
-
-        File picture = null;
-        try {
-            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        inputPicture.setMedia(picture);
-
-        SendPhoto post = SendPhoto.builder()
-                .chatId(chatId)
-                .caption(text)
-                .photo(inputPicture)
-                .build();
-
-        try {
-            telegramBot.execute(post);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+//        String text = subject + "\n\n" + message;
+//
+//        InputFile inputPicture = new InputFile();
+//        ChartService chartService = new ChartService();
+//
+//        //создаем набор данных графика
+//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//        //наполняем его значениями
+//        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
+//
+//        File picture = null;
+//        try {
+//            picture = chartService.createIcmpPingLineChartPicture(dataset, chartName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        inputPicture.setMedia(picture);
+//
+//        SendPhoto post = SendPhoto.builder()
+//                .chatId(chatId)
+//                .caption(text)
+//                .photo(inputPicture)
+//                .build();
+//
+//        try {
+//            telegramBot.execute(post);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
     }
 
 

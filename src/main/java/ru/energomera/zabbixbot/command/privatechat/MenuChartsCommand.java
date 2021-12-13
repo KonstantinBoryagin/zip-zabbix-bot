@@ -36,8 +36,12 @@ public class MenuChartsCommand implements Command {
                         KeyboardButton.builder().text(INTERNET_PING.getCommandName()).build()))
         );
         KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<KeyboardButton>(Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())
+                new ArrayList<KeyboardButton>(Arrays.asList(KeyboardButton.builder().text(COMMUTATOR_PING.getCommandName()).build(),
+                        KeyboardButton.builder().text(ERP_DISK_F.getCommandName()).build())
                         ));
+        KeyboardRow keyboardRow5 = new KeyboardRow(
+                new ArrayList<KeyboardButton>(Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())
+                ));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
                 .resizeKeyboard(true)       //подогнать под размер экрана
@@ -45,6 +49,7 @@ public class MenuChartsCommand implements Command {
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
+                .keyboardRow(keyboardRow5)
                 .build();
 
 
