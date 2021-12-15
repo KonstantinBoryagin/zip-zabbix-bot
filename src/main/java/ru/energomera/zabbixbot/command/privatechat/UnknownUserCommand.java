@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-import static ru.energomera.zabbixbot.sticker.Icon.NO_ENTRY;
+import static ru.energomera.zabbixbot.emoji.Icon.NO_ENTRY;
 
 /**
  * Класс служит для ответа пользователям, не состоящим в группе администраторов и пытающихся

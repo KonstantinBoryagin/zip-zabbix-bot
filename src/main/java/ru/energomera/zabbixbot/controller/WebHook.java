@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.energomera.zabbixbot.service.MessageFromWebHookHandler;
-import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
+import ru.energomera.zabbixbot.model.zabbix.ZabbixWebHook;
 
 @RestController
 @RequestMapping("/api/public/zabbix")

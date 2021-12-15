@@ -2,7 +2,7 @@ package ru.energomera.zabbixbot.command;
 
 import lombok.Getter;
 
-import static ru.energomera.zabbixbot.sticker.Icon.*;
+import static ru.energomera.zabbixbot.emoji.Icon.*;
 
 /**
  * Enum для имен команд {@link Command}
@@ -31,7 +31,11 @@ public enum CommandName {
     BOWLING_COMMAND(BOWLING.get() + "  Bowling"),
     DARTS_COMMAND(DARTS.get() + "  Darts"),
     SLOT_MACHINE_COMMAND(SLOT_MACHINE.get() + "  Slots"),
-    SOCCER_COMMAND(SOCCER.get() + "  Soccer");
+    SOCCER_COMMAND(SOCCER.get() + "  Soccer"),
+    WEATHER(NEW_MOON.get() + "  Погода"),
+    CURRENT_WEATHER(ONE.get() + "  Погода сейчас"),
+    TEMP(THREE.get() + "  coming soon")/////////////////////////////
+    ;
 
     private final String commandName;
 

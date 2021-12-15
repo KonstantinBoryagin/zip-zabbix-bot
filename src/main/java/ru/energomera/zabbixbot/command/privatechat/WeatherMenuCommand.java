@@ -9,17 +9,15 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
-import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
-import static ru.energomera.zabbixbot.emoji.Icon.SUNGLASSES;
+import static ru.energomera.zabbixbot.emoji.Icon.*;
 
-public class GamesMenuCommand implements Command {
+public class WeatherMenuCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final String message = SUNGLASSES.get() + "  <b><i>И пошло оно, развлекайся!   </i></b>" + ARROW_HEADING_DOWN.get();
+    private final String message = "<b><i>Давай посмотрим   </i></b>" + ARROW_HEADING_DOWN.get();
 
-    public GamesMenuCommand(SendMessageService sendMessageService) {
+    public WeatherMenuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
 
@@ -29,17 +27,16 @@ public class GamesMenuCommand implements Command {
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(SLOT_MACHINE_COMMAND.getCommandName()).build(),
-                                KeyboardButton.builder().text(DARTS_COMMAND.getCommandName()).build(),
-                                KeyboardButton.builder().text(BASKETBALL_COMMAND.getCommandName()).build())));
+                        Arrays.asList(KeyboardButton.builder().text(CURRENT_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(BOWLING_COMMAND.getCommandName()).build(),
-                                KeyboardButton.builder().text(DICE_COMMAND.getCommandName()).build(),
-                                KeyboardButton.builder().text(SOCCER_COMMAND.getCommandName()).build())));
+                        Arrays.asList(KeyboardButton.builder().text(TWO.get() + "  coming soon_").build())));
         KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<>(List.of(
-                        KeyboardButton.builder().text(BACK.getCommandName()).build())));
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(THREE.get() + "  coming soon").build())));
+        KeyboardRow keyboardRow4 = new KeyboardRow(
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
                 .resizeKeyboard(true)
@@ -47,6 +44,7 @@ public class GamesMenuCommand implements Command {
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
+                .keyboardRow(keyboardRow4)
                 .build();
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);

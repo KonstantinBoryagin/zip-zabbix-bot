@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.messagesRepository;
-import static ru.energomera.zabbixbot.sticker.Icon.*;
+import static ru.energomera.zabbixbot.emoji.Icon.*;
 
 /**
  * Класс ответ на команду "/problem" в личном сообщении, отображает все не закрытые проблемы
@@ -49,7 +49,7 @@ public class ProblemCommand implements Command {
 
                     String message = FLAME.get() + problemStatus + "<i>" + splitProblemText[0] + "</i></b>\n\n"
                             + splitProblemText[1] + "\n\n"
-                            + CLOCK_2.get() + "<i>" + formatProblemTime + "</i>";
+                            + CLOCK_2.get() + "<i>  " + formatProblemTime + "</i>";
 
                     sendMessageService.sendMessage(chatId, message);
 

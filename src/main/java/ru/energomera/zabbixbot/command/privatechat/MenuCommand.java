@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
-import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
+import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
 
 /**
  * Отправляет главную клавиатуру (выбор доступных меню)
@@ -36,6 +36,9 @@ public class MenuCommand implements Command {
                         Arrays.asList(KeyboardButton.builder().text(MENU_CHARTS.getCommandName()).build())));
         KeyboardRow keyboardRow3 = new KeyboardRow(
                 new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(WEATHER.getCommandName()).build())));
+        KeyboardRow keyboardRow4 = new KeyboardRow(
+                new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(GAMES.getCommandName()).build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
@@ -44,6 +47,7 @@ public class MenuCommand implements Command {
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
+                .keyboardRow(keyboardRow4)
                 .build();
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);

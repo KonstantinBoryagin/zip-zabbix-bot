@@ -5,8 +5,8 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-import static ru.energomera.zabbixbot.sticker.Icon.MONKEY;
-import static ru.energomera.zabbixbot.sticker.Icon.ROBOT_FACE;
+import static ru.energomera.zabbixbot.emoji.Icon.MONKEY;
+import static ru.energomera.zabbixbot.emoji.Icon.ROBOT_FACE;
 
 /**
  * Ответ на команду /start в приватном чате с ботом

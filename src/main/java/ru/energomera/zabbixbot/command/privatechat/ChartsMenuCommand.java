@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
-import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
+import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
 
 /**
  * Класс для отображения клавиатуры выбора графиков в личных сообщениях для админов

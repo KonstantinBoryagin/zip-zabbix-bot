@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.sticker;
+package ru.energomera.zabbixbot.emoji;
 
 import com.vdurmont.emoji.EmojiParser;
 
@@ -53,6 +53,22 @@ public enum Icon {
     FACE_WITH_MONOCLE(":face_with_monocle:"),
     NO_ENTRY(":no_entry_sign:"),
     MONKEY(":monkey:"),
+    CITY_SUNRISE(":city_sunrise:"),
+    CITY_SUNSET(":night_with_stars:"),
+    COMET(":comet:"),
+    SUNNY(":sunny:"),
+    SMALL_CLOUD(":partly_sunny:"),
+    SCATTERED_CLOUD(":white_sun_behind_cloud:"),
+    FULL_MOON(":full_moon:"),
+    CLOUD(":cloud:"),
+    CLOUD_WITH_RAIN(":cloud_with_rain:"),
+    SMALL_RAIN(":white_sun_behind_cloud_with_rain:"),
+    THUNDER_CLOUD(":thunder_cloud_and_rain:"),
+    SNOW_CLOUD(":cloud_with_snow:"),
+    MIST(":fog:"),
+    THERMOMETER(":thermometer:"),
+    WIND(":wind_blowing_face:"),
+    NEW_MOON(":new_moon_with_face:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

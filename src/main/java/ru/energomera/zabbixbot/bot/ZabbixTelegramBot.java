@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.stickers.Sticker;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.command.CommandContainer;
-import ru.energomera.zabbixbot.controller.ZabbixRestService;
+import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
     public ZabbixTelegramBot() {
         this.commandContainer = new CommandContainer(new SendMessageServiceImpl(this)
-        , new ZabbixRestService(new RestTemplateBuilder()));
+        , new ZabbixRestController(new RestTemplateBuilder()));
     }
 
     @Override

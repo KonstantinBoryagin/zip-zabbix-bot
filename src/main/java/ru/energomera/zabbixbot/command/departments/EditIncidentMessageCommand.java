@@ -9,8 +9,8 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import java.util.List;
 
 import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoose;
-import static ru.energomera.zabbixbot.sticker.Icon.MAILBOX_WITH_MAIL;
-import static ru.energomera.zabbixbot.sticker.Icon.PUSHPIN;
+import static ru.energomera.zabbixbot.emoji.Icon.MAILBOX_WITH_MAIL;
+import static ru.energomera.zabbixbot.emoji.Icon.PUSHPIN;
 
 /**
  * Класс для изменения сообщения об инциденте в одной из цеховых групп.

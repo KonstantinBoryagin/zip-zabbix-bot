@@ -5,20 +5,20 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import ru.energomera.zabbixbot.zabbixapi.dto.RequestToZabbixHistory;
-import ru.energomera.zabbixbot.zabbixapi.dto.ResponseFromZabbixHistory;
+import ru.energomera.zabbixbot.model.zabbix.RequestToZabbixHistory;
+import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
 import java.util.Collections;
 
 @RestController
 @Slf4j
-public class ZabbixRestService {
+public class ZabbixRestController {
 
     private final RestTemplate restTemplate;
 
     private final String url = "http://10.6.4.7:81/zabbix/api_jsonrpc.php";
 
-    public ZabbixRestService(RestTemplateBuilder restTemplateBuilder) {
+    public ZabbixRestController(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 

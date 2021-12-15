@@ -2,18 +2,18 @@ package ru.energomera.zabbixbot.command.privatechat;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
-import ru.energomera.zabbixbot.controller.ZabbixRestService;
+import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageService;
-import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
-import ru.energomera.zabbixbot.zabbixapi.dto.RequestToZabbixHistory;
-import ru.energomera.zabbixbot.zabbixapi.dto.ResponseFromZabbixHistory;
+import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
+import ru.energomera.zabbixbot.model.zabbix.RequestToZabbixHistory;
+import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InternetPingCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final ZabbixRestService zabbixRestService;
+    private final ZabbixRestController zabbixRestController;
 
     private final String chartName = "Internet resources ping";
     private final int yandexPingZabbixItemId = 33871;
@@ -21,9 +21,9 @@ public class InternetPingCommand implements Command {
     private final int mailPingZabbixItemId = 33868;
     private final int requestCounter = 20;
 
-    public InternetPingCommand(SendMessageService sendMessageService, ZabbixRestService zabbixRestService) {
+    public InternetPingCommand(SendMessageService sendMessageService, ZabbixRestController zabbixRestController) {
         this.sendMessageService = sendMessageService;
-        this.zabbixRestService = zabbixRestService;
+        this.zabbixRestController = zabbixRestController;
     }
 
     @Override
@@ -31,15 +31,15 @@ public class InternetPingCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
 
         RequestToZabbixHistory proxyIcmpRequestYandex = new RequestToZabbixHistory(yandexPingZabbixItemId, requestCounter);
-        ResponseFromZabbixHistory yandexHistoryResponseFromZabbixHistory = zabbixRestService.createPostWithHistoryObject(proxyIcmpRequestYandex);
+        ResponseFromZabbixHistory yandexHistoryResponseFromZabbixHistory = zabbixRestController.createPostWithHistoryObject(proxyIcmpRequestYandex);
         HistoryResponseResult[] historyResponseResultForYandex = yandexHistoryResponseFromZabbixHistory.getResult();
 
         RequestToZabbixHistory proxyIcmpRequestGoogle = new RequestToZabbixHistory(googleDnsPingZabbixItemId, requestCounter);
-        ResponseFromZabbixHistory googleHistoryResponseFromZabbixHistory = zabbixRestService.createPostWithHistoryObject(proxyIcmpRequestGoogle);
+        ResponseFromZabbixHistory googleHistoryResponseFromZabbixHistory = zabbixRestController.createPostWithHistoryObject(proxyIcmpRequestGoogle);
         HistoryResponseResult[] historyResponseResultForGoogle = googleHistoryResponseFromZabbixHistory.getResult();
 
         RequestToZabbixHistory proxyIcmpRequestMail = new RequestToZabbixHistory(mailPingZabbixItemId, requestCounter);
-        ResponseFromZabbixHistory mailHistoryResponseFromZabbixHistory = zabbixRestService.createPostWithHistoryObject(proxyIcmpRequestMail);
+        ResponseFromZabbixHistory mailHistoryResponseFromZabbixHistory = zabbixRestController.createPostWithHistoryObject(proxyIcmpRequestMail);
         HistoryResponseResult[] historyResponseResultForMail = mailHistoryResponseFromZabbixHistory.getResult();
 
         //временно заполним тут, потом в отдельные команды

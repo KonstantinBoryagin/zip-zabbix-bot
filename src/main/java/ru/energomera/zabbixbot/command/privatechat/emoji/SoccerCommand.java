@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-import static ru.energomera.zabbixbot.sticker.Icon.SOCCER;
+import static ru.energomera.zabbixbot.emoji.Icon.SOCCER;
 
 public class SoccerCommand implements Command {
     private final SendMessageService sendMessageService;

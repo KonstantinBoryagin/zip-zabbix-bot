@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static ru.energomera.zabbixbot.sticker.Icon.*;
+import static ru.energomera.zabbixbot.emoji.Icon.*;
 
 /**
  * Класс отвечает за реакцию на кнопку "Дополнить" под инцидентом в любой из цеховых групп.

@@ -4,14 +4,14 @@ package ru.energomera.zabbixbot.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
+import ru.energomera.zabbixbot.model.zabbix.ZabbixWebHook;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.energomera.zabbixbot.sticker.Icon.*;
+import static ru.energomera.zabbixbot.emoji.Icon.*;
 
 @Service
 @Slf4j

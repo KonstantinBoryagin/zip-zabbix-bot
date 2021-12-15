@@ -2,7 +2,7 @@ package ru.energomera.zabbixbot.command;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.service.SendMessageService;
-import ru.energomera.zabbixbot.sticker.Icon;
+import ru.energomera.zabbixbot.emoji.Icon;
 
 import static ru.energomera.zabbixbot.command.CommandName.HELP;
 

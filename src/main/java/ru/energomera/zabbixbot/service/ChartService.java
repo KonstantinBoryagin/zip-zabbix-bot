@@ -10,7 +10,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.stereotype.Service;
-import ru.energomera.zabbixbot.zabbixapi.dto.HistoryResponseResult;
+import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
