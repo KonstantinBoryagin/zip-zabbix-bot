@@ -3,10 +3,11 @@ package ru.energomera.zabbixbot.command;
 import com.google.common.collect.ImmutableMap;
 import ru.energomera.zabbixbot.command.adminsgroup.HelpAdminsGroupCommand;
 import ru.energomera.zabbixbot.command.departments.CancelCommand;
-import ru.energomera.zabbixbot.command.departments.HelpCommand;
 import ru.energomera.zabbixbot.command.departments.EditIncidentMessageCommand;
+import ru.energomera.zabbixbot.command.departments.HelpCommand;
 import ru.energomera.zabbixbot.command.departments.UpdateCommand;
 import ru.energomera.zabbixbot.command.privatechat.*;
+import ru.energomera.zabbixbot.command.privatechat.emoji.*;
 import ru.energomera.zabbixbot.controller.ZabbixRestService;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
@@ -46,14 +47,20 @@ public class CommandContainer {
                 .put(MENU.getCommandName(), new MenuCommand(sendMessageService))
                 .put(START.getCommandName(), new StartCommand(sendMessageService))
                 .put(PROBLEM.getCommandName(), new ProblemCommand(sendMessageService))
-                .put(MENU_CHARTS.getCommandName(), new MenuChartsCommand(sendMessageService))
-                .put(SLOT.getCommandName(), new SlotMachineCommand(sendMessageService))
+                .put(MENU_CHARTS.getCommandName(), new ChartsMenuCommand(sendMessageService))
+                .put(GAMES.getCommandName(), new GamesMenuCommand(sendMessageService))
                 .put(BACK.getCommandName(), new MenuCommand(sendMessageService))
                 .put(INTERNET_PING.getCommandName(), new InternetPingCommand(sendMessageService, zabbixRestService))
                 .put(CPU_SRV_ERP_2.getCommandName(), new SrvErpCpuCommand(sendMessageService, zabbixRestService))
                 .put(PROXY_PING_COMMAND.getCommandName(), new ProxyPingCommand(sendMessageService, zabbixRestService))
                 .put(COMMUTATOR_PING.getCommandName(), new CommutatorPingCommand(sendMessageService, zabbixRestService))
                 .put(ERP_DISK_F.getCommandName(), new ErpTwoDiskSpaceCommand(sendMessageService, zabbixRestService))
+                .put(SOCCER_COMMAND.getCommandName(), new SoccerCommand(sendMessageService))
+                .put(BASKETBALL_COMMAND.getCommandName(), new BasketballCommand(sendMessageService))
+                .put(DARTS_COMMAND.getCommandName(), new DartsCommand(sendMessageService))
+                .put(SLOT_MACHINE_COMMAND.getCommandName(), new SlotMachineCommand(sendMessageService))
+                .put(BOWLING_COMMAND.getCommandName(), new BowlingCommand(sendMessageService))
+                .put(DICE_COMMAND.getCommandName(), new DiceCommand(sendMessageService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendMessageService);

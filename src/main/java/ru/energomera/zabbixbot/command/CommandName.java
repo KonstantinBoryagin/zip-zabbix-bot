@@ -21,11 +21,17 @@ public enum CommandName {
     PROXY_PING_COMMAND(CHART_TO_UP.get() + "  Proxy ICMP ping"),
     CPU_SRV_ERP_2(BAR_CHART.get() + "  srv-erp 2 CPU utilization"),
     INTERNET_PING(CHART_TO_UP.get() + "  Internet resources ping"),
-    SLOT(SLOT_MACHINE.get() + "  Сыграем?"),
+    GAMES(QUESTION.get() + "  Все достало?"),
     MENU_CHARTS(CHART_IMG.get() + "  Графики"),
     PROBLEM(FLAME.get() + "  Актуальные проблемы"),
     COMMUTATOR_PING(CHART_TO_DOWN.get() + "  Серверная(оптика) ping"),
-    ERP_DISK_F(MAG_RIGHT.get() + "  srv-erp 2 F: disk used space");
+    ERP_DISK_F(MAG_RIGHT.get() + "  srv-erp 2 F: disk used space"),
+    DICE_COMMAND(GAME_DICE.get() + "  Dice"),
+    BASKETBALL_COMMAND(BASKETBALL.get() + "  Basketball"),
+    BOWLING_COMMAND(BOWLING.get() + "  Bowling"),
+    DARTS_COMMAND(DARTS.get() + "  Darts"),
+    SLOT_MACHINE_COMMAND(SLOT_MACHINE.get() + "  Slots"),
+    SOCCER_COMMAND(SOCCER.get() + "  Soccer");
 
     private final String commandName;
 

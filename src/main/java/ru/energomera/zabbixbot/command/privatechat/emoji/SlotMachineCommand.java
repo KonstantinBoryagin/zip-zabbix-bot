@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.privatechat;
+package ru.energomera.zabbixbot.command.privatechat.emoji;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
@@ -19,9 +19,8 @@ public class SlotMachineCommand implements Command {
     @Override
     public void execute(Update update) {
        String chatId = update.getMessage().getChatId().toString();
-       String emoji = SLOT_MACHINE.get();
 
-        sendMessageService.sendEmoji(chatId, emoji);
+        sendMessageService.sendEmoji(chatId, SLOT_MACHINE.get());
 
     }
 }

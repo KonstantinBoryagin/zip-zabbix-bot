@@ -49,7 +49,7 @@ public class WebHook {
 
             String messageChatId = zabbixWebHook.getChat_id();
 
-            log.info("Received message from Zabbix with text: {} {};\n with ChatId: {}",
+            log.info("Received message from Zabbix with text: {} {};\nwith ChatId: {}",
                     zabbixWebHook.getSubj(), zabbixWebHook.getMessage(), zabbixWebHook.getChat_id());
 
             //проверяем что это нужное сообщение

@@ -1,6 +1,7 @@
 package ru.energomera.zabbixbot.service;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.energomera.zabbixbot.zabbixapi.dto.ZabbixWebHook;
@@ -13,11 +14,13 @@ import java.util.Map;
 import static ru.energomera.zabbixbot.sticker.Icon.*;
 
 @Service
+@Slf4j
 public class MessageFromWebHookHandler {
 
     private final SendMessageService sendMessageService;
     public static Map<String, List<List<Object>>> messagesRepository = new LinkedHashMap<>();
-    private final String saveRuleException = "LogitemTrigger   Важность: Not classified";
+    private final String saveRuleException1 = "LogitemTrigger";
+    private final String saveRuleException2 = "Важность: Not classified";
 
     @Autowired
     public MessageFromWebHookHandler(SendMessageService sendMessageService) {
@@ -45,10 +48,12 @@ public class MessageFromWebHookHandler {
                 Integer sendMessageId = sendMessageService.sendMessage(chatId, problemMessage);
 
                 //(sendMessageId != null) проверка на то что сообщение отправлено
-                //так как там где он будет деплоиться часто бывают сбои при связи с телеграмм(из-за загруженности канала)
-                if(message.equals(saveRuleException)) {    //исключение, на нее не приходит "Решено"
+                //так как там где бот будет деплоиться часто бывают сбои при связи с телеграмм(из-за загруженности канала)
+                if (message.contains(saveRuleException1) && message.contains(saveRuleException2)) {
+                    //исключение, на нее не приходит "Решено"
+                    log.info("Problem message id {} don't save because it is saveRuleException", sendMessageId);
                     break;
-                } else if(sendMessageId != null && messagesRepository.containsKey(incidentText)){
+                } else if (sendMessageId != null && messagesRepository.containsKey(incidentText)) {
                     List<List<Object>> allMessagesProperties = messagesRepository.get(incidentText);
                     List<Object> messageProperties = new ArrayList<>();
 
@@ -58,7 +63,8 @@ public class MessageFromWebHookHandler {
                     messageProperties.add(startProblem);
 
                     allMessagesProperties.add(messageProperties);
-                } else if(sendMessageId != null){
+                    log.info("Problem message with id {} save like recurring problem, List size - {}", sendMessageId, allMessagesProperties.size());
+                } else if (sendMessageId != null) {
                     List<List<Object>> allMessagesProperties = new ArrayList<>();
                     List<Object> messageProperties = new ArrayList<>();
 
@@ -69,6 +75,7 @@ public class MessageFromWebHookHandler {
 
                     allMessagesProperties.add(messageProperties);
                     messagesRepository.put(incidentText, allMessagesProperties);   //save to map
+                    log.info("Problem message with id {} save like first problem", sendMessageId);
                 }
                 break;
             case "Решено":
@@ -87,12 +94,16 @@ public class MessageFromWebHookHandler {
                             + message + "\n\n" + CLOCK_2.get() + "<i>  " + formatProblemTime + "</i>";
                     sendMessageService.sendEditedMessage(chatId, solvedMessage, oldMessageId);
 
-                    if(allMessagesProperties.size() == 0) {
+                    log.info("Resolved message delete entry problem from Map, List size - {}", allMessagesProperties.size());
+
+                    if (allMessagesProperties.size() == 0) {
                         messagesRepository.remove(incidentText);  //clear map if list is empty
+                        log.info("Clear problem Map because List with incidents is empty");
                     }
                 } else {
                     String editMessage = CHECK.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
                     sendMessageService.sendMessage(chatId, editMessage);
+                    log.warn("Resolved problem send without saving because in Map no entry found, text ({})", editMessage);
                 }
         }
 

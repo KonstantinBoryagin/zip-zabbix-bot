@@ -9,18 +9,19 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
 
 /**
- * Отправляет главную клавиатуру (выбор доступных меню)
+ * Класс для отображения клавиатуры выбора графиков в личных сообщениях для админов
  */
-public class MenuCommand implements Command {
+public class ChartsMenuCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final String message = "<b><i>Выбирай   </i></b>" + ARROW_HEADING_DOWN.get();
+    private final String message = "<b><i>Графики   </i></b>" + ARROW_HEADING_DOWN.get();
 
-    public MenuCommand(SendMessageService sendMessageService) {
+    public ChartsMenuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
 
@@ -29,22 +30,29 @@ public class MenuCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
-                new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(PROBLEM.getCommandName()).build())));
+                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(CPU_SRV_ERP_2.getCommandName()).build(),
+                        KeyboardButton.builder().text(ERP_DISK_F.getCommandName()).build())
+        ));
         KeyboardRow keyboardRow2 = new KeyboardRow(
-                new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(MENU_CHARTS.getCommandName()).build())));
+                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(PROXY_PING_COMMAND.getCommandName()).build(),
+                        KeyboardButton.builder().text(INTERNET_PING.getCommandName()).build()))
+        );
         KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(GAMES.getCommandName()).build())));
+                new ArrayList<>(List.of(KeyboardButton.builder().text(COMMUTATOR_PING.getCommandName()).build()
+                )));
+        KeyboardRow keyboardRow4 = new KeyboardRow(
+                new ArrayList<>(List.of(KeyboardButton.builder().text(BACK.getCommandName()).build())
+                ));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
-                .resizeKeyboard(true)
-                .oneTimeKeyboard(false)
+                .resizeKeyboard(true)       //подогнать под размер экрана
+                .oneTimeKeyboard(false)     //скрывать после нажатия
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
+                .keyboardRow(keyboardRow4)
                 .build();
+
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);
 

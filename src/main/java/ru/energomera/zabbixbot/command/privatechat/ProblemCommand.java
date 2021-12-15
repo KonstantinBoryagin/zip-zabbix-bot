@@ -35,7 +35,6 @@ public class ProblemCommand implements Command {
             sendMessageService.sendMessage(chatId, noProblemMessage);
         } else {
             for (Map.Entry<String, List<List<Object>>> problem : messagesRepository.entrySet()) {
-                System.out.println(problem.getKey() + " : " + problem.getValue());
 
                 String problemText = problem.getKey();
                 String[] splitProblemText = problemText.split("\n", 2);

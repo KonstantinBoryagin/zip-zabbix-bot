@@ -9,18 +9,17 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.sticker.Icon.ARROW_HEADING_DOWN;
+import static ru.energomera.zabbixbot.sticker.Icon.SUNGLASSES;
 
-/**
- * Класс для отображения клавиатуры выбора графиков в личных сообщениях для админов
- */
-public class MenuChartsCommand implements Command {
+public class GamesMenuCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final String message = "<b><i>Графики   </i></b>" + ARROW_HEADING_DOWN.get();
+    private final String message = SUNGLASSES.get() + "  <b><i>И пошло оно, развлекайся!   </i></b>" + ARROW_HEADING_DOWN.get();
 
-    public MenuChartsCommand(SendMessageService sendMessageService) {
+    public GamesMenuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
     }
 
@@ -29,29 +28,26 @@ public class MenuChartsCommand implements Command {
         String chatId = update.getMessage().getChatId().toString();
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
-                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(CPU_SRV_ERP_2.getCommandName()).build(),
-                        KeyboardButton.builder().text(ERP_DISK_F.getCommandName()).build())
-        ));
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(SLOT_MACHINE_COMMAND.getCommandName()).build(),
+                                KeyboardButton.builder().text(DARTS_COMMAND.getCommandName()).build(),
+                                KeyboardButton.builder().text(BASKETBALL_COMMAND.getCommandName()).build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
-                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(PROXY_PING_COMMAND.getCommandName()).build(),
-                        KeyboardButton.builder().text(INTERNET_PING.getCommandName()).build()))
-        );
+                new ArrayList<>(
+                        Arrays.asList(KeyboardButton.builder().text(BOWLING_COMMAND.getCommandName()).build(),
+                                KeyboardButton.builder().text(DICE_COMMAND.getCommandName()).build(),
+                                KeyboardButton.builder().text(SOCCER_COMMAND.getCommandName()).build())));
         KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(COMMUTATOR_PING.getCommandName()).build()
-                )));
-        KeyboardRow keyboardRow4 = new KeyboardRow(
-                new ArrayList<>(Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())
-                ));
+                new ArrayList<>(List.of(
+                        KeyboardButton.builder().text(BACK.getCommandName()).build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
-                .resizeKeyboard(true)       //подогнать под размер экрана
-                .oneTimeKeyboard(false)     //скрывать после нажатия
+                .resizeKeyboard(true)
+                .oneTimeKeyboard(false)
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
-                .keyboardRow(keyboardRow4)
                 .build();
-
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);
 
