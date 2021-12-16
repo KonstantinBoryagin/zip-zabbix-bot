@@ -28,8 +28,8 @@ public class MessageFromWebHookHandler {
     }
 
     public void processMessageForAdminGroup(ZabbixWebHook webHookEntity) {
-        String chatId = webHookEntity.getChat_id();
-        String subject = webHookEntity.getSubj();
+        String chatId = webHookEntity.getChatId();
+        String subject = webHookEntity.getSubject();
         String message = webHookEntity.getMessage();
 
         saveAndSendMessageForAdminGroup(chatId, subject, message);
@@ -110,8 +110,8 @@ public class MessageFromWebHookHandler {
     }
 
     public void processMessageForDepartmentNotifications(ZabbixWebHook webHookEntity) {
-        String chatId = webHookEntity.getChat_id();
-        String subject = "<b>" + EXCLAMATION.get() + webHookEntity.getSubj().trim() + EXCLAMATION.get() + "</b>";
+        String chatId = webHookEntity.getChatId();
+        String subject = "<b>" + EXCLAMATION.get() + webHookEntity.getSubject().trim() + EXCLAMATION.get() + "</b>";
         String text = parseZabbixWebhookMessage(webHookEntity.getMessage());
         String message = subject + "\n\n" + text;
 

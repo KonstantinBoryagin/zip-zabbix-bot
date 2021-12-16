@@ -6,6 +6,10 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import static ru.energomera.zabbixbot.emoji.Icon.DARTS;
 
+/**
+ * Класс реализует {@link Command}
+ * Отправляет эмодзи (в телеграмме она анимируется)
+ */
 public class DartsCommand implements Command {
     private final SendMessageService sendMessageService;
 

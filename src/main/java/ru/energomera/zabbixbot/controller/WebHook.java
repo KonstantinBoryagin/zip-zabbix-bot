@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.energomera.zabbixbot.service.MessageFromWebHookHandler;
 import ru.energomera.zabbixbot.model.zabbix.ZabbixWebHook;
 
+/**
+ * Web hook для уведомлений от Zabbix. Настраивается js скриптом на стороне сервера.
+ * Смотрит chat id для которого предназначено сообщение и вызывает соответствующий метод {@link MessageFromWebHookHandler}
+ */
 @RestController
 @RequestMapping("/api/public/zabbix")
 @Slf4j
@@ -47,10 +51,10 @@ public class WebHook {
         try {
             zabbixWebHook = gson.fromJson(json, ZabbixWebHook.class);
 
-            String messageChatId = zabbixWebHook.getChat_id();
+            String messageChatId = zabbixWebHook.getChatId();
 
             log.info("Received message from Zabbix with text: {} {};\nwith ChatId: {}",
-                    zabbixWebHook.getSubj(), zabbixWebHook.getMessage(), zabbixWebHook.getChat_id());
+                    zabbixWebHook.getSubject(), zabbixWebHook.getMessage(), zabbixWebHook.getChatId());
 
             //проверяем что это нужное сообщение
             if (messageChatId.equals(adminGroupChatId)) {

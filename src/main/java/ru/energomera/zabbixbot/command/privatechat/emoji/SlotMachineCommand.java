@@ -7,7 +7,8 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import static ru.energomera.zabbixbot.emoji.Icon.SLOT_MACHINE;
 
 /**
- * Немножко фана, анимированное эмодзи с игровым автоматом
+ * Класс реализует {@link Command}
+ * Отправляет эмодзи (в телеграмме она анимируется)
  */
 public class SlotMachineCommand implements Command {
     private final SendMessageService sendMessageService;

@@ -7,6 +7,10 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import static ru.energomera.zabbixbot.emoji.Icon.*;
 import static ru.energomera.zabbixbot.emoji.Icon.ROBOT_FACE;
 
+/**
+ * Класс реализует {@link Command}
+ * Отправляет сообщение-помощь для групп рассылок цеховых инцидентов
+ */
 public class HelpAdminsGroupCommand implements Command {
     private final SendMessageService sendMessageService;
 

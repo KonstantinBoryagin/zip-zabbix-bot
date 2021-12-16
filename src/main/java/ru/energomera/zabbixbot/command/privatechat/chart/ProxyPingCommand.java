@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.privatechat;
+package ru.energomera.zabbixbot.command.privatechat.chart;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
@@ -8,16 +8,20 @@ import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 import ru.energomera.zabbixbot.model.zabbix.RequestToZabbixHistory;
 import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
-public class CommutatorPingCommand implements Command {
+/**
+ * Класс реализует {@link Command}
+ * Формирует {@link ZabbixRestController} и отправляет график пинга прокси сервера
+ */
+public class ProxyPingCommand implements Command {
     private final SendMessageService sendMessageService;
     private final ZabbixRestController zabbixRestController;
 
-    private final String chartName = "Серверная(оптика) ICMP ping";
-    private final String seriesName = "Серверная";
-    private final int proxyPingZabbixItemId = 33805;
+    private final String chartName = "Proxy server ICMP ping";
+    private final String seriesName = "Proxy server";
+    private final int proxyPingZabbixItemId = 33484;
     private int requestCounter = 20;
 
-    public CommutatorPingCommand(SendMessageService sendMessageService, ZabbixRestController zabbixRestController) {
+    public ProxyPingCommand(SendMessageService sendMessageService, ZabbixRestController zabbixRestController) {
         this.sendMessageService = sendMessageService;
         this.zabbixRestController = zabbixRestController;
     }
@@ -33,4 +37,3 @@ public class CommutatorPingCommand implements Command {
         sendMessageService.sendHistoryPicture(chatId, historyResponseResult, chartName, seriesName);
     }
 }
-

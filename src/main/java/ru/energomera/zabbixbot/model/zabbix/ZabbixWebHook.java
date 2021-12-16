@@ -1,5 +1,7 @@
 package ru.energomera.zabbixbot.model.zabbix;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.ToString;
 
@@ -8,13 +10,15 @@ import lombok.ToString;
  */
 @Data
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ZabbixWebHook {
 
-    private String chat_id;
-    private String parse_mode;
-    private boolean disable_web_page_preview;
-    private boolean disable_notification;
-    private String subj;
+    @JsonProperty("chat_id")
+    private String chatId;
+
+    @JsonProperty("subj")
+    private String subject;
+
     private String message;
 
 }

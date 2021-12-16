@@ -13,9 +13,13 @@ import java.util.Arrays;
 import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.emoji.Icon.*;
 
+/**
+ * Класс реализует {@link Command}
+ * Формирует и отправляет клавиатуру-меню для выбора прогнозов погоды
+ */
 public class WeatherMenuCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final String message = "<b><i>Давай посмотрим   </i></b>" + ARROW_HEADING_DOWN.get();
+    private final String message = ROBOT_FACE.get() + "  <b><i>Ну, сейчас навангую   </i></b>" + ARROW_HEADING_DOWN.get();
 
     public WeatherMenuCommand(SendMessageService sendMessageService) {
         this.sendMessageService = sendMessageService;
@@ -27,14 +31,12 @@ public class WeatherMenuCommand implements Command {
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(CURRENT_WEATHER.getCommandName()).build())));
+                        Arrays.asList(KeyboardButton.builder().text(CURRENT_WEATHER.getCommandName()).build(),
+                                KeyboardButton.builder().text(DAILY_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(WEEKLY_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(THREE.get() + "  coming soon").build())));
-        KeyboardRow keyboardRow4 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())));
 
@@ -44,7 +46,6 @@ public class WeatherMenuCommand implements Command {
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
                 .keyboardRow(keyboardRow3)
-                .keyboardRow(keyboardRow4)
                 .build();
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);

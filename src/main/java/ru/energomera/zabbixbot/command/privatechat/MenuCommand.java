@@ -14,6 +14,7 @@ import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
 
 /**
+ * Класс реализует {@link Command}
  * Отправляет главную клавиатуру (выбор доступных меню)
  */
 public class MenuCommand implements Command {
@@ -30,24 +31,18 @@ public class MenuCommand implements Command {
 
         KeyboardRow keyboardRow1 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(PROBLEM.getCommandName()).build())));
+                        Arrays.asList(KeyboardButton.builder().text(PROBLEM.getCommandName()).build(),
+                                KeyboardButton.builder().text(MENU_CHARTS.getCommandName()).build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(MENU_CHARTS.getCommandName()).build())));
-        KeyboardRow keyboardRow3 = new KeyboardRow(
-                new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(WEATHER.getCommandName()).build())));
-        KeyboardRow keyboardRow4 = new KeyboardRow(
-                new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(GAMES.getCommandName()).build())));
+                        Arrays.asList(KeyboardButton.builder().text(WEATHER.getCommandName()).build(),
+                                KeyboardButton.builder().text(GAMES.getCommandName()).build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
                 .resizeKeyboard(true)
                 .oneTimeKeyboard(false)
                 .keyboardRow(keyboardRow1)
                 .keyboardRow(keyboardRow2)
-                .keyboardRow(keyboardRow3)
-                .keyboardRow(keyboardRow4)
                 .build();
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);

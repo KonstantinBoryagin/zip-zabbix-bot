@@ -15,6 +15,10 @@ import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
 import static ru.energomera.zabbixbot.emoji.Icon.SUNGLASSES;
 
+/**
+ * Класс реализует {@link Command}
+ * По запросам трудящихся
+ */
 public class GamesMenuCommand implements Command {
     private final SendMessageService sendMessageService;
     private final String message = SUNGLASSES.get() + "  <b><i>И пошло оно, развлекайся!   </i></b>" + ARROW_HEADING_DOWN.get();

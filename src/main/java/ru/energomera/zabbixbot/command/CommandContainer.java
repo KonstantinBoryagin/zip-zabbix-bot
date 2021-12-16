@@ -7,9 +7,14 @@ import ru.energomera.zabbixbot.command.departments.EditIncidentMessageCommand;
 import ru.energomera.zabbixbot.command.departments.HelpCommand;
 import ru.energomera.zabbixbot.command.departments.UpdateCommand;
 import ru.energomera.zabbixbot.command.privatechat.*;
+import ru.energomera.zabbixbot.command.privatechat.chart.*;
 import ru.energomera.zabbixbot.command.privatechat.emoji.*;
+import ru.energomera.zabbixbot.command.privatechat.weather.CurrentWeatherCommand;
+import ru.energomera.zabbixbot.command.privatechat.weather.DailyWeatherCommand;
+import ru.energomera.zabbixbot.command.privatechat.weather.WeeklyWeatherCommand;
 import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageService;
+import ru.energomera.zabbixbot.service.WeatherService;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
@@ -26,7 +31,8 @@ public class CommandContainer {
     private final ImmutableMap<String, Command> privateChatCommandMap;
     private final Command unknownCommand;
 
-    public CommandContainer(SendMessageService sendMessageService, ZabbixRestController zabbixRestController){
+    public CommandContainer(SendMessageService sendMessageService, ZabbixRestController zabbixRestController,
+                            WeatherService weatherService){
 
         generalCommandMap = ImmutableMap.<String, Command>builder()
 
@@ -62,9 +68,9 @@ public class CommandContainer {
                 .put(BOWLING_COMMAND.getCommandName(), new BowlingCommand(sendMessageService))
                 .put(DICE_COMMAND.getCommandName(), new DiceCommand(sendMessageService))
                 .put(WEATHER.getCommandName(), new WeatherMenuCommand(sendMessageService))
-                .put(CURRENT_WEATHER.getCommandName(), new CurrentWeatherCommand(sendMessageService))
-                .put(WEEKLY_WEATHER.getCommandName(), new WeeklyWeatherCommand(sendMessageService))
-                .put(TEMP.getCommandName(), new TempCommand(sendMessageService))
+                .put(CURRENT_WEATHER.getCommandName(), new CurrentWeatherCommand(sendMessageService, weatherService))
+                .put(WEEKLY_WEATHER.getCommandName(), new WeeklyWeatherCommand(sendMessageService, weatherService))
+                .put(DAILY_WEATHER.getCommandName(), new DailyWeatherCommand(sendMessageService, weatherService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendMessageService);

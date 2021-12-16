@@ -15,7 +15,8 @@ import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
 
 /**
- * Класс для отображения клавиатуры выбора графиков в личных сообщениях для админов
+ * Класс реализует {@link Command}
+ * Отображает клавиатуру для выбора графиков в личных сообщениях для админов
  */
 public class ChartsMenuCommand implements Command {
     private final SendMessageService sendMessageService;

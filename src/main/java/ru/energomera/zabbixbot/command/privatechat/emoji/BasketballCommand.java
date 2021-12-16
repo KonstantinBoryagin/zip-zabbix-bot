@@ -6,6 +6,10 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import static ru.energomera.zabbixbot.emoji.Icon.BASKETBALL;
 
+/**
+ * Класс реализует {@link Command}
+ * Отправляет эмодзи (в телеграмме она анимируется)
+ */
 public class BasketballCommand implements Command {
     private final SendMessageService sendMessageService;
 

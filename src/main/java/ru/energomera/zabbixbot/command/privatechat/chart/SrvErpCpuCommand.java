@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.privatechat;
+package ru.energomera.zabbixbot.command.privatechat.chart;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
@@ -8,6 +8,10 @@ import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 import ru.energomera.zabbixbot.model.zabbix.RequestToZabbixHistory;
 import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
+/**
+ * Класс реализует {@link Command}
+ * Формирует {@link ZabbixRestController} и отправляет график загрузки CPU сервера
+ */
 public class SrvErpCpuCommand implements Command {
     private final SendMessageService sendMessageService;
     private final ZabbixRestController zabbixRestController;

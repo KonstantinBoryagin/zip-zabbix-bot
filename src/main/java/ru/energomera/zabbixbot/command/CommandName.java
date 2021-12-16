@@ -21,7 +21,7 @@ public enum CommandName {
     PROXY_PING_COMMAND(CHART_TO_UP.get() + "  Proxy ICMP ping"),
     CPU_SRV_ERP_2(BAR_CHART.get() + "  srv-erp 2 CPU utilization"),
     INTERNET_PING(CHART_TO_UP.get() + "  Internet resources ping"),
-    GAMES(QUESTION.get() + "  Все достало?"),
+    GAMES(QUESTION.get() + "  Все достало"),
     MENU_CHARTS(CHART_IMG.get() + "  Графики"),
     PROBLEM(FLAME.get() + "  Актуальные проблемы"),
     COMMUTATOR_PING(CHART_TO_DOWN.get() + "  Серверная(оптика) ping"),
@@ -33,9 +33,9 @@ public enum CommandName {
     SLOT_MACHINE_COMMAND(SLOT_MACHINE.get() + "  Slots"),
     SOCCER_COMMAND(SOCCER.get() + "  Soccer"),
     WEATHER(NEW_MOON.get() + "  Погода"),
-    CURRENT_WEATHER(ONE.get() + "  Погода сейчас"),
-    WEEKLY_WEATHER(TWO.get() + "  Погода на неделю"),
-    TEMP(THREE.get() + "  coming soon")/////////////////////////////
+    CURRENT_WEATHER(ROUND_PUSHPIN.get() + "  Погода сейчас"),
+    WEEKLY_WEATHER(CALENDAR.get() + "  Погода на неделю"),
+    DAILY_WEATHER(MEMO.get() + "  Сегодня/завтра(подробно)")
     ;
 
     private final String commandName;

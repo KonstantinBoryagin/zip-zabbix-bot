@@ -6,6 +6,10 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import static ru.energomera.zabbixbot.emoji.Icon.SUNGLASSES;
 
+/**
+ * Класс реализует {@link Command}
+ * Команда отображает сообщение-помощь при общении с ботом в личных сообщениях
+ */
 public class HelpPrivateMessageCommand implements Command {
     private final SendMessageService sendMessageService;
 

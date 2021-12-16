@@ -7,6 +7,7 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import static ru.energomera.zabbixbot.emoji.Icon.*;
 
 /**
+ * Класс реализует {@link Command}
  * Ответ на команду /help для 3-х групп рассылки цеховых инцидентов
  */
 public class HelpCommand implements Command {

@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.privatechat;
+package ru.energomera.zabbixbot.command.privatechat.chart;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
@@ -8,16 +8,20 @@ import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 import ru.energomera.zabbixbot.model.zabbix.RequestToZabbixHistory;
 import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
-public class ErpTwoDiskSpaceCommand implements Command {
+/**
+ * Класс реализует {@link Command}
+ * Формирует {@link ZabbixRestController} и отправляет график пинга сервера
+ */
+public class CommutatorPingCommand implements Command {
     private final SendMessageService sendMessageService;
     private final ZabbixRestController zabbixRestController;
 
-    private final String chartName = "srv-erp 2 used F: disk space";
-    private final String seriesName = "used disk F: space";
-    private final int proxyPingZabbixItemId = 33058;
-    private int requestCounter = 1;
+    private final String chartName = "Серверная(оптика) ICMP ping";
+    private final String seriesName = "Серверная";
+    private final int proxyPingZabbixItemId = 33805;
+    private int requestCounter = 20;
 
-    public ErpTwoDiskSpaceCommand(SendMessageService sendMessageService, ZabbixRestController zabbixRestController) {
+    public CommutatorPingCommand(SendMessageService sendMessageService, ZabbixRestController zabbixRestController) {
         this.sendMessageService = sendMessageService;
         this.zabbixRestController = zabbixRestController;
     }
@@ -30,6 +34,7 @@ public class ErpTwoDiskSpaceCommand implements Command {
         ResponseFromZabbixHistory historyResponseFromZabbixHistory = zabbixRestController.createPostWithHistoryObject(proxyIcmpRequest);
         HistoryResponseResult[] historyResponseResult = historyResponseFromZabbixHistory.getResult();
 
-        sendMessageService.sendPiePicture(chatId, historyResponseResult, chartName, seriesName);
+        sendMessageService.sendHistoryPicture(chatId, historyResponseResult, chartName, seriesName);
     }
 }
+

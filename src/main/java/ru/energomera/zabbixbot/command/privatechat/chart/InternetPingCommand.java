@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.command.privatechat;
+package ru.energomera.zabbixbot.command.privatechat.chart;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
@@ -11,6 +11,10 @@ import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс реализует {@link Command}
+ * Формирует {@link ZabbixRestController} и отправляет график пинга интернет ресурсов
+ */
 public class InternetPingCommand implements Command {
     private final SendMessageService sendMessageService;
     private final ZabbixRestController zabbixRestController;

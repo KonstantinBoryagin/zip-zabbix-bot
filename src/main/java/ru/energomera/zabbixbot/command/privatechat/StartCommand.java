@@ -9,6 +9,7 @@ import static ru.energomera.zabbixbot.emoji.Icon.MONKEY;
 import static ru.energomera.zabbixbot.emoji.Icon.ROBOT_FACE;
 
 /**
+ * Класс реализует {@link Command}
  * Ответ на команду /start в приватном чате с ботом
  * (увидят только участники группы администраторов)
  */

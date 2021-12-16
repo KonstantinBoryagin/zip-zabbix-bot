@@ -10,6 +10,7 @@ import java.util.List;
 import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoose;
 
 /**
+ * Класс реализует {@link Command}
  * Реакция на нажатие /cancel при отмене редактирования сообщения об инциденте в одной из цеховых групп.
  * Очищает групповой чат от служебных сообщений
  */

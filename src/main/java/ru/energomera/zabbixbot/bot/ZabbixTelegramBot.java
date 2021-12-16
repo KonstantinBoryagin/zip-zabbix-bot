@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
+import ru.energomera.zabbixbot.service.WeatherService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,8 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
 
     public ZabbixTelegramBot() {
         this.commandContainer = new CommandContainer(new SendMessageServiceImpl(this)
-        , new ZabbixRestController(new RestTemplateBuilder()));
+        , new ZabbixRestController(new RestTemplateBuilder()),
+                new WeatherService());
     }
 
     @Override
@@ -140,11 +142,6 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
      */
     private boolean isUserInAdminGroup(User user) {
         if (membersOfAdminGroup.contains(user)) {
-            ///////////////
-            for(User member : membersOfAdminGroup) {
-                System.out.println(member.getFirstName() + " is a member of admins group");
-            }
-            ///////////////
             return true;
         } else {
             GetChatMember getChatMember = GetChatMember.builder()

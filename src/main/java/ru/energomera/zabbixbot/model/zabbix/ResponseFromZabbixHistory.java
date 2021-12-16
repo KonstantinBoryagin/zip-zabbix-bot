@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.model.zabbix;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
@@ -8,8 +9,9 @@ import lombok.ToString;
  */
 @Data
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseFromZabbixHistory {
-    private String jsonrpc;
+
     private HistoryResponseResult[] result;
-    private int id;
+
 }

@@ -10,11 +10,12 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import java.util.List;
 import java.util.Map;
 
-import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.messagesRepository;
 import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.messagesRepository;
 
 /**
- * Класс ответ на команду "/problem" в личном сообщении, отображает все не закрытые проблемы
+ * Класс реализует {@link Command}
+ * Ответ на команду "/problem" в личном сообщении, отображает все не закрытые проблемы
  * присланные Zabbix (исключение - одна проблема, отсекается в {@link MessageFromWebHookHandler})
  */
 @Slf4j

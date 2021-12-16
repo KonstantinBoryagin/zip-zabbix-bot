@@ -7,7 +7,8 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import static ru.energomera.zabbixbot.emoji.Icon.NO_ENTRY;
 
 /**
- * Класс служит для ответа пользователям, не состоящим в группе администраторов и пытающихся
+ * Класс реализует {@link Command}
+ * Служит для ответа пользователям, не состоящим в группе администраторов и пытающихся
  * обратиться к боту в личных сообщениях
  */
 public class UnknownUserCommand implements Command {
