@@ -34,6 +34,7 @@ public enum CommandName {
     SOCCER_COMMAND(SOCCER.get() + "  Soccer"),
     WEATHER(NEW_MOON.get() + "  Погода"),
     CURRENT_WEATHER(ONE.get() + "  Погода сейчас"),
+    WEEKLY_WEATHER(TWO.get() + "  Погода на неделю"),
     TEMP(THREE.get() + "  coming soon")/////////////////////////////
     ;
 

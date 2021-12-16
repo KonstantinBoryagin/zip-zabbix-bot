@@ -30,7 +30,7 @@ public class WeatherMenuCommand implements Command {
                         Arrays.asList(KeyboardButton.builder().text(CURRENT_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(TWO.get() + "  coming soon_").build())));
+                        Arrays.asList(KeyboardButton.builder().text(WEEKLY_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow3 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(THREE.get() + "  coming soon").build())));

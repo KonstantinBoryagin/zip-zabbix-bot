@@ -69,6 +69,7 @@ public enum Icon {
     THERMOMETER(":thermometer:"),
     WIND(":wind_blowing_face:"),
     NEW_MOON(":new_moon_with_face:"),
+    UMBRELLA(":umbrella:"),
     CHART_IMG(":part_alternation_mark:");
 
     private String value;

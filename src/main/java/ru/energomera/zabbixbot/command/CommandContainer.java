@@ -63,6 +63,7 @@ public class CommandContainer {
                 .put(DICE_COMMAND.getCommandName(), new DiceCommand(sendMessageService))
                 .put(WEATHER.getCommandName(), new WeatherMenuCommand(sendMessageService))
                 .put(CURRENT_WEATHER.getCommandName(), new CurrentWeatherCommand(sendMessageService))
+                .put(WEEKLY_WEATHER.getCommandName(), new WeeklyWeatherCommand(sendMessageService))
                 .put(TEMP.getCommandName(), new TempCommand(sendMessageService))
                 .build();
 

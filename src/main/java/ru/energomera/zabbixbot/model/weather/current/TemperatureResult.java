@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.model.weather;
+package ru.energomera.zabbixbot.model.weather.current;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,10 +8,10 @@ import lombok.ToString;
 @Data
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SunnyTime {
-    @JsonProperty("sunrise")
-    private long sunriseTime;
+public class TemperatureResult {
+    @JsonProperty("temp")
+    private double currentTemperature;
 
-    @JsonProperty("sunset")
-    private long sunsetTime;
+    @JsonProperty("feels_like")
+    private double feelsLike;
 }
