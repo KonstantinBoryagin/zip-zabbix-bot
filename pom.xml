@@ -92,6 +92,24 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>com.heroku.sdk</groupId>-->
+<!--				<artifactId>heroku-maven-plugin</artifactId>-->
+<!--				<version>3.0.3</version>-->
+<!--				<configuration>-->
+<!--					<appName>zip-zabbix-bot</appName>-->
+<!--					<jdkVersion>11</jdkVersion>-->
+<!--&lt;!&ndash;					<configVars>&ndash;&gt;-->
+<!--&lt;!&ndash;						<bot.username>321</bot.username>&ndash;&gt;-->
+<!--&lt;!&ndash;						<bot.token>123</bot.token>&ndash;&gt;-->
+<!--&lt;!&ndash;					</configVars>&ndash;&gt;-->
+<!--					<processTypes>-->
+<!--						<worker>-->
+<!--							java $JAVA_OPTS -cp target/classes:target/dependency/* path.to.your.Main-class-->
+<!--						</worker>-->
+<!--					</processTypes>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 
