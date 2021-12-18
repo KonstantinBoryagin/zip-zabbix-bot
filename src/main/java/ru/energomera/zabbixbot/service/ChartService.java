@@ -17,9 +17,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @Slf4j
@@ -123,10 +123,14 @@ public class ChartService {
             long clock = historyResponseResults[i].getClock();
             double value = historyResponseResults[i].getValue() * 1000; //превращаем в мили сек.
 
-            Date date = new Date(clock * 1000);
-            DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
-            String hour = dateFormatter.format(date);
-            dataset.addValue(value, series, hour);
+//            Date date = new Date(clock * 1000);
+//            DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
+//            String hour = dateFormatter.format(date);
+            String formatTime = Instant.ofEpochSecond(clock)
+                    .atZone(ZoneId.of("Europe/Moscow"))
+                    .format(DateTimeFormatter.ofPattern("HH:mm"));
+
+            dataset.addValue(value, series, formatTime);
         }
 
         return dataset;

@@ -4,14 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import ru.energomera.zabbixbot.controller.WeatherRestController;
-import ru.energomera.zabbixbot.model.weather.current.CurrentWeatherResponse;
 import ru.energomera.zabbixbot.emoji.WeatherIconContainer;
+import ru.energomera.zabbixbot.model.weather.current.CurrentWeatherResponse;
 import ru.energomera.zabbixbot.model.weather.weekly.DailyForecast;
 import ru.energomera.zabbixbot.model.weather.weekly.WeeklyWeatherResponse;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import static ru.energomera.zabbixbot.emoji.Icon.*;
 
@@ -91,7 +92,7 @@ public class WeatherService {
                             "▫   <i>днем: <b>%.1f</b> </i>\u2103, <i>ощущается: <b>%.1f</b></i> \u2103 \n" +
                             "▪   <i>ночью: <b>%.1f</b> </i>\u2103, <i>ощущается: <b>%.1f</b></i> \u2103\n" +
                             "%s   <i><b>%.2f</b> м/сек</i>\n" +
-                            "%s   %s  --&gt;  %s   %s \n" +
+                            "%s   <i>%s  --&gt;  %s   %s</i> \n" +
                             "-------------------------------------------------------------\n",
                     day,
                     weatherIcon, weatherDescription,
@@ -161,7 +162,7 @@ public class WeatherService {
                             "\uD83D\uDCA7   <i>влажность: <b>%s</b>%%</i>\n\n" +
                             "\uD83D\uDCA8   <i>облачность: <b>%d</b>%%</i>\n" +
                             "%s   <i>&lt;-- фаза луны</i>\n" +
-                            "%s   %s  --&gt;  %s   %s \n" +
+                            "%s   <i>%s  --&gt;  %s   %s</i> \n" +
                             "-------------------------------------------------------------\n",
                     day,
                     weatherIcon, weatherDescription,
@@ -191,11 +192,21 @@ public class WeatherService {
      */
     private String formatUnixTimeToHoursAndMinutes(long unixTime) {
 
-        Date date = new Date(unixTime * 1000);
-        DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
-        String hour = dateFormatter.format(date);
+//        Date date = new Date(unixTime * 1000);
+//        DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
+//
+//        String hour = dateFormatter.format(date);
+//
+//        return hour;
 
-        return hour;
+//        final DateTimeFormatter formatter =
+//                DateTimeFormatter.ofPattern("HH:mm");
+
+        String formatTime = Instant.ofEpochSecond(unixTime)
+                .atZone(ZoneId.of("Europe/Moscow"))
+                .format(DateTimeFormatter.ofPattern("HH:mm"));
+
+        return formatTime;
     }
 
     /**
@@ -205,11 +216,11 @@ public class WeatherService {
      */
     private String formatUnixTimeToDays(long unixTime) {
 
-        Date date = new Date(unixTime * 1000);
-        DateFormat dateFormatter = new SimpleDateFormat("EEEE d.M");
-        String day = dateFormatter.format(date);
+        String formatDay = Instant.ofEpochSecond(unixTime)
+                .atZone(ZoneId.of("Europe/Moscow"))
+                .format(DateTimeFormatter.ofPattern("EEEE d.M", new Locale("ru")));
 
-        return day;
+        return formatDay.substring(0, 1).toUpperCase(Locale.ROOT) + formatDay.substring(1);
     }
 
     /**
