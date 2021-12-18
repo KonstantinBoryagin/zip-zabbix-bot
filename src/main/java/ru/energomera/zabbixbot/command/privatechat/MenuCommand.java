@@ -32,7 +32,7 @@ public class MenuCommand implements Command {
         KeyboardRow keyboardRow1 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(PROBLEM.getCommandName()).build(),
-                                KeyboardButton.builder().text(MENU_CHARTS.getCommandName() + "(не доступно)").build())));
+                                KeyboardButton.builder().text(MENU_CHARTS.getCommandName() + "(недоступно)").build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(WEATHER.getCommandName()).build(),
