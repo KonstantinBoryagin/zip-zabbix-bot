@@ -31,7 +31,7 @@ public class UpdateCommand implements Command {
             + "_*[%s](tg://user?id=%d)*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
             + ARROW_FORWARD.get() + "_";
 
-    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!* _Если передумали вносить информацию \\- нажмите_  "
+    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!*\n _Если передумали вносить информацию \\- нажмите_  "
             + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
 
 
