@@ -6,6 +6,10 @@ import ru.energomera.zabbixbot.icon.Icon;
 
 import static ru.energomera.zabbixbot.command.CommandName.HELP;
 
+/**
+ * Класс реализует {@link Command}
+ * Отправляется в случае не обнаружения нужной команды в {@link CommandContainer}
+ */
 public class UnknownCommand implements Command{
     private final SendMessageService sendMessageService;
 

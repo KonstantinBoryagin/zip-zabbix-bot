@@ -7,17 +7,20 @@ import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 
 import java.util.List;
 
+/**
+ * Интерфейс для отправки сообщений в телеграм
+ */
 public interface SendMessageService {
 
     Integer sendMessage(String chatId, String message);
 
-    void sendPrivateMessageWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard replyKeyboard); //use
+    void sendPrivateMessageWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard replyKeyboard);
 
-    void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId); //use
+    void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId);
 
-    Integer sendMessageWithReplyMarkDown2(String chatId, String message);//use
+    Integer sendMessageWithReplyMarkDown2(String chatId, String message);
 
-    Integer sendMessageWithReplyMarkDown2(String chatId, String message, ForceReplyKeyboard forceReplyKeyboard);//use
+    Integer sendMessageWithReplyMarkDown2(String chatId, String message, ForceReplyKeyboard forceReplyKeyboard);
 
     void sendReplyMessage(String chatId, String Message, int messageId);
 
@@ -35,16 +38,16 @@ public interface SendMessageService {
     void sendPiePicture(String chatId, HistoryResponseResult[] historyResponseResults,
                         String chartName, String seriesName);
 
-    void sendMessageToGroupWithInlineEditButton(String chatId, String message); // отправляет для цехов с кнопкой
+    void sendMessageToGroupWithInlineEditButton(String chatId, String message);
 
     void editMessageToGroupWithInlineEditButton(String chatId, String newMessage,
-                                                Integer originalMessageId);  // отправка изминенного для цехов с кнопкой
+                                                Integer originalMessageId);
 
-    void deleteMessageFromChat(String chatId, Integer messageId); // delete message
+    void deleteMessageFromChat(String chatId, Integer messageId);
 
     void sendEmoji(String chatId, String emoji);
 
-    void sendAnswer(String callBackQueryId, String notification);//use
+    void sendAnswer(String callBackQueryId, String notification);
 
 }
 

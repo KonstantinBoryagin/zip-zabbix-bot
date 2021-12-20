@@ -46,6 +46,5 @@ public class MenuCommand implements Command {
                 .build();
 
         sendMessageService.sendPrivateMessageWithReplyKeyboardMarkup(chatId, message, replyKeyboardMarkup);
-
     }
 }

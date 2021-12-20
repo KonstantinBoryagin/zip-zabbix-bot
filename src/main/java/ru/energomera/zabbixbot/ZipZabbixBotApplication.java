@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Konstantin Boryagin
- * @version 1.0
+ * @version 1.1
  */
 @SpringBootApplication
 
