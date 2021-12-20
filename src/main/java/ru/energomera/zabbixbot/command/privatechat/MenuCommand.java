@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
-import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
+import static ru.energomera.zabbixbot.icon.Icon.ARROW_HEADING_DOWN;
 
 /**
  * Класс реализует {@link Command}
@@ -32,7 +32,7 @@ public class MenuCommand implements Command {
         KeyboardRow keyboardRow1 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(PROBLEM.getCommandName()).build(),
-                                KeyboardButton.builder().text(MENU_CHARTS.getCommandName() + "(недоступно)").build())));
+                                KeyboardButton.builder().text(MENU_CHARTS.getCommandName() + " (недоступно)").build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
                         Arrays.asList(KeyboardButton.builder().text(WEATHER.getCommandName()).build(),

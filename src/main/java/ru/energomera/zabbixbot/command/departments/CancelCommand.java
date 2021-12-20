@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.command.departments;
 
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.energomera.zabbixbot.command.Command;
@@ -14,6 +15,7 @@ import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoo
  * Реакция на нажатие /cancel при отмене редактирования сообщения об инциденте в одной из цеховых групп.
  * Очищает групповой чат от служебных сообщений
  */
+@Slf4j
 public class CancelCommand implements Command {
     private final SendMessageService sendMessageService;
 
@@ -44,6 +46,11 @@ public class CancelCommand implements Command {
 
                 //чистим мапу
                 userChoose.remove(user);
+
+                String firstname = user.getFirstName();
+                String lastname = user.getLastName();
+                String signature = lastname == null ? firstname : firstname + " " + lastname;
+                log.info("user {} canceled commit to {} message", signature, userList.get(5));
             }
         }
     }

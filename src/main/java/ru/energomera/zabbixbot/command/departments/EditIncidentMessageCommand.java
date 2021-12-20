@@ -9,8 +9,8 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import java.util.List;
 
 import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoose;
-import static ru.energomera.zabbixbot.emoji.Icon.MAILBOX_WITH_MAIL;
-import static ru.energomera.zabbixbot.emoji.Icon.PUSHPIN;
+import static ru.energomera.zabbixbot.icon.Icon.MAILBOX_WITH_MAIL;
+import static ru.energomera.zabbixbot.icon.Icon.PUSHPIN;
 
 /**
  * Класс реализует {@link Command}
@@ -34,6 +34,9 @@ public class EditIncidentMessageCommand implements Command {
         Integer thisMessageId = update.getMessage().getMessageId();
         String chatId = update.getMessage().getChatId().toString();
         User user = update.getMessage().getFrom();
+        String firstname = user.getFirstName();
+        String lastname = user.getLastName();
+        String signature = lastname == null ? firstname : firstname + " " + lastname;
 
 
         if (userChoose.containsKey(user)) {
@@ -45,11 +48,6 @@ public class EditIncidentMessageCommand implements Command {
             Integer originalMessageId = (Integer) userList.get(2);
             String userChatId = (String) userList.get(1);
             String oldMessage = (String) userList.get(0);
-
-            String firstname = user.getFirstName();
-            String lastname = user.getLastName();
-            String signature = lastname == null ? firstname : firstname + " " + lastname;
-
 
             String newMessage = oldMessage + "\n ------------------------------------------------------ \n"
                     + PUSHPIN.get() + "    "
@@ -73,7 +71,12 @@ public class EditIncidentMessageCommand implements Command {
 
                 //clear map
                 userChoose.remove(user);
+                log.info("User {} sent commit to {} message", signature, hashtag);
+            } else {
+                log.warn("User {} chatId:{} is not equals to current chatId:{}", signature, userChatId, chatId);
             }
+        } else {
+            log.warn("User {} don't have recording in userChoose Map", signature);
         }
     }
 }

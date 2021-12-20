@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.command.departments;
 
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
@@ -13,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 /**
  * Класс реализует {@link Command}
@@ -21,6 +22,7 @@ import static ru.energomera.zabbixbot.emoji.Icon.*;
  * Отправляет подсказки.
  * Записывает в map выбор пользователя, id сообщений и комментарий
  */
+@Slf4j
 public class UpdateCommand implements Command {
     private final SendMessageService sendMessageService;
     public static Map<User, List<Object>> userChoose = new HashMap<>();
@@ -31,7 +33,7 @@ public class UpdateCommand implements Command {
             + "_*[%s](tg://user?id=%d)*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
             + ARROW_FORWARD.get() + "_";
 
-    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!*\n _Если передумали вносить информацию \\- нажмите_  "
+    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!*    _Если передумали вносить информацию \\- нажмите_  "
             + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
 
 
@@ -64,7 +66,7 @@ public class UpdateCommand implements Command {
         String tipMessage = String.format(TIP_MESSAGE, signature, userId);
 
         ForceReplyKeyboard forceReplyKeyboard = ForceReplyKeyboard.builder()
-                .inputFieldPlaceholder("Let's rock!")   //появится в поле ввода у пользователя
+                .inputFieldPlaceholder("Следуйте полученным подсказкам ... ")   //появится в поле ввода у пользователя
                 .selective(true)
                 .forceReply(true)
                 .build();
@@ -77,11 +79,7 @@ public class UpdateCommand implements Command {
         messagesIdForUser.add(hashtag);
 
         userChoose.put(user, messagesIdForUser);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        for (User name : userChoose.keySet()) {
-            System.out.println(name + "  ---  userChoose.keySet()");
-        }
+        log.info("user {} press \"Edit message\" to {} message", signature, hashtag);
     }
 
     private String findHashtag(String text) {

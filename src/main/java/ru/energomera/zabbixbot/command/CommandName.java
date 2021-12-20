@@ -2,7 +2,7 @@ package ru.energomera.zabbixbot.command;
 
 import lombok.Getter;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 /**
  * Enum для имен команд {@link Command}

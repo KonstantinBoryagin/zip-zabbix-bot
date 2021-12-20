@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-import static ru.energomera.zabbixbot.emoji.Icon.SUNGLASSES;
+import static ru.energomera.zabbixbot.icon.Icon.SUNGLASSES;
 
 /**
  * Класс реализует {@link Command}
@@ -14,7 +14,7 @@ public class HelpPrivateMessageCommand implements Command {
     private final SendMessageService sendMessageService;
 
     public static final String HELP_MESSAGE_FOR_ADMINS_GROUP =
-            "Тут все максимально просто: жмакай по <b><i>/menu</i></b>, а дальше как то разберешься "
+            "Тут все максимально просто: жмакай по <b><i>/menu</i></b>\uD83D\uDCDC, а дальше как то разберешься "
             + SUNGLASSES.get();
 
     public HelpPrivateMessageCommand(SendMessageService sendMessageService) {

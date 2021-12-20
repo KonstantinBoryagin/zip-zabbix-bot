@@ -21,7 +21,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.bot.ZabbixTelegramBot;
-import ru.energomera.zabbixbot.emoji.Stickers;
+import ru.energomera.zabbixbot.icon.Stickers;
 import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 
 import java.io.ByteArrayInputStream;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.energomera.zabbixbot.emoji.Icon.PUSHPIN;
+import static ru.energomera.zabbixbot.icon.Icon.PUSHPIN;
 
 /**
  * Сервис для формирования и отправки сообщений

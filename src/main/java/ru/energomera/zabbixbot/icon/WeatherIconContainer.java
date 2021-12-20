@@ -1,10 +1,10 @@
-package ru.energomera.zabbixbot.emoji;
+package ru.energomera.zabbixbot.icon;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import ru.energomera.zabbixbot.service.WeatherService;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 
 /**

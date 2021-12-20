@@ -82,8 +82,8 @@ public class CommandContainer {
         return generalCommandMap.getOrDefault(commandIdentifier, unknownCommand);
     }
 
-    public Command retrievePrivateChatCommand(String commandIdentifier){
-        return privateChatCommandMap.get(commandIdentifier);
+    public Command retrievePrivateChatCommand(String command){
+        return privateChatCommandMap.get(command);
     }
 
     public Command retrieveDepartmentCommand(String commandIdentifier){

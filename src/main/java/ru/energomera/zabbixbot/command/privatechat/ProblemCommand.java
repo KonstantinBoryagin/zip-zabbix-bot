@@ -10,7 +10,7 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import java.util.List;
 import java.util.Map;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.messagesRepository;
 
 /**
@@ -60,7 +60,7 @@ public class ProblemCommand implements Command {
             String firstname = user.getFirstName();
             String lastname = user.getLastName();
             String signature = lastname == null ? firstname : firstname + " " + lastname;
-            log.info("sent actual problems for {}", signature);
+            log.info("Sent actual problems for {}", signature);
         }
     }
 }

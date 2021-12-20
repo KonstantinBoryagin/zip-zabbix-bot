@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import ru.energomera.zabbixbot.controller.WeatherRestController;
-import ru.energomera.zabbixbot.emoji.WeatherIconContainer;
+import ru.energomera.zabbixbot.icon.WeatherIconContainer;
 import ru.energomera.zabbixbot.model.weather.current.CurrentWeatherResponse;
 import ru.energomera.zabbixbot.model.weather.weekly.DailyForecast;
 import ru.energomera.zabbixbot.model.weather.weekly.WeeklyWeatherResponse;
@@ -14,7 +14,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 /**
  * Класс для формирования сообщения о погоде на основе данных полученных от {@link WeatherRestController}
@@ -56,6 +56,7 @@ public class WeatherService {
                 currentTime, cityName, weatherIcon, weatherDescription, THERMOMETER.get(), currentTemperature,
                 temperatureFeelsLike, WIND.get(), windSpeed, CITY_SUNRISE.get(), sunriseTime, CITY_SUNSET.get(), sunsetTime);
 
+        log.info("Formed current moment weather forecast");
         return message;
     }
 
@@ -112,6 +113,7 @@ public class WeatherService {
 
         //делим на 2 сообщения, так как у телеги начинаются проблемы с форматированием у длинного сообщения
         String[] messages = {message1.toString(), message2.toString()};
+        log.info("Formed weekly weather forecast");
         return messages;
 
     }
@@ -182,6 +184,7 @@ public class WeatherService {
                 message.append(dailyMessage);
             }
 
+        log.info("Formed daily weather forecast");
         return message.toString();
     }
 
@@ -191,16 +194,6 @@ public class WeatherService {
      * @return время(строкой)
      */
     private String formatUnixTimeToHoursAndMinutes(long unixTime) {
-
-//        Date date = new Date(unixTime * 1000);
-//        DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
-//
-//        String hour = dateFormatter.format(date);
-//
-//        return hour;
-
-//        final DateTimeFormatter formatter =
-//                DateTimeFormatter.ofPattern("HH:mm");
 
         String formatTime = Instant.ofEpochSecond(unixTime)
                 .atZone(ZoneId.of("Europe/Moscow"))
