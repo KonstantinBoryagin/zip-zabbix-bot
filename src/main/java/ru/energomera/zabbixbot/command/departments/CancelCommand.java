@@ -13,7 +13,8 @@ import static ru.energomera.zabbixbot.command.departments.UpdateCommand.userChoo
 /**
  * Класс реализует {@link Command}
  * Реакция на нажатие /cancel при отмене редактирования сообщения об инциденте в одной из цеховых групп.
- * Очищает групповой чат от служебных сообщений
+ * Очищает групповой чат от служебных сообщений {@link UpdateCommand#TIP_MESSAGE},
+ * {@link UpdateCommand#WARNING_MESSAGE} и {@link UpdateCommand#userChoose} от записи о выборе пользователя.
  */
 @Slf4j
 public class CancelCommand implements Command {
@@ -28,6 +29,9 @@ public class CancelCommand implements Command {
         Integer thisMessageId = update.getMessage().getMessageId();
         String chatId = update.getMessage().getChatId().toString();
         User user = update.getMessage().getFrom();
+        String firstname = user.getFirstName();
+        String lastname = user.getLastName();
+        String signature = lastname == null ? firstname : firstname + " " + lastname;
 
         if (userChoose.containsKey(user)) {
             List<Object> userList = userChoose.get(user);
@@ -38,20 +42,20 @@ public class CancelCommand implements Command {
 
             if (userChatId.equals(chatId)) {
 
-                //DELETE MESSAGES
-
+                //удаляет сообщения
                 sendMessageService.deleteMessageFromChat(chatId, thisMessageId);
                 sendMessageService.deleteMessageFromChat(chatId, warningMessageId);
                 sendMessageService.deleteMessageFromChat(chatId, helpMessageId);
 
-                //чистим мапу
+                //чистит мапу
                 userChoose.remove(user);
 
-                String firstname = user.getFirstName();
-                String lastname = user.getLastName();
-                String signature = lastname == null ? firstname : firstname + " " + lastname;
-                log.info("user {} canceled commit to {} message", signature, userList.get(5));
+                log.info("User {} canceled commit to {} message", signature, userList.get(5));
+            } else {
+                log.warn("User {} chatId {} don't equals to current chatId {}", signature, userChatId, chatId);
             }
+        } else {
+            log.warn("User {} don't have recording in userChoose Map", signature);
         }
     }
 }

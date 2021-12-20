@@ -111,7 +111,7 @@ public class WeatherService {
             }
         }
 
-        //делим на 2 сообщения, так как у телеги начинаются проблемы с форматированием у длинного сообщения
+        //делим на 2 сообщения, так как у телеги начинаются проблемы с HTML форматированием у длинного сообщения
         String[] messages = {message1.toString(), message2.toString()};
         log.info("Formed weekly weather forecast");
         return messages;

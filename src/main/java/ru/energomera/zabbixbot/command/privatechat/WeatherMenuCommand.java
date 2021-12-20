@@ -9,6 +9,7 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
 import static ru.energomera.zabbixbot.icon.Icon.*;
@@ -35,10 +36,10 @@ public class WeatherMenuCommand implements Command {
                                 KeyboardButton.builder().text(DAILY_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow2 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(WEEKLY_WEATHER.getCommandName()).build())));
+                        List.of(KeyboardButton.builder().text(WEEKLY_WEATHER.getCommandName()).build())));
         KeyboardRow keyboardRow3 = new KeyboardRow(
                 new ArrayList<>(
-                        Arrays.asList(KeyboardButton.builder().text(BACK.getCommandName()).build())));
+                        List.of(KeyboardButton.builder().text(BACK.getCommandName()).build())));
 
         ReplyKeyboardMarkup replyKeyboardMarkup = ReplyKeyboardMarkup.builder()
                 .resizeKeyboard(true)

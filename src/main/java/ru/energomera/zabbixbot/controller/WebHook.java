@@ -66,7 +66,8 @@ public class WebHook {
                     || messageChatId.equals(group5ChatId)) {
                 webHookHandler.processMessageForDepartmentNotifications(zabbixWebHook);
             } else {
-                log.warn("Message had wrong chatId {}, text: {}; {}", messageChatId, zabbixWebHook.getSubject(), zabbixWebHook.getMessage());
+                log.warn("Message had wrong chatId {}, text: {}; {}", messageChatId, zabbixWebHook.getSubject(),
+                        zabbixWebHook.getMessage());
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 

@@ -27,7 +27,7 @@ public class WeatherIconContainer {
                 .put("03n", SCATTERED_CLOUD.get())
                 .put("04d", CLOUD.get())
                 .put("04n", CLOUD.get())
-                .put("09d", "\uD83C\uDF27")     //эти библиотека не переводит в эмодзи
+                .put("09d", "\uD83C\uDF27")     //эти иконки библиотека не переводит в эмодзи
                 .put("09n", "\uD83C\uDF27")
                 .put("10d", "\uD83C\uDF26")
                 .put("10n", "\uD83C\uDF26")

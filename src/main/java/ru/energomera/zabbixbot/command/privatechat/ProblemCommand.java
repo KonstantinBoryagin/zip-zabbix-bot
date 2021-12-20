@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import ru.energomera.zabbixbot.command.Command;
+import ru.energomera.zabbixbot.command.CommandName;
 import ru.energomera.zabbixbot.service.MessageFromWebHookHandler;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
@@ -15,7 +16,7 @@ import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.messages
 
 /**
  * Класс реализует {@link Command}
- * Ответ на команду "/problem" в личном сообщении, отображает все не закрытые проблемы
+ * Ответ на команду "/problem" {@link CommandName#PROBLEM} в личном сообщении, отображает все не закрытые проблемы
  * присланные Zabbix (исключение - одна проблема, отсекается в {@link MessageFromWebHookHandler})
  */
 @Slf4j
@@ -31,6 +32,10 @@ public class ProblemCommand implements Command {
     @Override
     public void execute(Update update) {
         String chatId = update.getMessage().getChatId().toString();
+        User user = update.getMessage().getFrom();
+        String firstname = user.getFirstName();
+        String lastname = user.getLastName();
+        String signature = lastname == null ? firstname : firstname + " " + lastname;
 
         if(messagesRepository.isEmpty()){
             sendMessageService.sendMessage(chatId, noProblemMessage);
@@ -42,6 +47,7 @@ public class ProblemCommand implements Command {
 
                 List<List<Object>> problemValue = problem.getValue();
 
+                //формирует сообщение, вычисляет и добавляет время которое проблема не решена -> отправляет
                 for (List<Object> problemProperties : problemValue) {
                     long problemStartTime = (long) problemProperties.get(1);
                     long problemTime = System.currentTimeMillis() - problemStartTime;
@@ -53,14 +59,9 @@ public class ProblemCommand implements Command {
                             + CLOCK_2.get() + "<i>  " + formatProblemTime + "</i>";
 
                     sendMessageService.sendMessage(chatId, message);
-
                 }
             }
-            User user = update.getMessage().getFrom();
-            String firstname = user.getFirstName();
-            String lastname = user.getLastName();
-            String signature = lastname == null ? firstname : firstname + " " + lastname;
-            log.info("Sent actual problems for {}", signature);
         }
+        log.info("Sent actual problems for {}", signature);
     }
 }
