@@ -10,7 +10,7 @@ import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
 /**
  * Класс реализует {@link Command}
- * Формирует {@link ZabbixRestController} и отправляет график пинга сервера
+ * Формирует {@link ZabbixRestController} и отправляет график ping сервера
  */
 public class CommutatorPingCommand implements Command {
     private final SendMessageService sendMessageService;

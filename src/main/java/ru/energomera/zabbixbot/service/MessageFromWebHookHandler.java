@@ -4,6 +4,8 @@ package ru.energomera.zabbixbot.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.energomera.zabbixbot.command.privatechat.ProblemCommand;
+import ru.energomera.zabbixbot.controller.WebHook;
 import ru.energomera.zabbixbot.model.zabbix.ZabbixWebHook;
 
 import java.util.ArrayList;
@@ -13,6 +15,11 @@ import java.util.Map;
 
 import static ru.energomera.zabbixbot.icon.Icon.*;
 
+/**
+ * Формирует и отправляет сообщения полученные от Zabbix Server {@link WebHook}.
+ * Для группы администраторов так же сохраняет актуальные проблемы в {@link MessageFromWebHookHandler#messagesRepository}
+ * для отправки по запросу {@link ProblemCommand} в личном чате
+ */
 @Service
 @Slf4j
 public class MessageFromWebHookHandler {
@@ -27,6 +34,11 @@ public class MessageFromWebHookHandler {
         this.sendMessageService = sendMessageService;
     }
 
+    /**
+     * Преобразует dto в строки и вызывает
+     * {@link MessageFromWebHookHandler#saveAndSendMessageForAdminGroup(String, String, String)}
+     * @param webHookEntity dto для преобразования сообщения о проблеме
+     */
     public void processMessageForAdminGroup(ZabbixWebHook webHookEntity) {
         String chatId = webHookEntity.getChatId();
         String subject = webHookEntity.getSubject();
@@ -35,6 +47,15 @@ public class MessageFromWebHookHandler {
         saveAndSendMessageForAdminGroup(chatId, subject, message);
     }
 
+    /**
+     * В зависимости от темы ("Проблема" или "Решено") записывает/удаляет запись
+     * о ней в {@link MessageFromWebHookHandler#messagesRepository} и отправляет в группу администраторов.
+     * Не сохраняет "спам" сообщение {@link MessageFromWebHookHandler#saveRuleException2} от сохранения
+     * {@link SendMessageService}
+     * @param chatId id чата
+     * @param subject тема
+     * @param message сообщение
+     */
     private void saveAndSendMessageForAdminGroup(String chatId, String subject, String message) {
         String[] splitResult = subject.split(":", 2);
 
@@ -109,6 +130,10 @@ public class MessageFromWebHookHandler {
 
     }
 
+    /**
+     * Преобразует и отправляет сообщение в одну из 3-х групп для цехов {@link SendMessageService}
+     * @param webHookEntity dto для преобразования сообщения об инциденте
+     */
     public void processMessageForDepartmentNotifications(ZabbixWebHook webHookEntity) {
         String chatId = webHookEntity.getChatId();
         String subject = "<b>" + EXCLAMATION.get() + webHookEntity.getSubject().trim() + EXCLAMATION.get() + "</b>";
@@ -118,6 +143,11 @@ public class MessageFromWebHookHandler {
         sendMessageService.sendMessageToGroupWithInlineEditButton(chatId, message);
     }
 
+    /**
+     * Парсит текст об инциденте добавляя HTML теги и hashtag
+     * @param text сообщение об инциденте
+     * @return сообщение об инциденте с HTML тегами
+     */
     private String parseZabbixWebhookMessage(String text) {
         String message = "";
         String incidentNumber = "";

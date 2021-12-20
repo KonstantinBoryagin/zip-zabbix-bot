@@ -9,7 +9,7 @@ import static ru.energomera.zabbixbot.icon.Icon.ROBOT_FACE;
 
 /**
  * Класс реализует {@link Command}
- * Отправляет сообщение-помощь для групп рассылок цеховых инцидентов
+ * Отправляет сообщение-помощь для группы администраторов
  */
 public class HelpAdminsGroupCommand implements Command {
     private final SendMessageService sendMessageService;

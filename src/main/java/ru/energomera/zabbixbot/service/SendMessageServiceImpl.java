@@ -34,7 +34,7 @@ import java.util.List;
 import static ru.energomera.zabbixbot.icon.Icon.PUSHPIN;
 
 /**
- * Сервис для формирования и отправки сообщений
+ * Сервис для формирования и отправки сообщений {@link SendMessageService}
  */
 @Service
 @Slf4j
@@ -49,6 +49,13 @@ public class SendMessageServiceImpl implements SendMessageService {
         chartService = new ChartService();
     }
 
+    /**
+     * Отправляет сообщение с Mark Down 2 разметкой
+     *
+     * @param chatId  id чата
+     * @param message сообщение для отправки
+     * @return id отправленного сообщения
+     */
     @Override
     public Integer sendMessageWithReplyMarkDown2(String chatId, String message) {
 
@@ -68,6 +75,14 @@ public class SendMessageServiceImpl implements SendMessageService {
         return null;
     }
 
+    /**
+     * Отправляет сообщение с Mark Down 2 разметкой и всплывающем в чате уведомлением
+     *
+     * @param chatId             id чата
+     * @param message            сообщение для отправки
+     * @param forceReplyKeyboard
+     * @return id отправленного сообщения
+     */
     @Override
     public Integer sendMessageWithReplyMarkDown2(String chatId, String message, ForceReplyKeyboard forceReplyKeyboard) {
         SendMessage sendMessage = SendMessage.builder()
@@ -88,6 +103,13 @@ public class SendMessageServiceImpl implements SendMessageService {
     }
 
 
+    /**
+     * Отправляет сообщение с HTML разметкой в чат
+     *
+     * @param chatId  id чата
+     * @param message сообщение для отправки
+     * @return id отправленного сообщения
+     */
     @Override
     public Integer sendMessage(String chatId, String message) {
         SendMessage sendMessage = SendMessage.builder()
@@ -102,13 +124,19 @@ public class SendMessageServiceImpl implements SendMessageService {
             Integer messageId = execute.getMessageId();
             log.info("message with id {} sent successfully", messageId);
             return messageId;
-
         } catch (TelegramApiException e) {
             log.error("Can't send message {}", message, e);
         }
         return null;
     }
 
+    /**
+     * Отправляет сообщение и клавиатуру с кнопками (в случае телефона заменяет клавиатуру ввода символов)
+     *
+     * @param chatId        id чата
+     * @param message       сообщение для отправки
+     * @param replyKeyboard клавиатура с кнопками
+     */
     @Override
     public void sendPrivateMessageWithReplyKeyboardMarkup(String chatId, String message, ReplyKeyboard replyKeyboard) {
         SendMessage sendMessage = SendMessage.builder()
@@ -125,6 +153,13 @@ public class SendMessageServiceImpl implements SendMessageService {
 
     }
 
+    /**
+     * Редактирует сообщение (по полученному id), заменяя старый текст на (полученный) новый
+     *
+     * @param chatId       id чата
+     * @param editMessage  новое сообщение
+     * @param oldMessageId id сообщения, которое будет отредактировано
+     */
     @Override
     public void sendEditedMessage(String chatId, String editMessage, Integer oldMessageId) {
         EditMessageText editMessageText = EditMessageText.builder()
@@ -141,13 +176,22 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Отправляет ответ на конкретное сообщение
+     *
+     * @param chatId    id чата
+     * @param message   сообщение
+     * @param messageId id сообщения на который будет отправлен ответ
+     */
     @Override
     public void sendReplyMessage(String chatId, String message, int messageId) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(message);
-        sendMessage.enableHtml(true);
-        sendMessage.setReplyToMessageId(messageId);
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(chatId)
+                .text(message)
+                .parseMode(ParseMode.HTML)
+                .disableWebPagePreview(false)
+                .replyToMessageId(messageId)
+                .build();
 
         try {
             telegramBot.execute(sendMessage);
@@ -156,6 +200,12 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Отправляет стикер
+     *
+     * @param chatId  id чата
+     * @param sticker стикер
+     */
     @Override
     public void sendSticker(String chatId, Stickers sticker) {
         SendSticker sendSticker = new SendSticker();
@@ -170,6 +220,14 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Формирует и отправляет картинку с несколькими линейными графиками
+     *
+     * @param chatId                       id чата
+     * @param listOfHistoryResponseResults данные для формирования графика
+     * @param chartName                    имя графика
+     * @param seriesName                   подпись линии на графике
+     */
     @Override
     public void sendHistoryPictureForManyCharts(String chatId, List<HistoryResponseResult[]> listOfHistoryResponseResults,
                                                 String chartName, String[] seriesName) {
@@ -205,6 +263,14 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Формирует и отправляет картинку с одним линейным графиком
+     *
+     * @param chatId                 id чата
+     * @param historyResponseResults данные для формирования графика
+     * @param chartName              имя графика
+     * @param seriesName             подпись линии на графике
+     */
     @Override
     public void sendHistoryPicture(String chatId, HistoryResponseResult[] historyResponseResults,
                                    String chartName, String seriesName) {
@@ -236,6 +302,14 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Формирует и отправляет картинку с закрашенным линейным графиком
+     *
+     * @param chatId                 id чата
+     * @param historyResponseResults данные для формирования графика
+     * @param chartName              имя графика
+     * @param seriesName             подпись линии на графике
+     */
     @Override
     public void sendCpuUtilizationChart(String chatId, HistoryResponseResult[] historyResponseResults,
                                         String chartName, String seriesName) {
@@ -249,19 +323,27 @@ public class SendMessageServiceImpl implements SendMessageService {
         icmpPingLineChartPicture = chartService.createAreaChartPicture(dataset, chartName);
 
         InputStream in = new ByteArrayInputStream(icmpPingLineChartPicture);
-        SendPhoto ya_ping = SendPhoto.builder()
+        SendPhoto cpuChart = SendPhoto.builder()
                 .chatId(chatId)
                 .photo(new InputFile(in, "ping picture"))
                 .build();
 
         try {
-            telegramBot.execute(ya_ping);
+            telegramBot.execute(cpuChart);
             log.info("sent {} to {}", chartName, chatId);
         } catch (TelegramApiException e) {
             log.error("sendCpuUtilization could not sent {} message with id {}", chartName, chatId, e);
         }
     }
 
+    /**
+     * Формирует и отправляет картинку с графиком "пирог"
+     *
+     * @param chatId                 id чата
+     * @param historyResponseResults данные для формирования графика
+     * @param chartName              имя графика
+     * @param seriesName             подпись линии на графике
+     */
     @Override
     public void sendPiePicture(String chatId, HistoryResponseResult[] historyResponseResults,
                                String chartName, String seriesName) {
@@ -290,6 +372,12 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Удаляет нужное сообщение из чата
+     *
+     * @param chatId    id чата
+     * @param messageId id сообщения
+     */
     @Override
     public void deleteMessageFromChat(String chatId, Integer messageId) {
         DeleteMessage deleteMessage = DeleteMessage.builder()
@@ -303,6 +391,13 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Редактирует сообщение и добавляет к нему inLine кнопку "Редактировать"
+     * {@link SendMessageServiceImpl#formInlineEditButtonForDepartmentsIncidentMessage()}
+     * @param chatId            id чата
+     * @param newMessage        новый текст сообщения
+     * @param originalMessageId id сообщения, которое будет отредактировано
+     */
     @Override
     public void editMessageToGroupWithInlineEditButton(String chatId, String newMessage,
                                                        Integer originalMessageId) {
@@ -324,6 +419,13 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Отправляет сообщение и добавляет к нему inLine кнопку "Дополнить сообщение""
+     * {@link SendMessageServiceImpl#formInlineEditButtonForDepartmentsIncidentMessage()}
+     *
+     * @param chatId id чата
+     * @param message
+     */
     @Override
     public void sendMessageToGroupWithInlineEditButton(String chatId, String message) {
 
@@ -339,11 +441,16 @@ public class SendMessageServiceImpl implements SendMessageService {
         try {
             telegramBot.execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("sendMessageToGroupWithInlineEditButton could not send message: {}", message, e);
+            log.error("Could not sent message: {}", message, e);
         }
 
     }
 
+    /**
+     * Отправляет эмодзи
+     * @param chatId id чата
+     * @param emoji эмодзи
+     */
     @Override
     public void sendEmoji(String chatId, String emoji) {
         SendDice emojiToSend = SendDice.builder()
@@ -358,6 +465,11 @@ public class SendMessageServiceImpl implements SendMessageService {
         }
     }
 
+    /**
+     * Отправляет уведомление в чат (реакция на нажатие inLine кнопки)
+     * @param callBackQueryId id нажатия на inLine кнопку
+     * @param notification уведомление
+     */
     @Override
     public void sendAnswer(String callBackQueryId, String notification) {
         AnswerCallbackQuery answerCallbackQuery = AnswerCallbackQuery.builder()
@@ -368,17 +480,20 @@ public class SendMessageServiceImpl implements SendMessageService {
         try {
             telegramBot.execute(answerCallbackQuery);
         } catch (TelegramApiException e) {
-            log.error("sendAnswer could not send callBackAnswer: {}", notification, e);
+            log.error("Could not send callBackAnswer: {}", notification, e);
         }
     }
 
+    /**
+     * Формирует кнопку, которая добавляется в конце сообщения
+     * @return inLine кнопку
+     */
     private InlineKeyboardMarkup formInlineEditButtonForDepartmentsIncidentMessage() {
         InlineKeyboardMarkup editButton = InlineKeyboardMarkup.builder()
                 .keyboardRow(new ArrayList<>(Arrays.asList(
                         InlineKeyboardButton.builder()
                                 .text(PUSHPIN.get() + "Дополнить сообщение")
-                                .callbackData("/update").build()
-                )))
+                                .callbackData("/update").build())))
                 .build();
         return editButton;
     }

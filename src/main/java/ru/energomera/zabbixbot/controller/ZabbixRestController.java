@@ -10,6 +10,9 @@ import ru.energomera.zabbixbot.model.zabbix.ResponseFromZabbixHistory;
 
 import java.util.Collections;
 
+/**
+ * Rest Controller для обращения к Zabbix Server API
+ */
 @RestController
 @Slf4j
 public class ZabbixRestController {

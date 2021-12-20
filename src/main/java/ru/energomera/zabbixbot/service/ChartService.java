@@ -21,6 +21,9 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Сервис для создания графиков
+ */
 @Service
 @Slf4j
 public class ChartService {
@@ -74,7 +77,6 @@ public class ChartService {
 
         //устанавливаем цвета
 //        plot.setBackgroundPaint(new Color(51, 51, 51));  //график
-
 //        XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 //        renderer.setSeriesStroke(1, new BasicStroke(3.5f));
 
@@ -123,9 +125,6 @@ public class ChartService {
             long clock = historyResponseResults[i].getClock();
             double value = historyResponseResults[i].getValue() * 1000; //превращаем в мили сек.
 
-//            Date date = new Date(clock * 1000);
-//            DateFormat dateFormatter = new SimpleDateFormat("HH:mm");
-//            String hour = dateFormatter.format(date);
             String formatTime = Instant.ofEpochSecond(clock)
                     .atZone(ZoneId.of("Europe/Moscow"))
                     .format(DateTimeFormatter.ofPattern("HH:mm"));
@@ -138,7 +137,6 @@ public class ChartService {
 
     public DefaultPieDataset<String> createDatasetForPieChart(HistoryResponseResult[] historyResponseResults, String seriesName) {
         double value = historyResponseResults[0].getValue();
-
         double free = 100 - value;
 
         String formatSeries = String.format("%s - %.2f%%", seriesName, value);
@@ -149,6 +147,5 @@ public class ChartService {
         pieDataSet.setValue(formatSeries2, free);
 
         return pieDataSet;
-
     }
 }

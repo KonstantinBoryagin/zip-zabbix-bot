@@ -10,13 +10,15 @@ import ru.energomera.zabbixbot.model.weather.weekly.WeeklyWeatherResponse;
 
 import java.util.Collections;
 
+/**
+ * Rest Controller для http запросов к Open Weather API
+ */
 @RestController
 @Slf4j
 public class WeatherRestController {
     private final RestTemplate restTemplate;
     private final int nevinnomysskId = 522377;
-//    @Value("${weather.api.token}")
-    private String weatherApiToken = "2c68ec3108883221a728b4075d68b407";
+    private final String weatherApiToken = "2c68ec3108883221a728b4075d68b407";
 
     private final String urlForCurrentWeather = "https://api.openweathermap.org/data/2.5/weather?id={id}&" +
             "appid={appid}&units=metric&lang=ru";
@@ -50,7 +52,7 @@ public class WeatherRestController {
                 weatherApiToken
         );
 
-// check response
+        // check response
         if (response.getStatusCode() == HttpStatus.OK) {
             log.info("Request for current weather to api {}", HttpStatus.OK);
             return response.getBody();
@@ -82,7 +84,7 @@ public class WeatherRestController {
                 weatherApiToken
         );
 
-// check response
+        // check response
         if (response.getStatusCode() == HttpStatus.OK) {
             log.info("Request for weekly weather to api {}", HttpStatus.OK);
             return response.getBody();
