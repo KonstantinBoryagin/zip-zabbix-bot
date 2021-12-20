@@ -14,7 +14,7 @@ public class HelpPrivateMessageCommand implements Command {
     private final SendMessageService sendMessageService;
 
     public static final String HELP_MESSAGE_FOR_ADMINS_GROUP =
-            "Тут все максимально просто: жмакай по <b><i>/MENU</i></b>, а дальше как то разберешься "
+            "Тут все максимально просто: жмакай по <b><i>/menu</i></b>\uD83D\uDCDC, а дальше как то разберешься "
             + SUNGLASSES.get();
 
     public HelpPrivateMessageCommand(SendMessageService sendMessageService) {
