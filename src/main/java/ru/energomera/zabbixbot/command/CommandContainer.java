@@ -85,7 +85,7 @@ public class CommandContainer {
     }
 
     public Command retrievePrivateChatCommand(String commandIdentifier){
-        return privateChatCommandMap.get(commandIdentifier);
+        return privateChatCommandMap.get(commandIdentifier.toLowerCase(Locale.ROOT));
     }
 
     public Command retrieveDepartmentCommand(String commandIdentifier){
