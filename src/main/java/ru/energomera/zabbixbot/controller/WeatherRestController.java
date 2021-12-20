@@ -52,7 +52,7 @@ public class WeatherRestController {
 
 // check response
         if (response.getStatusCode() == HttpStatus.OK) {
-            log.info("request for current weather to api {}", HttpStatus.OK);
+            log.info("Request for current weather to api {}", HttpStatus.OK);
             return response.getBody();
         } else {
             log.error("Failed to complete the request to weather api for current weather");
@@ -84,7 +84,7 @@ public class WeatherRestController {
 
 // check response
         if (response.getStatusCode() == HttpStatus.OK) {
-            log.info("request for weekly weather to api {}", HttpStatus.OK);
+            log.info("Request for weekly weather to api {}", HttpStatus.OK);
             return response.getBody();
         } else {
             log.error("Failed to complete the request to weather api for weekly weather");

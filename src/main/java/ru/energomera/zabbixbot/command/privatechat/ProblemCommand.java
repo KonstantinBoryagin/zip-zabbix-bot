@@ -60,7 +60,7 @@ public class ProblemCommand implements Command {
             String firstname = user.getFirstName();
             String lastname = user.getLastName();
             String signature = lastname == null ? firstname : firstname + " " + lastname;
-            log.info("sent actual problems for {}", signature);
+            log.info("Sent actual problems for {}", signature);
         }
     }
 }
