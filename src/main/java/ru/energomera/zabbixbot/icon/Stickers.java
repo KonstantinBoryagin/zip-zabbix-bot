@@ -1,4 +1,4 @@
-package ru.energomera.zabbixbot.emoji;
+package ru.energomera.zabbixbot.icon;
 
 
 import lombok.Getter;

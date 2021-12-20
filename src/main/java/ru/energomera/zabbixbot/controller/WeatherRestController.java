@@ -81,18 +81,12 @@ public class WeatherRestController {
                 WeeklyWeatherResponse.class,
                 weatherApiToken
         );
-        System.out.println(response.getBody());
-        System.out.println(weatherApiToken);
 
 // check response
         if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("Request Successful.");
-            System.out.println(response.getBody());
             log.info("request for weekly weather to api {}", HttpStatus.OK);
             return response.getBody();
         } else {
-            System.out.println("Request Failed");
-            System.out.println(response.getStatusCode());
             log.error("Failed to complete the request to weather api for weekly weather");
             return null;
         }

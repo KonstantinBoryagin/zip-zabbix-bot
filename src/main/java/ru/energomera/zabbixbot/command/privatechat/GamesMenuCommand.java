@@ -12,8 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
-import static ru.energomera.zabbixbot.emoji.Icon.ARROW_HEADING_DOWN;
-import static ru.energomera.zabbixbot.emoji.Icon.SUNGLASSES;
+import static ru.energomera.zabbixbot.icon.Icon.ARROW_HEADING_DOWN;
+import static ru.energomera.zabbixbot.icon.Icon.SUNGLASSES;
 
 /**
  * Класс реализует {@link Command}

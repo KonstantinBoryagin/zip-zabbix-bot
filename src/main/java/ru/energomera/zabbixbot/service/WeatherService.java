@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import ru.energomera.zabbixbot.controller.WeatherRestController;
-import ru.energomera.zabbixbot.emoji.WeatherIconContainer;
+import ru.energomera.zabbixbot.icon.WeatherIconContainer;
 import ru.energomera.zabbixbot.model.weather.current.CurrentWeatherResponse;
 import ru.energomera.zabbixbot.model.weather.weekly.DailyForecast;
 import ru.energomera.zabbixbot.model.weather.weekly.WeeklyWeatherResponse;
@@ -14,7 +14,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 /**
  * Класс для формирования сообщения о погоде на основе данных полученных от {@link WeatherRestController}

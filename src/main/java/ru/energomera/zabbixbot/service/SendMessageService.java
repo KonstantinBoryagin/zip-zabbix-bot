@@ -2,7 +2,7 @@ package ru.energomera.zabbixbot.service;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import ru.energomera.zabbixbot.emoji.Stickers;
+import ru.energomera.zabbixbot.icon.Stickers;
 import ru.energomera.zabbixbot.model.zabbix.HistoryResponseResult;
 
 import java.util.List;

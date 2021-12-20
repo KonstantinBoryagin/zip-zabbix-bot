@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
 
-import static ru.energomera.zabbixbot.emoji.Icon.GAME_DICE;
+import static ru.energomera.zabbixbot.icon.Icon.GAME_DICE;
 
 /**
  * Класс реализует {@link Command}

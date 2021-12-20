@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 /**
  * Класс реализует {@link Command}
@@ -33,7 +33,7 @@ public class UpdateCommand implements Command {
             + "_*[%s](tg://user?id=%d)*\\, введите информацию которую хотите добавить в выбранное сообщение и нажмите "
             + ARROW_FORWARD.get() + "_";
 
-    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!*\n _Если передумали вносить информацию \\- нажмите_  "
+    public static final String WARNING_MESSAGE = FLAME.get() + "*Важно\\!*    _Если передумали вносить информацию \\- нажмите_  "
             + ARROW_RIGHT.get() + "  *\\/CANCEL*  " + ARROW_LEFT.get() + " \\!";
 
 

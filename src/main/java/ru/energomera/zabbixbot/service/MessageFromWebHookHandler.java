@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 
 @Service
 @Slf4j
@@ -51,7 +51,7 @@ public class MessageFromWebHookHandler {
                 //так как там где бот будет деплоиться часто бывают сбои при связи с телеграмм(из-за загруженности канала)
                 if (message.contains(saveRuleException1) && message.contains(saveRuleException2)) {
                     //исключение, на нее не приходит "Решено"
-                    log.info("Problem message id {} don't save because it is saveRuleException", sendMessageId);
+                    log.info("Problem message '{}' with id {} don't save because it is saveRuleException",subject, sendMessageId);
                     break;
                 } else if (sendMessageId != null && messagesRepository.containsKey(incidentText)) {
                     List<List<Object>> allMessagesProperties = messagesRepository.get(incidentText);
@@ -63,7 +63,7 @@ public class MessageFromWebHookHandler {
                     messageProperties.add(startProblem);
 
                     allMessagesProperties.add(messageProperties);
-                    log.info("Problem message with id {} save like recurring problem, List size - {}", sendMessageId, allMessagesProperties.size());
+                    log.info("Problem message '{}' with id {} save like recurring problem, List size - {}",subject, sendMessageId, allMessagesProperties.size());
                 } else if (sendMessageId != null) {
                     List<List<Object>> allMessagesProperties = new ArrayList<>();
                     List<Object> messageProperties = new ArrayList<>();
@@ -75,7 +75,7 @@ public class MessageFromWebHookHandler {
 
                     allMessagesProperties.add(messageProperties);
                     messagesRepository.put(incidentText, allMessagesProperties);   //save to map
-                    log.info("Problem message with id {} save like first problem", sendMessageId);
+                    log.info("Problem message '{}' with id {} save like first problem",subject, sendMessageId);
                 }
                 break;
             case "Решено":
@@ -94,7 +94,7 @@ public class MessageFromWebHookHandler {
                             + message + "\n\n" + CLOCK_2.get() + "<i>  " + formatProblemTime + "</i>";
                     sendMessageService.sendEditedMessage(chatId, solvedMessage, oldMessageId);
 
-                    log.info("Resolved message delete entry problem from Map, List size - {}", allMessagesProperties.size());
+                    log.info("Resolved message '{}' delete entry problem from Map, List size - {}", subject, allMessagesProperties.size());
 
                     if (allMessagesProperties.size() == 0) {
                         messagesRepository.remove(incidentText);  //clear map if list is empty
@@ -103,7 +103,7 @@ public class MessageFromWebHookHandler {
                 } else {
                     String editMessage = CHECK.get() + "  <b>" + keyWord + ": <i>" + splitResult[1] + "</i></b>\n\n" + message;
                     sendMessageService.sendMessage(chatId, editMessage);
-                    log.warn("Resolved problem send without saving because in Map no entry found, text ({})", editMessage);
+                    log.warn("Resolved problem '{}' send without saving because in Map no entry found, text ({})",subject, editMessage);
                 }
         }
 

@@ -10,7 +10,7 @@ import ru.energomera.zabbixbot.service.SendMessageService;
 import java.util.List;
 import java.util.Map;
 
-import static ru.energomera.zabbixbot.emoji.Icon.*;
+import static ru.energomera.zabbixbot.icon.Icon.*;
 import static ru.energomera.zabbixbot.service.MessageFromWebHookHandler.messagesRepository;
 
 /**

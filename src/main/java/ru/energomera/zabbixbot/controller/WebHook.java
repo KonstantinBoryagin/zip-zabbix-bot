@@ -53,8 +53,8 @@ public class WebHook {
 
             String messageChatId = zabbixWebHook.getChatId();
 
-            log.info("Received message from Zabbix with text: {} {};\nwith ChatId: {}",
-                    zabbixWebHook.getSubject(), zabbixWebHook.getMessage(), zabbixWebHook.getChatId());
+            log.info("Received message from Zabbix with subject: {};  with ChatId: {}",
+                    zabbixWebHook.getSubject(), zabbixWebHook.getChatId());
 
             //проверяем что это нужное сообщение
             if (messageChatId.equals(adminGroupChatId)) {
@@ -66,7 +66,7 @@ public class WebHook {
                     || messageChatId.equals(group5ChatId)) {
                 webHookHandler.processMessageForDepartmentNotifications(zabbixWebHook);
             } else {
-                log.warn("Message had wrong chatId {}", messageChatId);
+                log.warn("Message had wrong chatId {}, text: {}; {}", messageChatId, zabbixWebHook.getSubject(), zabbixWebHook.getMessage());
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
