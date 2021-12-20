@@ -73,6 +73,7 @@ public class EditIncidentMessageCommand implements Command {
 
                 //clear map
                 userChoose.remove(user);
+                log.info("user {} sent commit to {} message", signature, hashtag);
             }
         }
     }

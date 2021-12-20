@@ -1,5 +1,6 @@
 package ru.energomera.zabbixbot.command.departments;
 
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
@@ -21,6 +22,7 @@ import static ru.energomera.zabbixbot.emoji.Icon.*;
  * Отправляет подсказки.
  * Записывает в map выбор пользователя, id сообщений и комментарий
  */
+@Slf4j
 public class UpdateCommand implements Command {
     private final SendMessageService sendMessageService;
     public static Map<User, List<Object>> userChoose = new HashMap<>();
@@ -64,7 +66,7 @@ public class UpdateCommand implements Command {
         String tipMessage = String.format(TIP_MESSAGE, signature, userId);
 
         ForceReplyKeyboard forceReplyKeyboard = ForceReplyKeyboard.builder()
-                .inputFieldPlaceholder("Let's rock!")   //появится в поле ввода у пользователя
+                .inputFieldPlaceholder("Следуйте полученным подсказкам ... ")   //появится в поле ввода у пользователя
                 .selective(true)
                 .forceReply(true)
                 .build();
@@ -77,6 +79,7 @@ public class UpdateCommand implements Command {
         messagesIdForUser.add(hashtag);
 
         userChoose.put(user, messagesIdForUser);
+        log.info("user {} press \"Edit message\" {}", signature, hashtag);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         for (User name : userChoose.keySet()) {
