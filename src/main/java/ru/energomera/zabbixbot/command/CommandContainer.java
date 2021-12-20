@@ -16,6 +16,8 @@ import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageService;
 import ru.energomera.zabbixbot.service.WeatherService;
 
+import java.util.Locale;
+
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
 
@@ -91,7 +93,7 @@ public class CommandContainer {
     }
 
     public boolean isPrivateChatCommandMapContainsCommand(String command){
-        if(privateChatCommandMap.containsKey(command)) {
+        if(privateChatCommandMap.containsKey(command.toLowerCase(Locale.ROOT))) {
             return true;
         } else {
             return false;

@@ -79,12 +79,7 @@ public class UpdateCommand implements Command {
         messagesIdForUser.add(hashtag);
 
         userChoose.put(user, messagesIdForUser);
-        log.info("user {} press \"Edit message\" {}", signature, hashtag);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        for (User name : userChoose.keySet()) {
-            System.out.println(name + "  ---  userChoose.keySet()");
-        }
+        log.info("user {} press \"Edit message\" to {} message", signature, hashtag);
     }
 
     private String findHashtag(String text) {
