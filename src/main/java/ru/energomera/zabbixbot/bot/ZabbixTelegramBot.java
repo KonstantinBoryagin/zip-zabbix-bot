@@ -129,8 +129,8 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
         } else {
             Sticker sticker = update.getMessage().getSticker();
             if (sticker != null) {
-                String fileId = sticker.getFileId();
-                System.out.println(fileId);
+                String stickerId = sticker.getFileId();
+                log.info("sticker id - {}", stickerId);
             }
         }
     }

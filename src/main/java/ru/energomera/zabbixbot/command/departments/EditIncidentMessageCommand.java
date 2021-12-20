@@ -15,9 +15,12 @@ import static ru.energomera.zabbixbot.icon.Icon.PUSHPIN;
 /**
  * Класс реализует {@link Command}
  * Изменяет сообщения об инциденте в одной из цеховых групп.
- * Добавляет полученный от пользователя комментарий к сообщению инцидента, удаляет весь спам оставшийся
- * после этого и оправляет в группу уведомление о новом комментарии (с хэштегом для быстрого поиска),
- * так как телеграм не уведомляет при изменении текста.
+ * Добавляет полученный от пользователя комментарий к сообщению инцидента,
+ * удаляет служебные сообщения {@link UpdateCommand#TIP_MESSAGE}, {@link UpdateCommand#WARNING_MESSAGE}
+ * и сообщение с комментарием пользователя оставшиеся
+ * после этого и оправляет в группу уведомление о новом комментарии {@link EditIncidentMessageCommand#notificationText}
+ * (с хэштегом для быстрого поиска), так как телеграм не уведомляет при изменении текста.
+ * В конце чистит {@link UpdateCommand#userChoose} от записи о выборе пользователя.
  */
 @Slf4j
 public class EditIncidentMessageCommand implements Command {
@@ -57,23 +60,21 @@ public class EditIncidentMessageCommand implements Command {
             if (userChatId.equals(chatId)) {
                 sendMessageService.editMessageToGroupWithInlineEditButton(userChatId, newMessage, originalMessageId);
 
-                //DELETE SERVICE MESSAGES
+                //удаляет лишние сообщения
                 sendMessageService.deleteMessageFromChat(userChatId, thisMessageId);
-
                 sendMessageService.deleteMessageFromChat(userChatId, helpMessageId);
-
                 sendMessageService.deleteMessageFromChat(userChatId, warningMessageId);
 
-                // send notification about new commit
+                //отправляет уведомление о новом комментарии
                 String notificationAboutNewCommit = String.format(notificationText, signature, hashtag);
-
                 sendMessageService.sendMessage(chatId, notificationAboutNewCommit);
 
-                //clear map
+                //очищает запись
                 userChoose.remove(user);
+
                 log.info("User {} sent commit to {} message", signature, hashtag);
             } else {
-                log.warn("User {} chatId:{} is not equals to current chatId:{}", signature, userChatId, chatId);
+                log.warn("User {} chatId {} don't equals to current chatId {}", signature, userChatId, chatId);
             }
         } else {
             log.warn("User {} don't have recording in userChoose Map", signature);
