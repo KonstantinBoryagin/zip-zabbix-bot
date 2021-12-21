@@ -14,7 +14,7 @@ import ru.energomera.zabbixbot.command.privatechat.weather.DailyWeatherCommand;
 import ru.energomera.zabbixbot.command.privatechat.weather.WeeklyWeatherCommand;
 import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageService;
-import ru.energomera.zabbixbot.service.WeatherService;
+import ru.energomera.zabbixbot.service.WeatherServiceImpl;
 
 import static ru.energomera.zabbixbot.command.CommandName.*;
 
@@ -32,7 +32,7 @@ public class CommandContainer {
     private final Command unknownCommand;
 
     public CommandContainer(SendMessageService sendMessageService, ZabbixRestController zabbixRestController,
-                            WeatherService weatherService){
+                            WeatherServiceImpl weatherServiceImpl){
 
         generalCommandMap = ImmutableMap.<String, Command>builder()
 
@@ -68,9 +68,9 @@ public class CommandContainer {
                 .put(BOWLING_COMMAND.getCommandName(), new BowlingCommand(sendMessageService))
                 .put(DICE_COMMAND.getCommandName(), new DiceCommand(sendMessageService))
                 .put(WEATHER.getCommandName(), new WeatherMenuCommand(sendMessageService))
-                .put(CURRENT_WEATHER.getCommandName(), new CurrentWeatherCommand(sendMessageService, weatherService))
-                .put(WEEKLY_WEATHER.getCommandName(), new WeeklyWeatherCommand(sendMessageService, weatherService))
-                .put(DAILY_WEATHER.getCommandName(), new DailyWeatherCommand(sendMessageService, weatherService))
+                .put(CURRENT_WEATHER.getCommandName(), new CurrentWeatherCommand(sendMessageService, weatherServiceImpl))
+                .put(WEEKLY_WEATHER.getCommandName(), new WeeklyWeatherCommand(sendMessageService, weatherServiceImpl))
+                .put(DAILY_WEATHER.getCommandName(), new DailyWeatherCommand(sendMessageService, weatherServiceImpl))
                 .build();
 
         unknownCommand = new UnknownCommand(sendMessageService);

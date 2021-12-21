@@ -2,13 +2,13 @@ package ru.energomera.zabbixbot.icon;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import ru.energomera.zabbixbot.service.WeatherService;
+import ru.energomera.zabbixbot.service.WeatherServiceImpl;
 
 import static ru.energomera.zabbixbot.icon.Icon.*;
 
 
 /**
- * Контейнер для хранения идентификаторов погоды для {@link WeatherService}
+ * Контейнер для хранения идентификаторов погоды для {@link WeatherServiceImpl}
  * так как некоторые эмодзи не обрабатываются библиотекой java-emoji, то
  * они были просто скопированы из telegram
  */

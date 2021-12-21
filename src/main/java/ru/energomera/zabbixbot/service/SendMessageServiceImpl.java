@@ -41,12 +41,12 @@ import static ru.energomera.zabbixbot.icon.Icon.PUSHPIN;
 public class SendMessageServiceImpl implements SendMessageService {
 
     private final ZabbixTelegramBot telegramBot;
-    private final ChartService chartService;
+    private final ChartServiceImpl chartServiceImpl;
 
     @Autowired
     public SendMessageServiceImpl(ZabbixTelegramBot telegramBot) {
         this.telegramBot = telegramBot;
-        chartService = new ChartService();
+        chartServiceImpl = new ChartServiceImpl();
     }
 
     /**
@@ -236,12 +236,12 @@ public class SendMessageServiceImpl implements SendMessageService {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         //наполняем его значениями
         for (int i = 0; i < listOfHistoryResponseResults.size(); i++) {
-            dataset = chartService.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
+            dataset = chartServiceImpl.createIcmpPingDataset(dataset, listOfHistoryResponseResults.get(i), seriesName[i]);
         }
 
         byte[] icmpPingLineChartPicture = null;
         try {
-            icmpPingLineChartPicture = chartService.createLineChartPicture(dataset, chartName);
+            icmpPingLineChartPicture = chartServiceImpl.createLineChartPicture(dataset, chartName);
             log.info("received byte[] from createLineChartPicture");
         } catch (IOException e) {
             log.error("could not convert byteArrayInputStream to byte array: ", e);
@@ -278,11 +278,11 @@ public class SendMessageServiceImpl implements SendMessageService {
         //создаем набор данных графика
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         //наполняем его значениями
-        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
+        dataset = chartServiceImpl.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
 
         byte[] icmpPingLineChartPicture = null;
         try {
-            icmpPingLineChartPicture = chartService.createLineChartPicture(dataset, chartName);
+            icmpPingLineChartPicture = chartServiceImpl.createLineChartPicture(dataset, chartName);
             log.info("received byte[] from createLineChartPicture");
         } catch (IOException e) {
             log.error("could not convert byteArrayInputStream to byte array: ", e);
@@ -317,10 +317,10 @@ public class SendMessageServiceImpl implements SendMessageService {
         //создаем набор данных графика
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         //наполняем его значениями
-        dataset = chartService.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
+        dataset = chartServiceImpl.createIcmpPingDataset(dataset, historyResponseResults, seriesName);
 
         byte[] icmpPingLineChartPicture = null;
-        icmpPingLineChartPicture = chartService.createAreaChartPicture(dataset, chartName);
+        icmpPingLineChartPicture = chartServiceImpl.createAreaChartPicture(dataset, chartName);
 
         InputStream in = new ByteArrayInputStream(icmpPingLineChartPicture);
         SendPhoto cpuChart = SendPhoto.builder()
@@ -348,11 +348,11 @@ public class SendMessageServiceImpl implements SendMessageService {
     public void sendPiePicture(String chatId, HistoryResponseResult[] historyResponseResults,
                                String chartName, String seriesName) {
 
-        DefaultPieDataset datasetForPieChart = chartService.createDatasetForPieChart(historyResponseResults, seriesName);
+        DefaultPieDataset datasetForPieChart = chartServiceImpl.createDatasetForPieChart(historyResponseResults, seriesName);
 
         byte[] pieChartPicture = null;
         try {
-            pieChartPicture = chartService.createPieChart(datasetForPieChart, chartName);
+            pieChartPicture = chartServiceImpl.createPieChart(datasetForPieChart, chartName);
             log.info("received byte[] from createLineChartPicture");
         } catch (IOException e) {
             log.error("could not convert byteArrayInputStream to byte array: ", e);

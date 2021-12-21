@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.energomera.zabbixbot.command.CommandContainer;
 import ru.energomera.zabbixbot.controller.ZabbixRestController;
 import ru.energomera.zabbixbot.service.SendMessageServiceImpl;
-import ru.energomera.zabbixbot.service.WeatherService;
+import ru.energomera.zabbixbot.service.WeatherServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class ZabbixTelegramBot extends TelegramLongPollingBot {
     public ZabbixTelegramBot() {
         this.commandContainer = new CommandContainer(new SendMessageServiceImpl(this)
         , new ZabbixRestController(new RestTemplateBuilder()),
-                new WeatherService());
+                new WeatherServiceImpl());
     }
 
     @Override
