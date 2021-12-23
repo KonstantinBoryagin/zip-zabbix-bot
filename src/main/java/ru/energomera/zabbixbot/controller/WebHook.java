@@ -65,6 +65,7 @@ public class WebHook {
                     || messageChatId.equals(group7ChatId)
                     || messageChatId.equals(group5ChatId)) {
                 webHookHandler.processMessageForDepartmentNotifications(zabbixWebHook);
+                log.info("Received message {} for department groups", zabbixWebHook.getSubject());
             } else {
                 log.warn("Message had wrong chatId {}, text: {}; {}", messageChatId, zabbixWebHook.getSubject(),
                         zabbixWebHook.getMessage());
