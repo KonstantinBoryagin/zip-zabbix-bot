@@ -141,6 +141,7 @@ public class MessageFromWebHookHandler {
         String message = subject + "\n\n" + text;
 
         sendMessageService.sendMessageToGroupWithInlineEditButton(chatId, message);
+        log.info("Try to send message {} to group {}", subject, chatId);
     }
 
     /**
