@@ -214,7 +214,7 @@ public class WeatherServiceImpl implements WeatherService {
 
         String formatDay = Instant.ofEpochSecond(unixTime)
                 .atZone(ZoneId.of("Europe/Moscow"))
-                .format(DateTimeFormatter.ofPattern("EEEE d.M", new Locale("ru")));
+                .format(DateTimeFormatter.ofPattern("EEEE dd.MM", new Locale("ru")));
 
         return formatDay.substring(0, 1).toUpperCase(Locale.ROOT) + formatDay.substring(1);
     }

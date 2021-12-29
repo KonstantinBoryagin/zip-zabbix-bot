@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.energomera.zabbixbot.command.Command;
 import ru.energomera.zabbixbot.service.SendMessageService;
+import ru.energomera.zabbixbot.service.WeatherService;
 import ru.energomera.zabbixbot.service.WeatherServiceImpl;
 
 /**
@@ -13,11 +14,11 @@ import ru.energomera.zabbixbot.service.WeatherServiceImpl;
 @Slf4j
 public class WeeklyWeatherCommand implements Command {
     private final SendMessageService sendMessageService;
-    private final WeatherServiceImpl weatherServiceImpl;
+    private final WeatherService weatherService;
 
-    public WeeklyWeatherCommand(SendMessageService sendMessageService, WeatherServiceImpl weatherServiceImpl) {
+    public WeeklyWeatherCommand(SendMessageService sendMessageService, WeatherService weatherService) {
         this.sendMessageService = sendMessageService;
-        this.weatherServiceImpl = weatherServiceImpl;
+        this.weatherService = weatherService;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class WeeklyWeatherCommand implements Command {
 
         String chatId = update.getMessage().getChatId().toString();
 
-        String[] message = weatherServiceImpl.formatWeeklyWeatherMessage();
+        String[] message = weatherService.formatWeeklyWeatherMessage();
 
         log.info("Try to send weekly weather forecast to {}", chatId);
 
